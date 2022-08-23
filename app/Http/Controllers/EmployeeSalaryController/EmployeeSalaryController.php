@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\RestaurantController;
+namespace App\Http\Controllers\EmployeeSalaryController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
-use App\Restaurant;
+use App\EmployeeSalary;
 use Illuminate\Http\Request;
 
-class RestaurantController extends Controller
+class EmployeeSalaryController extends Controller
 {
 
     public function __construct()
@@ -25,24 +25,22 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
             if (!empty($keyword)) {
-                $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('location', 'LIKE', "%$keyword%")
-                ->orWhere('ranking', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('focalperson', 'LIKE', "%$keyword%")
-                ->orWhere('details', 'LIKE', "%$keyword%")
+                $employeesalary = EmployeeSalary::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('number_of_hours', 'LIKE', "%$keyword%")
+                ->orWhere('sum', 'LIKE', "%$keyword%")
+                ->orWhere('rate', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $restaurant = Restaurant::paginate($perPage);
+                $employeesalary = EmployeeSalary::paginate($perPage);
             }
 
-            return view('Restaurant.restaurant.index', compact('restaurant'));
+            return view('EmployeeSalary.employee-salary.index', compact('employeesalary'));
         }
         return response(view('403'), 403);
 
@@ -55,9 +53,9 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Restaurant.restaurant.create');
+            return view('EmployeeSalary.employee-salary.create');
         }
         return response(view('403'), 403);
 
@@ -72,17 +70,25 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'restaurant_id' => 'required',
+			'number_of_hours' => 'required',
+			'sum' => 'required'
 		]);
             $requestData = $request->all();
             
-            Restaurant::create($requestData);
-            return redirect('restaurant')->with('flash_message', 'Restaurant added!');
+            // return $request;
+            // EmployeeSalary::create($requestData);
+            $employeesalary = new EmployeeSalary;
+            $employeesalary->name =    $request->name;
+            $employeesalary->restaurant_id =    $request->restaurant_id;
+            $employeesalary->number_of_hours =    $request->number_of_hours;
+            $employeesalary->sum =    $request->sum;
+            $employeesalary->save();
+            return redirect('employee-salary')->with('flash_message', 'EmployeeSalary added!');
         }
         return response(view('403'), 403);
     }
@@ -96,11 +102,10 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            // return 'restaurant';
-            return view('Restaurant.restaurant.show', compact('restaurant'));
+            $employeesalary = EmployeeSalary::findOrFail($id);
+            return view('EmployeeSalary.employee-salary.show', compact('employeesalary'));
         }
         return response(view('403'), 403);
     }
@@ -114,10 +119,10 @@ class RestaurantController extends Controller
      */
     public function edit($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            return view('Restaurant.restaurant.edit', compact('restaurant'));
+            $employeesalary = EmployeeSalary::findOrFail($id);
+            return view('EmployeeSalary.employee-salary.edit', compact('employeesalary'));
         }
         return response(view('403'), 403);
     }
@@ -132,19 +137,19 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'number_of_hours' => 'required',
+			'sum' => 'required'
 		]);
             $requestData = $request->all();
             
-            $restaurant = Restaurant::findOrFail($id);
-             $restaurant->update($requestData);
+            $employeesalary = EmployeeSalary::findOrFail($id);
+             $employeesalary->update($requestData);
 
-             return redirect('restaurant')->with('flash_message', 'Restaurant updated!');
+             return redirect('employee-salary')->with('flash_message', 'EmployeeSalary updated!');
         }
         return response(view('403'), 403);
 
@@ -159,11 +164,11 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
-            Restaurant::destroy($id);
+            EmployeeSalary::destroy($id);
 
-            return redirect('restaurant')->with('flash_message', 'Restaurant deleted!');
+            return redirect('employee-salary')->with('flash_message', 'EmployeeSalary deleted!');
         }
         return response(view('403'), 403);
 

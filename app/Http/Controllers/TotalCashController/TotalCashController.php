@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\RestaurantController;
+namespace App\Http\Controllers\TotalCashController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
-use App\Restaurant;
+use App\TotalCash;
 use Illuminate\Http\Request;
 
-class RestaurantController extends Controller
+class TotalCashController extends Controller
 {
 
     public function __construct()
@@ -25,24 +25,21 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
             if (!empty($keyword)) {
-                $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('location', 'LIKE', "%$keyword%")
-                ->orWhere('ranking', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('focalperson', 'LIKE', "%$keyword%")
-                ->orWhere('details', 'LIKE', "%$keyword%")
+                $totalcash = TotalCash::where('bank_note', 'LIKE', "%$keyword%")
+                ->orWhere('pieces', 'LIKE', "%$keyword%")
+                ->orWhere('together_bank_note_pieces', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $restaurant = Restaurant::paginate($perPage);
+                $totalcash = TotalCash::paginate($perPage);
             }
 
-            return view('Restaurant.restaurant.index', compact('restaurant'));
+            return view('TotalCash.total-cash.index', compact('totalcash'));
         }
         return response(view('403'), 403);
 
@@ -55,9 +52,9 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Restaurant.restaurant.create');
+            return view('TotalCash.total-cash.create');
         }
         return response(view('403'), 403);
 
@@ -72,17 +69,21 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
-			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'bank_note' => 'required',
+			'together_bank_note_pieces' => 'required'
 		]);
             $requestData = $request->all();
             
-            Restaurant::create($requestData);
-            return redirect('restaurant')->with('flash_message', 'Restaurant added!');
+            // TotalCash::create($requestData);
+            $totalcash = new TotalCash;
+            $totalcash->bank_note =    $request->bank_note;
+            $totalcash->restaurant_id =    $request->restaurant_id;
+            $totalcash->together_bank_note_pieces =    $request->together_bank_note_pieces;
+            $totalcash->save();
+            return redirect('total-cash')->with('flash_message', 'TotalCash added!');
         }
         return response(view('403'), 403);
     }
@@ -96,11 +97,10 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            // return 'restaurant';
-            return view('Restaurant.restaurant.show', compact('restaurant'));
+            $totalcash = TotalCash::findOrFail($id);
+            return view('TotalCash.total-cash.show', compact('totalcash'));
         }
         return response(view('403'), 403);
     }
@@ -114,10 +114,10 @@ class RestaurantController extends Controller
      */
     public function edit($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            return view('Restaurant.restaurant.edit', compact('restaurant'));
+            $totalcash = TotalCash::findOrFail($id);
+            return view('TotalCash.total-cash.edit', compact('totalcash'));
         }
         return response(view('403'), 403);
     }
@@ -132,19 +132,18 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'bank_note' => 'required',
+			'together_bank_note_pieces' => 'required'
 		]);
             $requestData = $request->all();
             
-            $restaurant = Restaurant::findOrFail($id);
-             $restaurant->update($requestData);
+            $totalcash = TotalCash::findOrFail($id);
+             $totalcash->update($requestData);
 
-             return redirect('restaurant')->with('flash_message', 'Restaurant updated!');
+             return redirect('total-cash')->with('flash_message', 'TotalCash updated!');
         }
         return response(view('403'), 403);
 
@@ -159,11 +158,11 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
-            Restaurant::destroy($id);
+            TotalCash::destroy($id);
 
-            return redirect('restaurant')->with('flash_message', 'Restaurant deleted!');
+            return redirect('total-cash')->with('flash_message', 'TotalCash deleted!');
         }
         return response(view('403'), 403);
 

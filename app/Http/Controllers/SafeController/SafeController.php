@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\RestaurantController;
+namespace App\Http\Controllers\SafeController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
-use App\Restaurant;
+use App\Safe;
 use Illuminate\Http\Request;
 
-class RestaurantController extends Controller
+class SafeController extends Controller
 {
 
     public function __construct()
@@ -25,24 +25,20 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
             if (!empty($keyword)) {
-                $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
-                ->orWhere('location', 'LIKE', "%$keyword%")
-                ->orWhere('ranking', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
-                ->orWhere('focalperson', 'LIKE', "%$keyword%")
-                ->orWhere('details', 'LIKE', "%$keyword%")
+                $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
+                ->orWhere('sum', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $restaurant = Restaurant::paginate($perPage);
+                $safe = Safe::paginate($perPage);
             }
 
-            return view('Restaurant.restaurant.index', compact('restaurant'));
+            return view('Safe.safe.index', compact('safe'));
         }
         return response(view('403'), 403);
 
@@ -55,9 +51,9 @@ class RestaurantController extends Controller
      */
     public function create()
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Restaurant.restaurant.create');
+            return view('Safe.safe.create');
         }
         return response(view('403'), 403);
 
@@ -72,17 +68,21 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
-			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'employee_complete_name' => 'required',
+			'sum' => 'required'
 		]);
             $requestData = $request->all();
-            
-            Restaurant::create($requestData);
-            return redirect('restaurant')->with('flash_message', 'Restaurant added!');
+            // return $request;
+            // Safe::create($requestData);
+            $safe = new Safe;
+            $safe->employee_complete_name =    $request->employee_complete_name;
+            $safe->restaurant_id =    $request->restaurant_id;
+            $safe->sum =    $request->sum;
+            $safe->save();
+            return redirect('safe')->with('flash_message', 'Safe added!');
         }
         return response(view('403'), 403);
     }
@@ -96,11 +96,10 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            // return 'restaurant';
-            return view('Restaurant.restaurant.show', compact('restaurant'));
+            $safe = Safe::findOrFail($id);
+            return view('Safe.safe.show', compact('safe'));
         }
         return response(view('403'), 403);
     }
@@ -114,10 +113,10 @@ class RestaurantController extends Controller
      */
     public function edit($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
-            $restaurant = Restaurant::findOrFail($id);
-            return view('Restaurant.restaurant.edit', compact('restaurant'));
+            $safe = Safe::findOrFail($id);
+            return view('Safe.safe.edit', compact('safe'));
         }
         return response(view('403'), 403);
     }
@@ -132,19 +131,18 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
+			'employee_complete_name' => 'required',
+			'sum' => 'required'
 		]);
             $requestData = $request->all();
             
-            $restaurant = Restaurant::findOrFail($id);
-             $restaurant->update($requestData);
+            $safe = Safe::findOrFail($id);
+             $safe->update($requestData);
 
-             return redirect('restaurant')->with('flash_message', 'Restaurant updated!');
+             return redirect('safe')->with('flash_message', 'Safe updated!');
         }
         return response(view('403'), 403);
 
@@ -159,11 +157,11 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $model = str_slug('restaurant','-');
+        $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
-            Restaurant::destroy($id);
+            Safe::destroy($id);
 
-            return redirect('restaurant')->with('flash_message', 'Restaurant deleted!');
+            return redirect('safe')->with('flash_message', 'Safe deleted!');
         }
         return response(view('403'), 403);
 
