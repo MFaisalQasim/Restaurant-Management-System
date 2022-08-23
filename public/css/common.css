@@ -1,0 +1,33 @@
+.right-sidebar .r-panel-body ul.layouts li {
+    list-style: none;
+    padding: 5px;
+}
+
+.right-sidebar .r-panel-body ul.layouts li.active {
+   background-color: #0283cc;
+    color: white;
+}
+.right-sidebar .r-panel-body ul.layouts li.active a{
+    color: white;
+    text-decoration: none;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.table-responsive .form-control {
+    padding: 7px 1px !important;
+}
+body{
+    overflow-x: unset !important;
+}
+.footer {
+
+    display: none;
+}
+.skill-label
+{
+    color: #202020 !important;
+    font-size: 18px;
+}

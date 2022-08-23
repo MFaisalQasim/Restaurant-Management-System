@@ -1,0 +1,14 @@
+{
+    "menus": [{
+        "section": "Modules",
+        "items": [ {
+            "title": "Test",
+            "icon": "glyphicon-align-justify",
+            "url": "\/test"
+        }, {
+            "title": "Restaurant",
+            "icon": "glyphicon-cutlery",
+            "url": "\/restaurant"
+        }]
+    }]
+}
