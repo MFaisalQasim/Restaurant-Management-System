@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\RestaurantController;
 
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-
+use Auth;
 use App\Restaurant;
 use Illuminate\Http\Request;
 
@@ -39,8 +40,13 @@ class RestaurantController extends Controller
                 ->orWhere('details', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $restaurant = Restaurant::paginate($perPage);
-                // $restaurant = Restaurant::paginate($perPage)->orWhere('id'== auth()->user()->restaurant_id);
+                $restaurant_find = Restaurant::get();
+                // return Auth::User()->restaurant_id;
+                // return $restaurant_here = Restaurant::Where( 'id' , '=' , Auth::User()->restaurant_id )->get();
+                foreach ($restaurant_find as $key => $value) {
+                    $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::paginate($perPage) : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage) ;
+                    // $restaurant = Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage);
+                 }
             }
 
             return view('Restaurant.restaurant.index', compact('restaurant'));
@@ -101,6 +107,7 @@ class RestaurantController extends Controller
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $restaurant = Restaurant::findOrFail($id);
             // return 'restaurant';
+            // restaurant_idauth()->user()->restaurant_id
             return view('Restaurant.restaurant.show', compact('restaurant'));
         }
         return response(view('403'), 403);

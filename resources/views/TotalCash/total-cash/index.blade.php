@@ -31,8 +31,11 @@
                             <tbody>
                             @foreach($totalcash as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration or $item->id }}</td>
-                                    <td>{{ $item->bank_note }}</td><td>{{ $item->pieces }}</td><td>{{ $item->together_bank_note_pieces }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->bank_note }}</td><td>{{ $item->pieces }}</td><td>
+                                        {{-- {{ $item->together_bank_note_pieces }} --}}
+                                        {{$item->pieces *$item->bank_note}}
+                                    </td>
                                     <td>
                                         @can('view-'.str_slug('TotalCash'))
                                             <a href="{{ url('/total-cash/' . $item->id) }}"

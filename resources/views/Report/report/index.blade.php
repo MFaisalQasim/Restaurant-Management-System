@@ -11,10 +11,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Employeesalary</h3>
-                    @can('add-' . str_slug('EmployeeSalary'))
-                        <a class="btn btn-success pull-right" href="{{ url('/employee-salary/create') }}"><i
-                                class="icon-plus"></i> Add Employeesalary</a>
+                    <h3 class="box-title pull-left">Report</h3>
+                    @can('add-' . str_slug('Report'))
+                        <a class="btn btn-success pull-right" href="{{ url('/report/create') }}"><i class="icon-plus"></i> Add
+                            Report</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -23,49 +23,44 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Number Of Hours</th>
-                                    <th>Sum</th>
+                                    <th>Total Income</th>
+                                    <th>Card Transactions</th>
+                                    <th>Canceled Sale</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($employeesalary as $item)
+                                @foreach ($report as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration  }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->number_of_hours }}</td>
-                                        <td>{{ $item->number_of_hours * $item->rate
-                                        }}</td>
+                                        <td>{{ $loop->iteration or $item->id }}</td>
+                                        <td>{{ $item->total_income }}</td>
+                                        <td>{{ $item->card_transactions }}</td>
+                                        <td>{{ $item->canceled_sale }}</td>
                                         <td>
-                                            @can('view-' . str_slug('EmployeeSalary'))
-                                                <a href="{{ url('/employee-salary/' . $item->id) }}"
-                                                    title="View EmployeeSalary">
+                                            @can('view-' . str_slug('Report'))
+                                                <a href="{{ url('/report/' . $item->id) }}" title="View Report">
                                                     <button class="btn btn-info btn-sm">
                                                         <i class="fa fa-eye" aria-hidden="true"></i> View
                                                     </button>
                                                 </a>
                                             @endcan
-
-                                            @can('edit-' . str_slug('EmployeeSalary'))
-                                                <a href="{{ url('/employee-salary/' . $item->id . '/edit') }}"
-                                                    title="Edit EmployeeSalary">
+                                            @can('edit-' . str_slug('Report'))
+                                                <a href="{{ url('/report/' . $item->id . '/edit') }}" title="Edit Report">
                                                     <button class="btn btn-primary btn-sm">
                                                         <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
                                                     </button>
                                                 </a>
                                             @endcan
-
-                                            @can('delete-' . str_slug('EmployeeSalary'))
+                                            @can('delete-' . str_slug('Report'))
                                                 {!! Form::open([
                                                     'method' => 'DELETE',
-                                                    'url' => ['/employee-salary', $item->id],
+                                                    'url' => ['/report', $item->id],
                                                     'style' => 'display:inline',
                                                 ]) !!}
                                                 {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', [
                                                     'type' => 'submit',
                                                     'class' => 'btn btn-danger btn-sm',
-                                                    'title' => 'Delete EmployeeSalary',
+                                                    'title' => 'Delete Report',
                                                     'onclick' => 'return confirm("Confirm delete?")',
                                                 ]) !!}
                                             @endcan
@@ -75,7 +70,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="pagination-wrapper"> {!! $employeesalary->appends(['search' => Request::get('search')])->render() !!} </div>
+                        <div class="pagination-wrapper"> {!! $report->appends(['search' => Request::get('search')])->render() !!} </div>
                     </div>
 
                 </div>

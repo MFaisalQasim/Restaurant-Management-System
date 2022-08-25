@@ -9,6 +9,7 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+@if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer'))
 <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
     {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -21,6 +22,8 @@
         {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+    
+@endif
 <div class="form-group {{ $errors->has('number_of_hours') ? 'has-error' : '' }}">
     {!! Form::label('number_of_hours', 'Number Of Hours', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -32,7 +35,8 @@
         {!! $errors->first('number_of_hours', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-<div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
+
+{{-- <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Sum', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::number(
@@ -42,7 +46,8 @@
         ) !!}
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
-</div>
+</div> --}}
+
 <div class="form-group {{ $errors->has('rate') ? 'has-error' : '' }}">
     {!! Form::label('rate', 'Rate', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">

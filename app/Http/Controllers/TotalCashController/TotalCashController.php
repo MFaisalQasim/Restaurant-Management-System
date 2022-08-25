@@ -69,17 +69,19 @@ class TotalCashController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
         $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'bank_note' => 'required',
-			'together_bank_note_pieces' => 'required'
+			// 'together_bank_note_pieces' => 'required'
 		]);
             $requestData = $request->all();
             
             // TotalCash::create($requestData);
             $totalcash = new TotalCash;
             $totalcash->bank_note =    $request->bank_note;
+            $totalcash->pieces =    $request->pieces;
             $totalcash->restaurant_id =    $request->restaurant_id;
             $totalcash->together_bank_note_pieces =    $request->together_bank_note_pieces;
             $totalcash->save();
@@ -136,13 +138,17 @@ class TotalCashController extends Controller
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
 			'bank_note' => 'required',
-			'together_bank_note_pieces' => 'required'
+			// 'together_bank_note_pieces' => 'required'
 		]);
             $requestData = $request->all();
             
             $totalcash = TotalCash::findOrFail($id);
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $totalcash->restaurant_id =     $request->restaurant_id ;
+            } else {
+                $totalcash->restaurant_id =     auth()->user()->restaurant_id;
+            }
              $totalcash->update($requestData);
-
              return redirect('total-cash')->with('flash_message', 'TotalCash updated!');
         }
         return response(view('403'), 403);

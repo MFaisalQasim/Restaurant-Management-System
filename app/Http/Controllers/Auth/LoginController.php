@@ -36,7 +36,7 @@ class LoginController extends Controller
         else
         {
             // dd('else');
-            return redirect('dashboard');
+            return redirect('restaurant');
         }
     }
 

@@ -72,7 +72,7 @@ class ExpensesController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'for_whom' => 'required',
-			'sum' => 'required'
+			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
             // return $request;
@@ -80,6 +80,7 @@ class ExpensesController extends Controller
             $expenses = new Expense;
             $expenses->for_whom =    $request->for_whom;
             $expenses->restaurant_id =    $request->restaurant_id;
+            $employeesalary->date_of_expense =    $request->date;
             $expenses->sum =    $request->sum;
             $expenses->save();
             return redirect('expenses')->with('flash_message', 'Expense added!');
@@ -135,11 +136,17 @@ class ExpensesController extends Controller
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
 			'for_whom' => 'required',
-			'sum' => 'required'
+			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
             
             $expense = Expense::findOrFail($id);
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $expense->restaurant_id =     $request->restaurant_id ;
+            } else {
+                $expense->restaurant_id =     auth()->user()->restaurant_id;
+            }
+            $expense->date_of_expense =    $request->date;
              $expense->update($requestData);
 
              return redirect('expenses')->with('flash_message', 'Expense updated!');

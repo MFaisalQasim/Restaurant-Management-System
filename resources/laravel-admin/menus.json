@@ -1,10 +1,1 @@
-{
-    "menus": [{
-        "section": "Modules",
-        "items": [{
-            "title": "Restaurant",
-            "icon": "glyphicon-cutlery",
-            "url": "\/restaurant"
-        }]
-    }]
-}
+{"menus":[{"section":"Modules","items":[{"title":"Restaurant","icon":"glyphicon-cutlery","url":"\/restaurant"},{"title":"Safe","icon":"glyphicon-lock","url":"\/safe"},{"title":"TotalCash","icon":"glyphicon-book","url":"\/total-cash"},{"title":"Expenses","icon":"glyphicon-edit","url":"\/expenses"},{"title":"EmployeeSalary","icon":"glyphicon-gbp","url":"\/employee-salary"},{"title":"Suppliers","icon":"glyphicon-briefcase","url":"\/suppliers"},{"title":"Report","icon":"glyphicon-book","url":"\/report"}]}]}

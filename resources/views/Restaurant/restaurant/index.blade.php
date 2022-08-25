@@ -31,7 +31,7 @@
                             <tbody>
                             @foreach($restaurant as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration or $item->id }}</td>
+                                    <td>{{ $loop->iteration  }}</td>
                                     <td>{{ $item->name }}</td><td>{{ $item->location }}</td><td>{{ $item->ranking }}</td>
                                     <td>
                                         @can('view-'.str_slug('Restaurant'))

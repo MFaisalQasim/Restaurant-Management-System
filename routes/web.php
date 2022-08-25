@@ -352,3 +352,5 @@ Route::resource('safe', 'SafeController\\SafeController');
 Route::resource('total-cash', 'TotalCashController\\TotalCashController');
 Route::resource('expenses', 'ExpensesController\\ExpensesController');
 Route::resource('employee-salary', 'EmployeeSalaryController\\EmployeeSalaryController');
+Route::resource('suppliers', 'SuppliersController\\SuppliersController');
+Route::resource('report', 'ReportController\\ReportController');

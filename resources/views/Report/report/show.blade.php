@@ -6,9 +6,9 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">TotalCash {{ $totalcash->id }}</h3>
-                    @can('view-'.str_slug('TotalCash'))
-                        <a class="btn btn-success pull-right" href="{{ url('/total-cash') }}">
+                    <h3 class="box-title pull-left">Report {{ $report->id }}</h3>
+                    @can('view-'.str_slug('Report'))
+                        <a class="btn btn-success pull-right" href="{{ url('/report') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan
                     <div class="clearfix"></div>
@@ -18,11 +18,9 @@
                             <tbody>
                             <tr>
                                 <th>ID</th>
-                                <td>{{ $totalcash->id }}</td>
+                                <td>{{ $report->id }}</td>
                             </tr>
-                            <tr><th> Bank Note </th><td> {{ $totalcash->bank_note }} </td></tr><tr><th> Pieces </th><td> {{ $totalcash->pieces }} </td></tr><tr><th> Together Bank Note Pieces </th><td>{{ $totalcash->pieces *$totalcash->bank_note  }}   
-                                {{-- {{ $totalcash->together_bank_note_pieces }} --}}
-                             </td></tr>
+                            <tr><th> Total Income </th><td> {{ $report->total_income }} </td></tr><tr><th> Card Transactions </th><td> {{ $report->card_transactions }} </td></tr><tr><th> Canceled Sale </th><td> {{ $report->canceled_sale }} </td></tr>
                             </tbody>
                         </table>
                     </div>

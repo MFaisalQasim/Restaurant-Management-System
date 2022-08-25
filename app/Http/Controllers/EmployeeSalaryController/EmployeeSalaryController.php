@@ -76,7 +76,8 @@ class EmployeeSalaryController extends Controller
 			'name' => 'required',
 			'restaurant_id' => 'required',
 			'number_of_hours' => 'required',
-			'sum' => 'required'
+			'rate' => 'required',
+			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
             
@@ -84,9 +85,10 @@ class EmployeeSalaryController extends Controller
             // EmployeeSalary::create($requestData);
             $employeesalary = new EmployeeSalary;
             $employeesalary->name =    $request->name;
-            $employeesalary->restaurant_id =    $request->restaurant_id;
+            $employeesalary->restaurant_id =    $request->restaurant_id or Auth::User()->restaurant_id;
+            $employeesalary->rate =    $request->rate;
             $employeesalary->number_of_hours =    $request->number_of_hours;
-            $employeesalary->sum =    $request->sum;
+            // $employeesalary->sum =    $request->sum;
             $employeesalary->save();
             return redirect('employee-salary')->with('flash_message', 'EmployeeSalary added!');
         }
@@ -142,12 +144,17 @@ class EmployeeSalaryController extends Controller
             $this->validate($request, [
 			'name' => 'required',
 			'number_of_hours' => 'required',
-			'sum' => 'required'
+			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
             
             $employeesalary = EmployeeSalary::findOrFail($id);
-             $employeesalary->update($requestData);
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $employeesalary->restaurant_id =     $request->restaurant_id ;
+            } else {
+                $employeesalary->restaurant_id =     auth()->user()->restaurant_id;
+            }
+            $employeesalary->update($requestData);
 
              return redirect('employee-salary')->with('flash_message', 'EmployeeSalary updated!');
         }

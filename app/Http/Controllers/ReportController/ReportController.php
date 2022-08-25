@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\SafeController;
+namespace App\Http\Controllers\ReportController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-
-use App\Safe;
+use Auth;
+use App\Report;
 use Illuminate\Http\Request;
 
-class SafeController extends Controller
+class ReportController extends Controller
 {
 
     public function __construct()
@@ -25,20 +25,25 @@ class SafeController extends Controller
 
     public function index(Request $request)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
             if (!empty($keyword)) {
-                $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
-                ->orWhere('sum', 'LIKE', "%$keyword%")
+                $report = Report::where('total_income', 'LIKE', "%$keyword%")
+                ->orWhere('card_transactions', 'LIKE', "%$keyword%")
+                ->orWhere('canceled_sale', 'LIKE', "%$keyword%")
+                ->orWhere('supplier_cash', 'LIKE', "%$keyword%")
+                ->orWhere('bank_cash_total', 'LIKE', "%$keyword%")
+                ->orWhere('restaurant_id', 'LIKE', "%$keyword%")
+                ->orWhere('report_handler', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $safe = Safe::paginate($perPage);
+                $report = Report::paginate($perPage);
             }
 
-            return view('Safe.safe.index', compact('safe'));
+            return view('Report.report.index', compact('report'));
         }
         return response(view('403'), 403);
 
@@ -51,9 +56,9 @@ class SafeController extends Controller
      */
     public function create()
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Safe.safe.create');
+            return view('Report.report.create');
         }
         return response(view('403'), 403);
 
@@ -68,24 +73,28 @@ class SafeController extends Controller
      */
     public function store(Request $request)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
-			'employee_complete_name' => 'required',
-			'sum' => 'required',
-			'date' => 'required'
+			// 'restaurant_id' => 'required'
 		]);
             $requestData = $request->all();
-            // return $request;
-            // Safe::create($requestData);
-            $safe = new Safe;
-            $safe->employee_complete_name =    $request->employee_complete_name;
-            $safe->restaurant_id =    $request->restaurant_id;
-            $safe->sum =    $request->sum;
-            $safe->date_of_deposited =    $request->date;
             
-            $safe->save();
-            return redirect('safe')->with('flash_message', 'Safe added!');
+            // Report::create($requestData);
+            $report= new Report;
+            $report->total_income =  $request->total_income;
+            $report->card_transactions =  $request->card_transactions;
+            $report->canceled_sale =  $request->canceled_sale;
+            $report->supplier_cash =  $request->supplier_cash;
+            $report->bank_cash_total =  $request->bank_cash_total;
+            $report->report_handler =  Auth::User()->name;
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $report->restaurant_id =     $request->restaurant_id ;
+            } else {
+                $report->restaurant_id =     auth()->user()->restaurant_id;
+            }
+            $report->save();
+            return redirect('report')->with('flash_message', 'Report added!');
         }
         return response(view('403'), 403);
     }
@@ -99,10 +108,10 @@ class SafeController extends Controller
      */
     public function show($id)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
-            $safe = Safe::findOrFail($id);
-            return view('Safe.safe.show', compact('safe'));
+            $report = Report::findOrFail($id);
+            return view('Report.report.show', compact('report'));
         }
         return response(view('403'), 403);
     }
@@ -116,10 +125,10 @@ class SafeController extends Controller
      */
     public function edit($id)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
-            $safe = Safe::findOrFail($id);
-            return view('Safe.safe.edit', compact('safe'));
+            $report = Report::findOrFail($id);
+            return view('Report.report.edit', compact('report'));
         }
         return response(view('403'), 403);
     }
@@ -134,25 +143,17 @@ class SafeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'employee_complete_name' => 'required',
-			'sum' => 'required',
-			'date' => 'required'
+			// 'restaurant_id' => 'required'
 		]);
             $requestData = $request->all();
             
-            $safe = Safe::findOrFail($id);
-            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-                $safe->restaurant_id =     $request->restaurant_id ;
-            } else {
-                $safe->restaurant_id =     auth()->user()->restaurant_id;
-            }
-            $safe->date_of_deposited =    $request->date;
-             $safe->update($requestData);
+            $report = Report::findOrFail($id);
+             $report->update($requestData);
 
-             return redirect('safe')->with('flash_message', 'Safe updated!');
+             return redirect('report')->with('flash_message', 'Report updated!');
         }
         return response(view('403'), 403);
 
@@ -167,11 +168,11 @@ class SafeController extends Controller
      */
     public function destroy($id)
     {
-        $model = str_slug('safe','-');
+        $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
-            Safe::destroy($id);
+            Report::destroy($id);
 
-            return redirect('safe')->with('flash_message', 'Safe deleted!');
+            return redirect('report')->with('flash_message', 'Report deleted!');
         }
         return response(view('403'), 403);
 

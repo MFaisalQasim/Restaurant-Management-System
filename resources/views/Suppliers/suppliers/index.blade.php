@@ -12,10 +12,10 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Safe</h3>
-                    @can('add-'.str_slug('Safe'))
-                        <a class="btn btn-success pull-right" href="{{ url('/safe/create') }}"><i
-                                    class="icon-plus"></i> Add Safe</a>
+                    <h3 class="box-title pull-left">Suppliers</h3>
+                    @can('add-'.str_slug('Suppliers'))
+                        <a class="btn btn-success pull-right" href="{{ url('/suppliers/create') }}"><i
+                                    class="icon-plus"></i> Add Suppliers</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -24,44 +24,44 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Employee Complete Name</th><th>Sum</th>
+                                <th>Name</th><th>Sum</th><th>Date Of Order</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($safe as $item)
+                            @foreach($suppliers as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration  }}</td>
-                                    <td>{{ $item->employee_complete_name }}</td><td>{{ $item->sum }}</td>
+                                    <td>{{ $loop->iteration or $item->id }}</td>
+                                    <td>{{ $item->name }}</td><td>{{ $item->sum }}</td><td>{{ $item->date_of_order }}</td>
                                     <td>
-                                        @can('view-'.str_slug('Safe'))
-                                            <a href="{{ url('/safe/' . $item->id) }}"
-                                               title="View Safe">
+                                        @can('view-'.str_slug('Suppliers'))
+                                            <a href="{{ url('/suppliers/' . $item->id) }}"
+                                               title="View Supplier">
                                                 <button class="btn btn-info btn-sm">
                                                     <i class="fa fa-eye" aria-hidden="true"></i> View
                                                 </button>
                                             </a>
                                         @endcan
 
-                                        @can('edit-'.str_slug('Safe'))
-                                            <a href="{{ url('/safe/' . $item->id . '/edit') }}"
-                                               title="Edit Safe">
+                                        @can('edit-'.str_slug('Suppliers'))
+                                            <a href="{{ url('/suppliers/' . $item->id . '/edit') }}"
+                                               title="Edit Supplier">
                                                 <button class="btn btn-primary btn-sm">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
                                                 </button>
                                             </a>
                                         @endcan
 
-                                        @can('delete-'.str_slug('Safe'))
+                                        @can('delete-'.str_slug('Suppliers'))
                                             {!! Form::open([
                                        'method'=>'DELETE',
-                                       'url' => ['/safe', $item->id],
+                                       'url' => ['/suppliers', $item->id],
                                        'style' => 'display:inline'
                                    ]) !!}
                                             {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
                                                     'type' => 'submit',
                                                     'class' => 'btn btn-danger btn-sm',
-                                                    'title' => 'Delete Safe',
+                                                    'title' => 'Delete Supplier',
                                                     'onclick'=>'return confirm("Confirm delete?")'
                                             )) !!}
                                         @endcan
@@ -71,7 +71,7 @@
                             @endforeach
                             </tbody>
                         </table>
-                        <div class="pagination-wrapper"> {!! $safe->appends(['search' => Request::get('search')])->render() !!} </div>
+                        <div class="pagination-wrapper"> {!! $suppliers->appends(['search' => Request::get('search')])->render() !!} </div>
                     </div>
 
                 </div>
