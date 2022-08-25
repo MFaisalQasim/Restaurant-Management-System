@@ -50,6 +50,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        return redirect('/');
         return Validator::make($data, [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -65,6 +66,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        return redirect('/');
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -74,6 +76,7 @@ class RegisterController extends Controller
 
     protected function registered(Request $request, $user)
     {
+        return redirect('/');
         if($user->profile == null){
             $profile = new Profile();
             $profile->user_id = $user->id;

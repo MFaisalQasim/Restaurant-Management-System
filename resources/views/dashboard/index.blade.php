@@ -10,8 +10,7 @@
 
 @section('content')
     @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer'))
-        <div class="row m-0">
-
+        {{-- <div class="row m-0">
             <div class="col-md-3 col-sm-6 info-box">
                 <div class="media">
                     <div class="media-left">
@@ -75,7 +74,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="container-fluid">
           {{--   <div class="row">
                 <div class="col-md-8 col-sm-12">

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/cushliving.png')}}">
-    <title>CARRERCO | Dashboard</title>
+    <title>Restaurant | Dashboard</title>
     <!-- ===== Bootstrap CSS ===== -->
     <link href="{{asset('bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- ===== Plugin CSS ===== -->
@@ -82,6 +82,10 @@
 <!-- ===== Top-Navigation-End ===== -->
 
     <!-- ===== Left-Sidebar ===== -->
+
+
+
+
 @include('layouts.partials.sidebar')
 @include('layouts.partials.right-sidebar')
 

@@ -40,6 +40,7 @@ class RestaurantController extends Controller
                 ->paginate($perPage);
             } else {
                 $restaurant = Restaurant::paginate($perPage);
+                // $restaurant = Restaurant::paginate($perPage)->orWhere('id'== auth()->user()->restaurant_id);
             }
 
             return view('Restaurant.restaurant.index', compact('restaurant'));

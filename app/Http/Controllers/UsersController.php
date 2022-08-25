@@ -24,9 +24,11 @@ class UsersController extends Controller
     }
 
     public function save(Request $request){
+// return $request;
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required',
+            'restaurant_id' => 'required',
             'password' => 'required|min:6|confirmed',
 //            'dob' => 'required',
 //            'pic_file' => 'required',
@@ -45,10 +47,19 @@ class UsersController extends Controller
         ]);
 //        $user->assignRole($role->name);
 
-        $user           = User::firstOrCreate(['name'=>$request->name,'email'=> $request->email]);
+        $user           = User::firstOrCreate(['name'=>$request->name,
+        'email'=> $request->email
+    ]);
         $user->status   = 1;
+
+        // return $user;
         $user->password = bcrypt($request->password);
+        $user->restaurant_id = $request->restaurant_id;
         $user->save();
+
+        // return $user;
+        // return $user->restaurant_id;
+        // return $user->restaurant_id;
 
         if ($file = $request->file('pic_file')) {
             $extension = $file->extension()?: 'png';

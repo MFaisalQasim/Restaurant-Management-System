@@ -3,9 +3,11 @@ Route::get('/', 'PagesController@HomePage');
 
 
 Route::group(['middleware' => ['auth', 'roles'],'roles' => ['admin','user','developer']], function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    });
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard.index');
+    // });
+    Route::get('dashboard', 'PagesController@Dashboard');
+
     Route::get('account-settings', 'UsersController@getSettings');
     Route::post('account-settings', 'UsersController@saveSettings');
     
@@ -308,6 +310,16 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
     Route::get('user/restore/{id}', 'UsersController@restoreUser');
 
 });
+
+#User Management routes
+Route::get('users', 'UsersController@getIndex');
+Route::get('user/create', 'UsersController@create');
+Route::post('user/create', 'UsersController@save');
+Route::get('user/edit/{id}', 'UsersController@edit');
+Route::post('user/edit/{id}', 'UsersController@update');
+Route::get('user/delete/{id}', 'UsersController@delete');
+Route::get('user/deleted/', 'UsersController@getDeletedUsers');
+Route::get('user/restore/{id}', 'UsersController@restoreUser');
 
 //Log Viewer
 Route::get('log-viewers', '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@index')->name('log-viewers');

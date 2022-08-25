@@ -26,20 +26,17 @@ class LoginController extends Controller
             ->causedBy($user)
             ->log('LoggedIn');
         if($user->hasRole('admin')){
-
             // dd('if ma');
             return redirect('dashboard');
         }elseif($user->hasRole('developer'))
         {
             // dd('elseif ma');
             return redirect('dashboard');
-
-          
         }
         else
         {
             // dd('else');
-            return redirect('/');
+            return redirect('dashboard');
         }
     }
 

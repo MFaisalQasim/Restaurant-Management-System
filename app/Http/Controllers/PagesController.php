@@ -22,4 +22,9 @@ class PagesController extends Controller
     {
         return view('frontend.homepage');
     }
+    
+    public function Dashboard()
+    {
+        return view('dashboard.index');
+    }
 }
