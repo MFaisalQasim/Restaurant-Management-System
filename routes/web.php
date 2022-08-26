@@ -354,3 +354,8 @@ Route::resource('expenses', 'ExpensesController\\ExpensesController');
 Route::resource('employee-salary', 'EmployeeSalaryController\\EmployeeSalaryController');
 Route::resource('suppliers', 'SuppliersController\\SuppliersController');
 Route::resource('report', 'ReportController\\ReportController');
+Route::post('report/generate', 'PagesController@generate_report')->name("report.generate");
+Route::post('report/export', 'PagesController@export')->name("report.export");
+Route::post('safe/generate', 'PagesController@generate_safe')->name("safe.generate");
+Route::post('expenses/generate', 'PagesController@generate_expenses')->name("expenses.generate");
+Route::post('employee-salary/generate', 'PagesController@generate_employee_salary')->name("employeesalary.generate");
