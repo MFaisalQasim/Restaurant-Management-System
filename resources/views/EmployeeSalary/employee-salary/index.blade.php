@@ -32,11 +32,12 @@
                             <tbody>
                                 @foreach ($employeesalary as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration  }}</td>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->name }}</td>
-                                        <td>{{ $item->number_of_hours }}</td>
-                                        <td>{{ $item->number_of_hours * $item->rate
-                                        }}</td>
+                                        <td>{{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) }}
+                                        </td>
+                                        <td>{{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate }}
+                                        </td>
                                         <td>
                                             @can('view-' . str_slug('EmployeeSalary'))
                                                 <a href="{{ url('/employee-salary/' . $item->id) }}"

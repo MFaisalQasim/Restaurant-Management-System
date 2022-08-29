@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Auth;
 use App\Report;
+use App\Supplier;
+use App\TotalCash;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -58,10 +60,12 @@ class ReportController extends Controller
     {
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Report.report.create');
+            $supplier = Supplier::get();
+            $total_cash = TotalCash::get();
+            
+            return view('Report.report.create', compact('supplier','total_cash'));
         }
         return response(view('403'), 403);
-
     }
 
     /**

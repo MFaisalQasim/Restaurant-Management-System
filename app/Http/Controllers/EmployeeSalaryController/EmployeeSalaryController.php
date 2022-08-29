@@ -74,9 +74,12 @@ class EmployeeSalaryController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'restaurant_id' => 'required',
-			'number_of_hours' => 'required',
+			// 'restaurant_id' => 'required',
+			// 'number_of_hours' => 'required',
 			'rate' => 'required',
+			'date' => 'required',
+			'date' => 'required',
+			'date' => 'required',
 			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
@@ -88,7 +91,13 @@ class EmployeeSalaryController extends Controller
             $employeesalary->restaurant_id =    $request->restaurant_id or Auth::User()->restaurant_id;
             $employeesalary->rate =    $request->rate;
             $employeesalary->number_of_hours =    $request->number_of_hours;
-            // $employeesalary->sum =    $request->sum;
+            $employeesalary->start_hour =    $request->start_hour;
+            $employeesalary->finish_hour =    $request->finish_hour;
+            $employeesalary->date =    $request->date;
+            $employeesalary->type =    $request->type;
+            $employeesalary->for_what =    $request->for_what;
+            $employeesalary->bonus_sum =    $request->bonus_sum;
+            $employeesalary->sum =    $request->sum;
             $employeesalary->save();
             return redirect('employee-salary')->with('flash_message', 'EmployeeSalary added!');
         }
@@ -143,7 +152,7 @@ class EmployeeSalaryController extends Controller
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'number_of_hours' => 'required',
+			// 'number_of_hours' => 'required',
 			// 'sum' => 'required'
 		]);
             $requestData = $request->all();

@@ -23,8 +23,9 @@ use App\Restaurant;
 use App\Safe;
 use App\Supplier;
 use App\TotalCash;
+use App\ExpenseFile;
 
-use App\Exports\SalesExport;
+use App\Exports\ReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class PagesController extends Controller
@@ -94,8 +95,10 @@ class PagesController extends Controller
         $expenses = Expense::whereBetween("created_at", [$startDate, $endDate])
         ->get();
         $total = $expenses;
+        $expensesFile = ExpenseFile::get();
+        // $expensesFile = ExpenseFile::where('expenses_id', '=', $id)->get();
         // ->where("payment_status", "paid")
-        return view("Expenses.expenses.show", compact('expenses', 'total', 'startDate', 'endDate'));
+        return view("Expenses.expenses.show", compact('expenses', 'total', 'startDate', 'endDate', 'expensesFile'));
 
         //     return view("Expenses.expenses.index")->with([
         //     "startDate" => $startDate,
@@ -197,6 +200,6 @@ class PagesController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new SalesExport($request->from, $request->to), "sales.xlsx");
+        return Excel::download(new ReportExport($request->from, $request->to), "report.xlsx");
     }
 }

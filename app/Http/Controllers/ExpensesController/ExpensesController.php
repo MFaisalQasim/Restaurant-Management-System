@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use App\Expense;
+use App\ExpenseFile;
+use App\Helpers\AppHelper;
+use Config;
+
 use Illuminate\Http\Request;
 
 class ExpensesController extends Controller
@@ -15,7 +19,6 @@ class ExpensesController extends Controller
     {
         $this->middleware('auth');
     }
-
 
     /**
      * Display a listing of the resource.
@@ -37,7 +40,6 @@ class ExpensesController extends Controller
             } else {
                 $expenses = Expense::paginate($perPage);
             }
-
             return view('Expenses.expenses.index', compact('expenses'));
         }
         return response(view('403'), 403);
@@ -68,6 +70,9 @@ class ExpensesController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request;
+        $ErrorMsg = "";
+        $itemAttachment = [];
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -75,14 +80,42 @@ class ExpensesController extends Controller
 			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
-            // return $request;
-            // Expense::create($requestData);
+           $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
             $expenses = new Expense;
             $expenses->for_whom =    $request->for_whom;
             $expenses->restaurant_id =    $request->restaurant_id;
-            $employeesalary->date_of_expense =    $request->date;
+            $expenses->date_of_expense =    $request->date;
             $expenses->sum =    $request->sum;
-            $expenses->save();
+
+           if ($ErrorMsg == "") {
+               $expenses->save();
+           }
+           if ($ErrorMsg == "") {
+                   
+               for ($i = 0; $i < count($request->file); $i++) {
+                   $SavedTourAttachment = AppHelper::SaveFileAndGetPath($request->file[$i], $UploadTourImagesPath);
+   
+                   if ($SavedTourAttachment["reply"] == 1) {
+                       $itemAttachment[$i] = $SavedTourAttachment["path"];
+                    //    $expensesFile = new ExpenseFile();
+                    //    $expensesFile->expenses_id =    $expenses->id;
+                    //    $expensesFile->expense_name =    $request->name;
+                    //    $expensesFile->date_of_issue =    $request->date;
+                    //    $expensesFile->save();
+
+                       ExpenseFile::create([
+                        "expenses_id" => $expenses->id,
+                        "expense_name" => $request->name,
+                           "date_of_issue" => $request->date,
+                           "file" => $itemAttachment[$i],
+                           // "user_id" =>  Auth::User()->id
+                       ]);
+
+                   } else {
+                       $ErrorMsg = $SavedTourAttachment["msg"];
+                   }
+               }
+           }
             return redirect('expenses')->with('flash_message', 'Expense added!');
         }
         return response(view('403'), 403);
@@ -100,7 +133,9 @@ class ExpensesController extends Controller
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $expense = Expense::findOrFail($id);
-            return view('Expenses.expenses.show', compact('expense'));
+            // $expensesFileFind = ExpenseFile::get();
+            $expensesFile = ExpenseFile::where('expenses_id', '=', $id)->get();
+            return view('Expenses.expenses.show', compact('expense', 'expensesFile'));
         }
         return response(view('403'), 403);
     }

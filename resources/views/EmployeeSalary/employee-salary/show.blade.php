@@ -31,7 +31,7 @@
                                         </div>
                                         <div class="form-group">
                                             <button class="btn btn-primary">
-                                                View Safe
+                                                View Employee Salary
                                             </button>
                                         </div>
                                     </form>
@@ -47,20 +47,22 @@
                             <thead>
                                 <tr>
                                     <th> Name </th>
+                                    <th> Start Hours </th>
+                                    <th> Finish Hours </th>
                                     <th> Number Of Hours </th>
-                                    <th> Rate   </th>
-                                    <th> Sum </th>
+                                    <th> Rate </th>
+                                    <th> Total </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($employeesalary as $item)
                                     <tr>
                                         <td> {{ $item->name }} </td>
-                                        <td> {{ $item->number_of_hours }} </td>
+                                        <td> {{ $item->start_hour }} </td>
+                                        <td> {{ $item->finish_hour }} </td>
+                                        <td>{{ abs(strtotime($item->finish_hour) - strtotime($item->start_hour))/3600 }}</td>
                                         <td> {{ $item->rate }} </td>
-                                        <td> {{ $item->number_of_hours * $item->rate
-                                        
-                                    }}
+                                        <td> {{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour))/3600 )* $item->rate }}
                                         </td>
                                     </tr>
                                 @endforeach

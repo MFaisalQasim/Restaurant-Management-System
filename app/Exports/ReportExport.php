@@ -6,7 +6,7 @@ use App\Report;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class SalesExport implements FromView
+class ReportExport implements FromView
 {
     private $from;
     private $to;
