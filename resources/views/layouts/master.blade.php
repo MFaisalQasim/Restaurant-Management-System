@@ -43,8 +43,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.9.0/css/bootstrap-iconpicker.min.css" />
 
 
-<!-- CSS only -->
-{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- ===== Color CSS ===== -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -86,21 +86,42 @@
 
         <!-- ===== Left-Sidebar ===== -->
 
-        @if (
-        // auth()->user()->hasRole('admin') ||
-            auth()->user()->hasRole('developer'))
-            @include('layouts.partials.sidebar')
-            @include('layouts.partials.right-sidebar')
-        @else
-        <style>
-            .page-wrapper {
-    margin-left: 0px;
-}
-        </style>
-            @include('layouts.partials.tapbar')
-        @endif
+        {{-- @include('layouts.partials.sidebar')
+        @include('layouts.partials.right-sidebar') --}}
+
+        <div class="container-fluid">
+            {{-- <div class="row">
+                <div class="col-sm-12"> --}}
+            @if (// auth()->user()->hasRole('admin') ||
+                auth()->user()->hasRole('developer'))
+                @include('layouts.partials.sidebar')
+                @include('layouts.partials.right-sidebar')
+            @else
+                <style>
+                    .page-wrapper {
+                        margin-left: 0px;
+                    }
+
+                    .container-fluid {
+
+                        background: aliceblue;
+                    }
+
+                    .scroll-sidebar {
+                        margin: 50px;
+                        margin-bottom: 0px !important;
+                    }
+                    .sidebar-nav{
+                        background: none
+                    }
+                </style>
 
 
+                @include('layouts.partials.tapbar')
+            @endif
+            {{-- </div>
+            </div> --}}
+        </div>
 
 
 

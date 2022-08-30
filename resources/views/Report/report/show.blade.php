@@ -42,10 +42,10 @@
                         </div>
                     </div>
                     @isset($total)
-                        <h4 class="text-primary mt-4 mb-2 font-weight-bold"> Report from {{ $startDate }} to
+                        {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold"> Report from {{ $startDate }} to
                             {{ $endDate }}
 
-                        </h4>
+                        </h4> --}}
                         <table class="table table-hover table-responsive-sm">
                             <thead>
                                 <tr>

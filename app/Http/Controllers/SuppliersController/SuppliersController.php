@@ -58,7 +58,6 @@ class SuppliersController extends Controller
             return view('Suppliers.suppliers.create');
         }
         return response(view('403'), 403);
-
     }
 
     /**

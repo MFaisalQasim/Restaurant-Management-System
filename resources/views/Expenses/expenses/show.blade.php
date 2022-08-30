@@ -16,19 +16,22 @@
                     <hr>
                     <div class="card">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3 shadow mx-auto p-2">
-                                    <form action="{{ route('expenses.generate') }}" method="post">
+                            <div class="row ">
+                                <div class="col-sm-12 mx-auto p-2">
+                                    <form action="{{ route('expenses.generate') }}" method="post" class=" d-flex "
+                                        style="justify-content: space-around;">
                                         @csrf
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label  class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label  class="form-control" for="">to</label>
                                             <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
                                             <button class="btn btn-primary">
                                                 View Expenses
                                             </button>
@@ -40,14 +43,14 @@
                     </div>
                     {{-- @dd($expensesFile) --}}
                     @isset($total)
-                        <h4 class="text-primary mt-4 mb-2 font-weight-bold">
+                        {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
                             Report from {{ $startDate }} to {{ $endDate }}
-                        </h4>
+                        </h4> --}}
                         <table class="table table-hover table-responsive-sm">
                             <thead>
                                 <tr>
                                     <th> Date </th>
-                                    <th> For Whom </th>
+                                    <th> Name </th>
                                     <th> Sum </th>
                                     <th> File </th>
                                 </tr>
@@ -61,16 +64,15 @@
                                         <td> {{ $item->sum }} </td>
                                         <td>
                                             @foreach ($expensesFile as $file)
-                                            @if ($item->id == $file->expenses_id)
-                                            {{-- <td> {{ $item->id }} </td>
+                                                @if ($item->id == $file->expenses_id)
+                                                    {{-- <td> {{ $item->id }} </td>
                                                 <td> {{ $item->expenses_id }} </td>
                                                 <td> {{ $item->date_of_issue }} </td> --}}
-                                            {{-- <td> --}}
-                                                <a href="{{ $file->file }}">Download!</a>
-                                            
-                                            {{-- </td> --}}
-                                                
-                                            @endif
+                                                    {{-- <td> --}}
+                                                    <a href="{{ $file->file }}">Download!</a>
+
+                                                    {{-- </td> --}}
+                                                @endif
                                             @endforeach
                                         </td>
                                     </tr>

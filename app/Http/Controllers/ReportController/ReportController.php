@@ -10,6 +10,10 @@ use App\Supplier;
 use App\TotalCash;
 use Illuminate\Http\Request;
 
+use App\Expense;
+use App\EmployeeSalary;
+use Carbon;
+
 class ReportController extends Controller
 {
 
@@ -62,8 +66,14 @@ class ReportController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $supplier = Supplier::get();
             $total_cash = TotalCash::get();
+
+             $expense_today = Expense::whereRaw('Date(created_at) = CURDATE()')->sum('sum');
+
+             $employee_salary_paid_today = EmployeeSalary::whereRaw('Date(created_at) = CURDATE()')->where('type', '=' ,"Paid in cash")->sum('sum');
+            //   return sum($employee_salary_paid_today);
+             
             
-            return view('Report.report.create', compact('supplier','total_cash'));
+            return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today'));
         }
         return response(view('403'), 403);
     }
@@ -77,6 +87,8 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
+        
+        return $request;
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [

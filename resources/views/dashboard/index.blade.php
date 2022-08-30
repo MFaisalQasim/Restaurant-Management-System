@@ -466,8 +466,9 @@
                     </div>
                 </div>
             </div> --}}
+            
             <!-- ===== Right-Sidebar ===== -->
-        {{--@include('layouts.partials.right-sidebar')--}}
+        @include('layouts.partials.right-sidebar')
         <!-- ===== Right-Sidebar-End ===== -->
         </div>
     @else

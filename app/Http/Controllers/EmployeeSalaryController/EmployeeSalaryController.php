@@ -70,6 +70,8 @@ class EmployeeSalaryController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
+
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [

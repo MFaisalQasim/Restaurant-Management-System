@@ -18,6 +18,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"  />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    
+    <!--====== Dynamic theme changing =====-->
+
+    @if (session()->get('theme-layout') == 'fix-header')
+        <link href="{{ asset('css/style-fix-header.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+    @elseif(session()->get('theme-layout') == 'mini-sidebar')
+        <link href="{{ asset('css/style-mini-sidebar.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+    @else
+        <link href="{{ asset('css/style-normal.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/colors/default.css') }}" id="theme" rel="stylesheet">
+    @endif
 </head>
 <body>
     <div id="app">

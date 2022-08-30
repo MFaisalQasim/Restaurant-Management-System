@@ -1,5 +1,5 @@
 <div class="form-group {{ $errors->has('for_whom') ? 'has-error' : '' }}">
-    {!! Form::label('for_whom', 'For Whom', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('for_whom', 'Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::text(
             'for_whom',
@@ -24,7 +24,7 @@
 </div>
     
 @endif
-{{-- <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
+<div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Sum', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::number(
@@ -34,7 +34,7 @@
         ) !!}
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
-</div> --}}
+</div>
 
 <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
     {!! Form::label('date', 'Date', ['class' => 'col-md-4 control-label']) !!}
@@ -48,7 +48,7 @@
     </div>
 </div>
 <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-    {!! Form::label('name', 'Name', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('name', 'Expense Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::text(
             'name',

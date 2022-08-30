@@ -120,10 +120,11 @@
         {!! $errors->first('bonus_sum', '<p class="help-block">:message</p>') !!}
     </div>
     <div class="col-md-6">
-        <input id="total" type="float" name="sum"
-            placeholder="Total (=start/fnish * rate) + bonus sum
-        " disabled>
-        <input value="total_sum" type='button' onclick="get_sum()" />
+        <input id="total_total" 
+        type="text" name="sum"  value='' 
+            {{-- placeholder="Total (=start/fnish * rate) + bonus sum" --}}
+             disabled>
+        <input id="total"  value="total_sum" type='button' onclick="get_sum()" />
         {!! $errors->first('Total Sum', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -168,10 +169,11 @@
         let sum = document.getElementById('sum').value
         console.log(sum);
 
-        total = (((parseFloat(total_sum) + parseFloat(sum))));
-        console.log(total);
+        total_total = (((parseFloat(total_sum) + parseFloat(sum))));
+        console.log(total_total);
 
-        document.getElementById('total').value
+        // console.log(document.getElementById('total_total').value)
+        document.getElementById('total_total').value = Math.abs(total_total)
 
         // document.getElementById('sum').value += total_sum
         // document.getElementById('total_sum').value += parseFloat(total_sum)
@@ -180,7 +182,7 @@
         // let sum = document.getElementById('sum').value
 
 
-        return total
+        return total_total
 
     }
 </script>
