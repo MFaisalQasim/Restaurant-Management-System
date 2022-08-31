@@ -25,10 +25,11 @@ class LoginController extends Controller
             ->performedOn($user)
             ->causedBy($user)
             ->log('LoggedIn');
-        if($user->hasRole('admin')){
-            // dd('if ma');
-            return redirect('dashboard');
-        }elseif($user->hasRole('developer'))
+        // if($user->hasRole('admin')){
+        //     // dd('if ma');
+        //     return redirect('dashboard');
+        // }else
+        if($user->hasRole('developer'))
         {
             // dd('elseif ma');
             return redirect('dashboard');

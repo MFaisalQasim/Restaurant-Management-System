@@ -22,7 +22,7 @@
                         <table class="table table-borderless" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {{-- <th>#</th> --}}
                                     <th>Total Income</th>
                                     <th>Card Transactions</th>
                                     <th>Canceled Sale</th>
@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach ($report as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration or $item->id }}</td>
+                                        {{-- <td>{{ $loop->iteration or $item->id }}</td> --}}
                                         <td>{{ $item->total_income }}</td>
                                         <td>{{ $item->card_transactions }}</td>
                                         <td>{{ $item->canceled_sale }}</td>

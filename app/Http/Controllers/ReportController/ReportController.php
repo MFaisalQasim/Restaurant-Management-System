@@ -87,8 +87,6 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        
-        return $request;
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [

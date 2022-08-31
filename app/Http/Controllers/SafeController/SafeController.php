@@ -37,8 +37,16 @@ class SafeController extends Controller
             } else {
                 $safe = Safe::paginate($perPage);
             }
+            if (auth()->user()->hasRole('admin') ||
+             auth()->user()->hasRole('developer')
+            ) {
+            $safe_sum = Safe::sum('sum');
+            } else {
+                $safe_sum = Safe::sum('sum');
+            }
+            return view('Safe.safe.index', compact('safe','safe_sum'));
 
-            return view('Safe.safe.index', compact('safe'));
+            // return view('Safe.safe.index', compact('safe'));
         }
         return response(view('403'), 403);
 
@@ -59,6 +67,23 @@ class SafeController extends Controller
 
     }
 
+    public function create_deposit()
+    {
+        $model = str_slug('safe','-');
+        if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
+            return view('Safe.safe.create_deposit');
+        }
+        return response(view('403'), 403);
+
+    }
+    public function create_payouts()
+    {
+        $model = str_slug('safe','-');
+        if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
+            return view('Safe.safe.create_payouts');
+        }
+        return response(view('403'), 403);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -71,19 +96,22 @@ class SafeController extends Controller
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
-			'employee_complete_name' => 'required',
-			'sum' => 'required',
+			// 'employee_complete_name' => 'required',
+			// 'sum' => 'required',
+			// 'ty_of_transaction' => 'required',
 			'date' => 'required'
 		]);
             $requestData = $request->all();
             // return $request;
             // Safe::create($requestData);
             $safe = new Safe;
-            $safe->employee_complete_name =    $request->employee_complete_name;
+            $safe->employee_complete_name =    auth()->user()->name;
             $safe->restaurant_id =    $request->restaurant_id;
             $safe->sum =    $request->sum;
-            $safe->date_of_deposited =    $request->date;
-            
+            $safe->ty_of_transaction =    $request->ty_of_transaction;
+            $safe->date =    $request->date;
+            $safe->payment =    $request->deposite;
+            $safe->paycheck =    $request->payout;
             $safe->save();
             return redirect('safe')->with('flash_message', 'Safe added!');
         }
@@ -137,7 +165,7 @@ class SafeController extends Controller
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'employee_complete_name' => 'required',
+			// 'employee_complete_name' => 'required',
 			'sum' => 'required',
 			'date' => 'required'
 		]);

@@ -5,10 +5,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Create New Expense</h3>
-                    @can('view-'.str_slug('Expense'))
-                        <a class="btn btn-success pull-right" href="{{url('/expenses')}}">
-                            <i class="icon-arrow-left-circle"></i> View Expense</a>
+                    <h3 class="box-title pull-left">Create New Payout</h3>
+                    @can('view-'.str_slug('Safe'))
+                        <a class="btn btn-success pull-right" href="{{url('/safe')}}">
+                            <i class="icon-arrow-left-circle"></i> View Safe</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -20,9 +20,9 @@
                         </ul>
                     @endif
 
-                    {!! Form::open(['url' => '/expenses/create', 'class' => 'form-horizontal', 'files' => true]) !!}
+                    {!! Form::open(['url' => '/safe/payouts/create', 'class' => 'form-horizontal', 'files' => true]) !!}
 
-                    @include ('Expenses.expenses.form')
+                    @include ('Safe.safe.form_payout')
 
                     {!! Form::close() !!}
 

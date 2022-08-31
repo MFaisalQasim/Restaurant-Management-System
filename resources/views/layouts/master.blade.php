@@ -82,16 +82,37 @@
         </div>
         <!-- ===== Top-Navigation ===== -->
         @include('layouts.partials.navbar')
+        {{-- @include('layouts.partials.design_navbar') --}}
         <!-- ===== Top-Navigation-End ===== -->
 
         <!-- ===== Left-Sidebar ===== -->
 
-        {{-- @include('layouts.partials.sidebar')
-        @include('layouts.partials.right-sidebar') --}}
-
+        @include('layouts.partials.sidebar')
+        @include('layouts.partials.right-sidebar')
         <div class="container-fluid">
-            {{-- <div class="row">
-                <div class="col-sm-12"> --}}
+            <style>
+                .page-wrapper {
+                    /* margin-left: 0px; */
+                    margin-left: 265px;
+                }
+
+                .container-fluid {
+
+                    background: aliceblue;
+                }
+
+                /* .scroll-sidebar {
+                    margin: 50px;
+                    margin-bottom: 0px !important;
+                } */
+                .sidebar-nav{
+                    background: none
+                }
+            </style>
+            @include('layouts.partials.tapbar')
+        </div>
+
+        {{-- <div class="container-fluid">
             @if (// auth()->user()->hasRole('admin') ||
                 auth()->user()->hasRole('developer'))
                 @include('layouts.partials.sidebar')
@@ -118,7 +139,7 @@
 
 
                 @include('layouts.partials.tapbar')
-            @endif
+            @endif --}}
             {{-- </div>
             </div> --}}
         </div>

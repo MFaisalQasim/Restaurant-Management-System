@@ -22,7 +22,7 @@
                         <table class="table table-borderless" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {{-- <th>#</th> --}}
                                     <th>For Whom</th>
                                     <th>Sum</th>
                                     <th> Date </th>
@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach ($expenses as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration  }}</td>
+                                        {{-- <td>{{ $loop->iteration  }}</td> --}}
                                         <td>{{ $item->for_whom }}</td>
                                         <td>{{ $item->sum }}</td>
                                         <td> {{ $item->date_of_expense }} </td>

@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Create New Safe</h3>
+                    <h3 class="box-title pull-left">Create New</h3>
                     @can('view-'.str_slug('Safe'))
                         <a class="btn btn-success pull-right" href="{{url('/safe')}}">
                             <i class="icon-arrow-left-circle"></i> View Safe</a>
@@ -21,9 +21,7 @@
                     @endif
 
                     {!! Form::open(['url' => '/safe', 'class' => 'form-horizontal', 'files' => true]) !!}
-
                     @include ('Safe.safe.form')
-
                     {!! Form::close() !!}
 
                 </div>

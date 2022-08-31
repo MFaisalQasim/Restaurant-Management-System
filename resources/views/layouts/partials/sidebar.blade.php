@@ -92,7 +92,7 @@
                     </li> --}}
 
                     @endif
-                    @foreach ($laravelAdminMenus->menus as $section)
+                    {{-- @foreach ($laravelAdminMenus->menus as $section)
                         @if (count(collect($section->items)) > 0)
                             @foreach ($section->items as $menu)
                                 @can('view-' . str_slug($menu->title))
@@ -124,7 +124,7 @@
                                 @endcan
                             @endforeach
                         @endif
-                    @endforeach
+                    @endforeach --}}
                     {{-- @can('view-blog')
                     <li class="two-column">
                         <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i

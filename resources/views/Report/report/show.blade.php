@@ -1,5 +1,5 @@
-{{-- @extends('layouts.master') --}}
-@extends('layouts.design')
+@extends('layouts.master')
+{{-- @extends('layouts.design') --}}
 
 @section('content')
     <div class="container-fluid">
@@ -8,9 +8,13 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     {{-- <h3 class="box-title pull-left">Report {{ $report->id }}</h3> --}}
-                    @can('view-' . str_slug('Report'))
+                    {{-- @can('view-' . str_slug('Report'))
                         <a class="btn btn-success pull-right" href="{{ url('/report') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
+                    @endcan --}}
+                    @can('add-' . str_slug('Report'))
+                        <a class="btn btn-success pull-right" href="{{ url('report/create') }}"><i class="icon-plus"></i> Add
+                            Report</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -18,20 +22,21 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-3 shadow mx-auto p-2">
-                                    {{-- <form action="{{ route('report.generate') }}" method="post"> --}}
-                                        <form action="{{ url('report/generate') }}" method="post">
-                                        
+                                <div class="col-sm-12 mx-auto p-2">
+                                    <form action="{{ route('report.generate') }}" method="post" class=" d-flex "
+                                        style="justify-content: space-around;">
                                         @csrf
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">to</label>
                                             <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
                                             <button class="btn btn-primary">
                                                 View Report
                                             </button>

@@ -1,5 +1,5 @@
-{{-- @extends('layouts.master') --}}
-@extends('layouts.design')
+@extends('layouts.master')
+{{-- @extends('layouts.design') --}}
 
 @section('content')
     <div class="container-fluid">
@@ -8,9 +8,13 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     {{-- <h3 class="box-title pull-left">EmployeeSalary {{ $employeesalary->id }}</h3> --}}
-                    @can('view-' . str_slug('EmployeeSalary'))
+                    {{-- @can('view-' . str_slug('EmployeeSalary'))
                         <a class="btn btn-success pull-right" href="{{ url('/employee-salary') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
+                    @endcan --}}
+                    @can('add-' . str_slug('EmployeeSalary'))
+                        <a class="btn btn-success pull-right" href="{{ url('/employee-salary/create') }}"><i
+                                class="icon-plus"></i> Add Employeesalary</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -18,18 +22,21 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-sm-3 shadow mx-auto p-2">
-                                    <form action="{{ route('employeesalary.generate') }}" method="post">
+                                <div class="col-sm-12 mx-auto p-2">
+                                    <form action="{{ route('employeesalary.generate') }}" method="post" class=" d-flex "
+                                        style="justify-content: space-around;">
                                         @csrf
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">to</label>
                                             <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control">
+                                                class="form-control input_border">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group d-flex">
                                             <button class="btn btn-primary">
                                                 View Employee Salary
                                             </button>
@@ -47,22 +54,29 @@
                             <thead>
                                 <tr>
                                     <th> Name </th>
-                                    <th> Start Hours </th>
-                                    <th> Finish Hours </th>
-                                    <th> Number Of Hours </th>
-                                    <th> Rate </th>
-                                    <th> Total </th>
+                                    {{-- <th> Start Hours </th>
+                                    <th> Finish Hours </th> --}}
+                                    <th> Salary sum </th>
+                                    <th> Hours sum </th>
+                                    <th> Average for the hour </th>
+                                    <th> Bonus sum </th>
+                                    <th> Total salary with bonus </th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($employeesalary as $item)
                                     <tr>
                                         <td> {{ $item->name }} </td>
-                                        <td> {{ $item->start_hour }} </td>
-                                        <td> {{ $item->finish_hour }} </td>
-                                        <td>{{ abs(strtotime($item->finish_hour) - strtotime($item->start_hour))/3600 }}</td>
+                                        {{-- <td> {{ $item->start_hour }} </td>
+                                        <td> {{ $item->finish_hour }} </td> --}}
+                                        <td> {{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate }}
+                                        </td>
+                                        <td>{{ abs(strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600 }}</td>
                                         <td> {{ $item->rate }} </td>
-                                        <td> {{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour))/3600 )* $item->rate }}
+                                        <td> {{ $item->bonus_sum }}
+                                        </td>
+                                        <td> {{ abs(((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate + $item->bonus_sum) }}
                                         </td>
                                     </tr>
                                 @endforeach

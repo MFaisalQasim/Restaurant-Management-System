@@ -1,5 +1,5 @@
-{{-- @extends('layouts.master') --}}
-@extends('layouts.design')
+@extends('layouts.master')
+{{-- @extends('layouts.design') --}}
 
 @section('content')
     <div class="container-fluid">
@@ -8,9 +8,13 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     {{-- <h3 class="box-title pull-left">Expense {{ $expense->id }}</h3> --}}
-                    @can('view-' . str_slug('Expenses'))
+                    {{-- @can('view-' . str_slug('Expenses'))
                         <a class="btn btn-success pull-right" href="{{ url('/expenses') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
+                    @endcan --}}
+                    @can('add-' . str_slug('expenses'))
+                        <a class="btn btn-success pull-right" href="{{ url('/expenses/create') }}"><i class="icon-plus"></i> Add
+                            Expenses</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -22,12 +26,12 @@
                                         style="justify-content: space-around;">
                                         @csrf
                                         <div class="form-group d-flex">
-                                            <label  class="form-control" for="">from</label>
+                                            <label class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
                                                 class="form-control input_border">
                                         </div>
                                         <div class="form-group d-flex">
-                                            <label  class="form-control" for="">to</label>
+                                            <label class="form-control" for="">to</label>
                                             <input type="date" name="to" placeholder="Date Fin"
                                                 class="form-control input_border">
                                         </div>
@@ -53,6 +57,7 @@
                                     <th> Name </th>
                                     <th> Sum </th>
                                     <th> File </th>
+                                    <th> Download </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -75,6 +80,7 @@
                                                 @endif
                                             @endforeach
                                         </td>
+                                        <td> {{ $item->sum }} </td>
                                     </tr>
                                 @endforeach
                             </tbody>

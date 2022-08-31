@@ -15,11 +15,10 @@
                         <a class="btn btn-success pull-right" href="{{ url('/safe') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan --}}
-                    {{-- @can('add-' . str_slug('Safe'))
-                        <a class="btn btn-success pull-right" href="{{ url('/safe/create') }}"><i class="icon-plus"></i> Add New
-                            Safe
-                        </a>
-                    @endcan --}}
+                    @can('add-' . str_slug('Safe'))
+                        <a class="btn btn-success pull-right" href="{{ url('/safe/payouts/create') }}"><i class="icon-plus"></i> Add
+                            Payout</a>
+                    @endcan
                     <div class="clearfix"></div>
                     <hr>
 
@@ -27,9 +26,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 mx-auto p-2">
-                                    <form action="{{ route('safe.generate') }}" method="post" class=" d-flex "
+                                    <form action="{{ route('safe.payout.generate') }}" method="post" class=" d-flex " 
                                         style="justify-content: space-around;">
-                                        {{-- <form action="{{ url('safe/generate') }}" method="post" class=" d-flex "
+                                    {{-- <form action="{{ url('safe/generate') }}" method="post" class=" d-flex "
                                         style="justify-content: space-around;"> --}}
                                         @csrf
                                         <div class="form-group d-flex">
@@ -46,7 +45,7 @@
                                             {{-- <button class="btn btn-primary">
                                                 View Expenses
                                             </button> --}}
-                                            <input class="btn btn-primary" type="submit" value="View Expenses">
+                                            <input  class="btn btn-primary" type="submit" value="View Payout">
                                         </div>
                                     </form>
                                 </div>
@@ -105,8 +104,9 @@
                                     <tr>
                                         {{-- <td>{{ $loop->iteration }}</td> --}}
                                         <td>{{ $item->date }}</td>
-                                        <td>{{ $item->payment }}</td>
+                                        <td>{{ $item->sum }}</td>
                                         <td>-{{ $item->paycheck }}</td>
+                                        <td>{{ $item->payment }}</td>
                                         @if (auth()->user()->hasRole('admin') ||
                                             auth()->user()->hasRole('developer'))
                                             <td>{{ $item->sum }}</td>

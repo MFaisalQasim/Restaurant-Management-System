@@ -9,7 +9,8 @@
 @endpush
 
 @section('content')
-    @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer'))
+
+    {{-- @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) --}}
 
         {{-- <div class="row m-0">
             <div class="col-md-3 col-sm-6 info-box">
@@ -471,15 +472,15 @@
         @include('layouts.partials.right-sidebar')
         <!-- ===== Right-Sidebar-End ===== -->
         </div>
-    @else
-        <div class="container-fluid">
-            <div class="row">
+    {{-- @else --}}
+        <div class="container-fluid mt-5">
+            <div class="row mt-5">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
                     <h1 align="center">Welcome to Dashboard</h1>
                 </div>
             </div>
         </div>
-    @endif
+    {{-- @endif --}}
 
 @endsection
 

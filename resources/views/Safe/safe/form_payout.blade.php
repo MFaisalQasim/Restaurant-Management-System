@@ -24,7 +24,7 @@
         </div>
     </div>
 @endif
-<div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
+{{-- <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Amount', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::number(
@@ -34,7 +34,7 @@
         ) !!}
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
-</div>
+</div> --}}
 
 <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
     {!! Form::label('date', 'Date of Transaction', ['class' => 'col-md-4 control-label']) !!}
@@ -45,6 +45,18 @@
             'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
         ) !!}
         {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+
+<div class="form-group {{ $errors->has('payout') ? 'has-error' : '' }}">
+    {!! Form::label('payout', 'Enter Payout', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        {!! Form::number(
+            'payout',
+            null,
+            'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
+        ) !!}
+        {!! $errors->first('payout', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 {{-- <div class="form-group {{ $errors->has('ty_of_transaction') ? 'has-error' : '' }}">
