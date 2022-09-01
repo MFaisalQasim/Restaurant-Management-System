@@ -16273,10 +16273,10 @@ html input[date] {
     margin-bottom: 10px;
 }
 
-html input[class=""] {
+/* html input[class=""] {
     border: 2px solid black !important;
     margin-bottom: 10px;
-}
+} */
 
 .input_border {
     border: 2px solid black !important;

@@ -1,5 +1,6 @@
 <script>
     {{ $sum = 0 }}
+    {{ $bank_cash_total = 0 }}
 </script>
 <div class="col-12">
 
@@ -84,8 +85,23 @@
                 </div>
             </div>
             <div class="form-group {{ $errors->has('canceled_sale') ? 'has-error' : '' }}">
-                {!! Form::label('canceled_sale', 'Sales volume by suppliers', ['class' => 'col-md-4 control-label']) !!}
+                {!! Form::label('canceled_sale', 'Sales volume by suppliers', ['class' => 'col-md-6 control-label']) !!}
             </div>
+            @if (auth()->user()->hasRole('admin') ||
+                auth()->user()->hasRole('developer'))
+                <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
+                    {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
+                    <div class="col-md-6">
+
+                        <select class="form-select" aria-label="Default select example" name="restaurant_id">
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
+                    </div>
+                </div>
+            @endif
             {{-- <br>
         <br> --}}
 
@@ -111,7 +127,15 @@
                         @endforeach
                     </ul>
                     {{-- <input class="form-control input_border" id="supplier_cash" type="button" value="Cash" onclick="total_sales()"> --}}
-                    <input class="form-control input_border" id="Cash" type="text" value="Cash" disabled>
+
+                    @if (auth()->user()->hasRole('admin') ||
+                        auth()->user()->hasRole('developer'))
+                        <input class="form-control input_border" id="Cash" name="cash" type="text"
+                            value="Cash" readonly>
+                    @endif
+                    {{-- <input class="form-control input_border" id="supplier_cash" name="supplier_cash" type="text" 
+                            value="{{$sum}}" readonly> --}}
+
 
                     <input id="sales_volume_supplier" type="hidden" value="{{ $sum }} "
                         name="sales_volume_supplier">
@@ -122,35 +146,6 @@
                     {!! $errors->first('supplier_cash', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
-            {{-- <div class="form-group {{ $errors->has('supplier_cash') ? 'has-error' : '' }}">
-            {!! Form::label('supplier_cash', 'Supplier Cash', ['class' => 'col-md-4 control-label']) !!}
-            <div class="col-md-6">
-                {!! Form::number(
-                    'supplier_cash',
-                    null,
-                    '' == 'required'
-                        ? ['class' => 'form-control input_border', 'required' => 'required']
-                        : [
-                            'class' => 'form-control input_border',
-                            'id' => 'supplier_cash',
-                            'placeholder' => 'Supplier Cash',
-                            'disabled' => 'disabled',
-                            'value' => '{{$sum}}'
-                        ],
-                ) !!}
-                {!! $errors->first('supplier_cash', '<p class="help-block">:message</p>') !!}
-            </div>
-        </div> --}}
-            {{-- <div class="form-group {{ $errors->has('bank_cash_total') ? 'has-error' : '' }}">
-            <div class="col-md-6">
-                {!! Form::number(
-                    'bank_cash_total',
-                    null,
-                    '' == 'required' ? ['class' => 'form-control input_border', 'required' => 'required'] : ['class' => 'form-control input_border', 'placeholder' => 'Bank Cash Total'],
-                ) !!}
-                {!! $errors->first('bank_cash_total', '<p class="help-block">:message</p>') !!}
-            </div>
-        </div> --}}
         </div>
         {{-- <div class="p-5" style="width: 50%"> --}}
         <div class="col">
@@ -177,31 +172,19 @@
                                     data-id={{ $value->bank_note }} type="number" placeholder="0" name="quantity">
                             </td>
                             <td>
-                                <input class="total_bank_note" id="total_bank_note{{ $key }}" type='text'
-                                    value="" />
+                                <input name="total_bank_note" class="total_bank_note"
+                                    id="total_bank_note{{ $key }}" type='text' value=""
+                                    {{-- value="{{$bank_cash_total =+ }}" --}} readonly />
                             </td>
                         </tr>
                     @endforeach
+                    <input type="hidden" name="total_bank_note_sum" id="total_bank_note_sum" value=""
+                        readonly>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-{{-- <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : ''}}">
-    {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-        {!! Form::number('restaurant_id', null, ('required' == 'required') ? ['class' => 'form-control input_border', 'required' => 'required'] : ['class' => 'form-control input_border']) !!}
-        {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-<div class="form-group {{ $errors->has('report_handler') ? 'has-error' : ''}}">
-    {!! Form::label('report_handler', 'Report Handler', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-        {!! Form::text('report_handler', null, ('' == 'required') ? ['class' => 'form-control input_border', 'required' => 'required'] : ['class' => 'form-control input_border']) !!}
-        {!! $errors->first('report_handler', '<p class="help-block">:message</p>') !!}
-    </div>
-</div> --}}
-
 <div class="form-group">
     <div class="col-md-offset-4 col-md-4">
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
@@ -213,69 +196,51 @@
 <script>
     function total_sales() {
         let sales_volume_supplier = document.getElementById('sales_volume_supplier').value
-        console.log(sales_volume_supplier, 'sales_volume_supplier')
 
         let canceled_sale = document.getElementById('canceled_sale').value
-        console.log(canceled_sale, 'canceled_sale')
 
         let card_transactions = document.getElementById('card_transactions').value
-        console.log(card_transactions, 'card_transactions')
 
         let total_income = document.getElementById('total_income').value
-        console.log(total_income, 'total_income')
 
         let expense_today = document.getElementById('expense_today').value
-        console.log(expense_today, 'expense_today')
         let employee_salary_paid_today = document.getElementById('employee_salary_paid_today').value
-        console.log(employee_salary_paid_today, ' employee_salary_paid_today')
-
         let Cash = total_income - card_transactions - canceled_sale - sales_volume_supplier;
-        console.log(Cash, 'Cash');
 
         document.getElementById('Cash').value = Math.abs(Cash)
-        // let Cash = (((((total_income - card_transactions) - canceled_sale) - sales_volume_supplier) - expense_today) - employee_salary_paid_today);
-
-        // let Cash = ((total_income - card_transactions) - (canceled_sale - sales_volume_supplier) - (expense_today - employee_salary_paid_today));
 
     }
 
     function show(value, num) {
-        console.log(value)
-        multiplying(value, num);
+        console.log(value, 'bank_note')
+        console.log(num, 'num')
+        // multiplying(value, num);
+
+        let bank_note = value
+        console.log(bank_note, 'bank_note')
+
+        let key = document.getElementById('bank_note' + num).value
+        console.log(key, 'key')
+
+        let total_bank_note = bank_note * key
+        console.log(total_bank_note, 'total_bank_note');
+
+        document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
+
+        total_bank_note += total_bank_note
+        console.log(total_bank_note, 'total_bank_note 2');
+        // let total_bank_note_sum 
+        // total_bank_note_sum += total_bank_note
+        console.log(total_bank_note_sum, 'total_bank_note_sum');
+        document.getElementById('total_bank_note_sum').value = Math.abs(total_bank_note)
+        // return total_bank_note_sum
     }
 
-    function multiplying(mvalue, mnum) {
-        if (mvalue === '') $('#total_bank_note' + mnum).val('');
-        else {
-            parseInt(mvalue);
-            $('#total_bank_note' + mnum).val(parseInt($('#bank_note' + mnum).val()) * mvalue);
-        }
-    }
-
-    $(document).ready(function() {
-
-        $(".assign_documents").click(function() {
-
-            let document_id = $(this).data('id');
-            let admin_id = $(this).data('admin_id');
-
-
-            console.log('total_bank_note_sum');
-            // var data_Id = $(this).attr("data-id");
-            // console.log(data_Id);
-            var data_name = $(this).attr("data-name");
-            console.log(data_name);
-
-            // var dataId = $(this).data('id');
-            // console.log(dataId);
-            // var data = $(this).data;
-            // console.log(data);
-            // var bank_note = $(this).data('bank_note');
-            // console.log(bank_note);
-            // var pieces = $(this).data('pieces');
-            // console.log(pieces);
-            // var together_bank_note_pieces = $(this).data('together_bank_note_pieces');
-            // console.log(together_bank_note_pieces);
-        });
-    });
+    // function multiplying(mvalue, mnum) {
+    //     // if (mvalue === '') $('#total_bank_note' + mnum).val('');
+    //     // else {
+    //         parseInt(mvalue);
+    //         $('#total_bank_note' + mnum).val(parseInt($('#bank_note' + mnum).val()) * mvalue);
+    //     // }
+    // }
 </script>

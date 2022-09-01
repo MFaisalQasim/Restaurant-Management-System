@@ -13,8 +13,13 @@
                 <div class="white-box">
                     <h3 class="box-title pull-left">Safe</h3>
                     @can('add-' . str_slug('Safe'))
-                        <a class="btn btn-success pull-right" href="{{ url('/safe/create') }}"><i class="icon-plus"></i> Add
-                            deposit</a>
+                        <a class="btn btn-success pull-right"
+                         {{-- href="{{ url('/safe/create') }}" --}}
+                         href="{{url()->previous() }}"
+                         >
+                         {{-- <i class="icon-plus"></i> --}}
+                          Bach
+                        </a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>

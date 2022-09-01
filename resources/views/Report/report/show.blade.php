@@ -26,6 +26,9 @@
                                     <form action="{{ route('report.generate') }}" method="post" class=" d-flex "
                                         style="justify-content: space-around;">
                                         @csrf
+                                        
+                            {{-- @if (auth()->user()->hasRole('admin') ||
+                            auth()->user()->hasRole('developer')) --}}
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
@@ -36,6 +39,7 @@
                                             <input type="date" name="to" placeholder="Date Fin"
                                                 class="form-control input_border">
                                         </div>
+                                        {{-- @endif --}}
                                         <div class="form-group d-flex">
                                             <button class="btn btn-primary">
                                                 View Report
@@ -56,53 +60,36 @@
                                 <tr>
                                     {{-- <th>Id</th> --}}
                                     {{-- <th>Menus</th> --}}
-                                    {{-- <th>Tables</th> --}}
-                                    <th>Waiter</th>
-                                    <th>Amount</th>
+                                    <th>Date</th>
                                     <th>Total income</th>
-                                    <th>Total</th>
-                                    <th>Type of payment</th>
-                                    <th>Payment status</th>
-                                    <th>Report Handler</th>
+                                    <th>Card Transactions</th>
+                                    <th>Canceled Sale</th>
+
+                                    @foreach ($supplier as $item)
+                                        <th>
+                                            {{ $item->name }}
+                                        </th>
+                                    @endforeach
+                                    <th>Supplier Cash</th>
+                                    <th>Bank Cash Total</th>
+                                    <th>Status</th>
+                                    @if (auth()->user()->hasRole('admin') ||
+                                        auth()->user()->hasRole('developer'))
+                                        <th>Restaurant Id</th>
+                                        {{-- <th>Report Handler</th> --}}
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($report as $report)
                                     <tr>
-                                        {{-- <td>
-                                            @foreach ($report->menus()->where('sales_id', $report->id)->get() as $menu)
-                                                <div class="col-md-4 mb-2">
-                                                    <div class="h-100">
-                                                        <div class="d-flex
-                                                        flex-column justify-content-center
-                                                        align-items-center">
-                                                            <h5 class="font-weight-bold mt-2">
-                                                                {{ $menu->title }}
-                                                            </h5>
-                                                            <h5 class="text-muted">
-                                                                {{ $menu->price }} DH
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </td> --}}
-                                        {{-- <td>
-                                            @foreach ($report->tables()->where('sales_id', $report->id)->get() as $table)
-                                                <div class="col-md-4 mb-2">
-                                                    <div class="h-100">
-                                                        <div class="d-flex
-                                                        flex-column justify-content-center
-                                                        align-items-center">
-                                                            <i class="fa fa-chair fa-3x"></i>
-                                                            <h5 class="text-muted mt-2">
-                                                                {{ $table->name }}
-                                                            </h5>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </td> --}}
+                                        <td>
+                                            {{-- {{ $report->date }} --}}
+                                            {{ $report->created_at->format('Y-m-d') }}
+                                        </td>
+                                        <td>
+                                            {{ $report->total_income }}
+                                        </td>
                                         <td>
                                             {{ $report->card_transactions }}
                                         </td>
@@ -112,18 +99,27 @@
                                         <td>
                                             {{ $report->supplier_cash }}
                                         </td>
-                                        <td>
-                                            {{ $report->total_income }}
-                                        </td>
+                                        @foreach ($supplier as $item)
+                                            <td>
+                                                {{ $item->sum }}
+                                            </td>
+                                        @endforeach
                                         <td>
                                             {{ $report->bank_cash_total }}
                                         </td>
                                         <td>
-                                            {{ $report->restaurant_id }}
+                                            {{ $report->bank_cash_total - $report->cash }}
                                         </td>
-                                        <td>
-                                            {{ $report->report_handler }}
-                                        </td>
+
+                                        @if (auth()->user()->hasRole('admin') ||
+                                            auth()->user()->hasRole('developer'))
+                                            <td>
+                                                {{ $report->restaurant_id }}
+                                            </td>
+                                            {{-- <td>
+                                                {{ $report->report_handler }}
+                                            </td> --}}
+                                        @endif
                                         {{-- <td>
                                             {{ $report->payment_type === "cash" ? "Espéce" : "Carte bancaire"}}
                                         </td> --}}
@@ -142,17 +138,21 @@
                         </p> --}}
                         <form action="{{ route('report.export') }}" method="post">
                             @csrf
-                            <div class="form-group">
-                                <input type="hidden" name="from" value="{{ $startDate }}" class="form-control">
-                            </div>
-                            <div class="form-group">
-                                <input type="hidden" name="to" value="{{ $endDate }}" class="form-control">
-                            </div>
-                            <div class="form-group">
+
+                            {{-- @if (auth()->user()->hasRole('admin') ||
+                            auth()->user()->hasRole('developer')) --}}
+                                <div class="form-group">
+                                    <input type="hidden" name="from" value="{{ $startDate }}" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="to" value="{{ $endDate }}" class="form-control">
+                                </div>
+                                {{-- @endif --}}
+                            {{-- <div class="form-group">
                                 <button class="btn btn-danger">
                                     Generate the Excel Report
                                 </button>
-                            </div>
+                            </div> --}}
                         </form>
                     @endisset
                     {{-- <div class="table-responsive">

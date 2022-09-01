@@ -355,38 +355,72 @@ Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailControl
 
 
 Route::get('restaurant', 'PagesController@restaurant');
+Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
+Route::post('restaurant/create', 'RestaurantController\\RestaurantController@store');
+
+// Route::get('safe', 'SafeController\\SafeController@index');
 Route::get('safe', 'PagesController@safe');
 // Route::get('safe/deposit', 'PagesController@safe');
 // Route::get('safe/payouts', 'PagesController@safe');
 Route::get('safe/deposit', 'PagesController@safe_deposit');
 Route::get('safe/payouts', 'PagesController@safe_payouts');
 // Route::get('safe/create', 'SafeController\\SafeController@create');
-Route::get('safe/deposit/create', 'SafeController\\SafeController@create_deposit');
-Route::get('safe/payouts/create', 'SafeController\\SafeController@create_payouts');
+Route::get('safe/deposit_create', 'SafeController\\SafeController@create_deposit');
+Route::get('safe/payouts_create', 'SafeController\\SafeController@create_payouts');
 Route::get('safe/deposit/create', 'SafeController\\SafeController@create');
+Route::post('safe/deposit/create', 'SafeController\\SafeController@store');
+Route::get('safe/payouts/create', 'SafeController\\SafeController@create');
 Route::post('safe/payouts/create', 'SafeController\\SafeController@store');
+
 Route::get('total-cash', 'PagesController@total_cash');
 Route::get('total-cash/create', 'TotalCashController\\TotalCashController@create');
 Route::post('total-cash/create', 'TotalCashController\\TotalCashController@store');
+
 Route::get('expenses', 'PagesController@expenses');
 Route::get('expenses/create', 'ExpensesController\\ExpensesController@create');
 Route::post('expenses/create', 'ExpensesController\\ExpensesController@store');
+
 Route::get('employee-salary', 'PagesController@employee_salary');
 Route::get('employee-salary/create', 'EmployeeSalaryController\\EmployeeSalaryController@create');
 Route::post('employee-salary/create', 'EmployeeSalaryController\\EmployeeSalaryController@store');
+
 Route::get('suppliers', 'PagesController@suppliers');
 Route::get('suppliers/create', 'SuppliersController\\SuppliersController@create');
 Route::post('suppliers/create', 'SuppliersController\\SuppliersController@store');
+
 Route::get('report', 'PagesController@report');
 Route::get('report/create', 'ReportController\\ReportController@create');
 Route::post('report/create', 'ReportController\\ReportController@store');
+
+Route::get('employee', 'PagesController@employee');
+Route::get('employee/create', 'EmployeeController\\EmployeeController@create');
+Route::post('employee/create', 'EmployeeController\\EmployeeController@store');
 
 Route::post('report/generate', 'PagesController@generate_report')->name("report.generate");
 Route::post('report/deposite/generate', 'PagesController@generate_report')->name("report.deposite.generate");
 Route::post('report/payout/generate', 'PagesController@generate_payout_report')->name("report.payout.generate");
 Route::post('report/export', 'PagesController@export')->name("report.export");
+
 Route::post('safe/generate', 'PagesController@generate_safe')->name("safe.generate");
 Route::post('safe/deposite/generate', 'PagesController@generate_safe')->name("safe.deposite.generate");
 Route::post('safe/payout/generate', 'PagesController@generate_safe')->name("safe.payout.generate");
+
 Route::post('expenses/generate', 'PagesController@generate_expenses')->name("expenses.generate");
 Route::post('employee-salary/generate', 'PagesController@generate_employee_salary')->name("employeesalary.generate");
+Route::post('employee/generate', 'PagesController@generate_employee')->name("employee.generate");
+
+
+Route::get('report/generate', 'PagesController@report')->name("report.generate");
+Route::get('report/deposite/generate', 'PagesController@report')->name("report.deposite.generate");
+Route::get('report/payout/generate', 'PagesController@report')->name("report.payout.generate");
+Route::get('report/export', 'PagesController@report')->name("report.export");
+
+Route::get('safe/generate', 'PagesController@safe')->name("safe.generate");
+Route::get('safe/deposite/generate', 'PagesController@safe')->name("safe.deposite.generate");
+Route::get('safe/payout/generate', 'PagesController@safe')->name("safe.payout.generate");
+
+Route::get('expenses/generate', 'PagesController@expenses')->name("expenses.generate");
+Route::get('employee-salary/generate', 'PagesController@employee_salary')->name("employeesalary.generate");
+Route::get('employee/generate', 'PagesController@employee')->name("employee.generate");
+
+// Route::resource('employee', 'EmployeeController\\EmployeeController');

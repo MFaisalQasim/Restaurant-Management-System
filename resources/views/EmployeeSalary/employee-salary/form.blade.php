@@ -21,7 +21,7 @@
             null,
             '' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
         ) !!} --}}
-        <input type="date" name="date">
+        <input class="form-control" type="date" name="date">
         {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -33,7 +33,7 @@
             null,
             'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
         ) !!} --}}
-        <input id="start_hour" type="time" name="start_hour" id="">
+        <input class="form-control" id="start_hour" type="time" name="start_hour" id="">
         {!! $errors->first('start_hour', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -45,7 +45,7 @@
             null,
             'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
         ) !!} --}}
-        <input id="finish_hour" type="time" name="finish_hour" id="">
+        <input class="form-control" id="finish_hour" type="time" name="finish_hour" id="">
         {!! $errors->first('finish_hour', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -82,8 +82,10 @@
 <div class="form-group {{ $errors->has('number_of_hours') ? 'has-error' : '' }}">
     {!! Form::label('number_of_hours', 'Number Of Hours', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <input id="number_of_hours" type="text" {{-- value={{ abs((strtotime($employeesalary->finish_hour) - strtotime($employeesalary->start_hour)) / 3600) }} --}} value='' disabled name="number_of_hours">
-        <input type='button' value='Number Of Hours' onclick="get_number_of_hours()" />
+        <input class="form-control" id="number_of_hours" type="text" {{-- value={{ abs((strtotime($employeesalary->finish_hour) - strtotime($employeesalary->start_hour)) / 3600) }} --}} value=''
+            name="number_of_hours"  placeholder='get value by olicking on "Number Of Hours" button' readonly>
+        <input type='button' value='Number Of Hours' onclick="get_number_of_hours()" 
+       />
         {!! $errors->first('number_of_hours', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -91,7 +93,9 @@
 <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Sum', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <input id="sum" type="text" value='' {{-- {{ abs((strtotime($employeesalary->finish_hour) - strtotime($employeesalary->start_hour)) / 3600) * $employeesalary->rate }} --}} disabled>
+        <input class="form-control" id="sum" type="text" value='' {{-- {{ abs((strtotime($employeesalary->finish_hour) - strtotime($employeesalary->start_hour)) / 3600) * $employeesalary->rate }} --}}
+        placeholder='get value by clicking on "Sum" button'
+        readonly>
         <input type='button' value='Sum' onclick="get_rate()" />
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
@@ -99,13 +103,8 @@
 {{-- @endisset --}}
 
 <div class="form-group {{ $errors->has('type') ? 'has-error' : '' }}">
-    {!! Form::label('type', 'Type', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('type', 'Paid in cash', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {{-- {!! Form::text(
-            'type',
-            null,
-            'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
-        ) !!} --}}
         <input type="checkbox" name="type" value="Paid in cash">
         {!! $errors->first('type', '<p class="help-block">:message</p>') !!}
     </div>
@@ -114,17 +113,17 @@
 <div class="form-group {{ $errors->has('extra_bonus') ? 'has-error' : '' }}">
     {!! Form::label('extra_bonus', 'Extra bonus', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <input type="text" name="for_what" placeholder="For What">
+        <input class="form-control" type="text" name="for_what" placeholder="Bonus For What">
         {!! $errors->first('for_what', '<p class="help-block">:message</p>') !!}
-        <input id="total_sum" type="float" name="bonus_sum" placeholder="Total Sum">
+        <input class="form-control" id="total_sum" type="float" name="bonus_sum" placeholder="Bonus Amount"
+            onkeyup="get_sum()">
         {!! $errors->first('bonus_sum', '<p class="help-block">:message</p>') !!}
-    </div>
-    <div class="col-md-6">
-        <input id="total_total" 
-        type="text" name="sum"  value='' 
-            {{-- placeholder="Total (=start/fnish * rate) + bonus sum" --}}
-             disabled>
-        <input id="total"  value="total_sum" type='button' onclick="get_sum()" />
+        <input class="form-control" id="total_total" type="text" name="sum" value='' 
+        placeholder='Calculated "Total Sum" will be Generated Autometically' 
+        readonly
+             {{-- placeholder="Total (=start/fnish * rate) + bonus sum" --}}>
+        {{-- <input id="total"  value="total_sum" type='button' onkeyup="get_sum()" /> --}}
+        {{-- <input id="total"  value="total_sum" type='button' onclick="get_sum()" /> --}}
         {!! $errors->first('Total Sum', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -164,6 +163,7 @@
     }
     // function get_sum(val) {
     function get_sum() {
+
         let total_sum = document.getElementById('total_sum').value
         console.log(total_sum);
         let sum = document.getElementById('sum').value

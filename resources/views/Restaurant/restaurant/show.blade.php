@@ -1,41 +1,174 @@
-@extends('layouts.design')
+@extends('layouts.master')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row d-flex-center">
-                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
-                            <i class="fa fa-cog fa-5x text-danger"></i>
-                            <a href="/employee-salary" class="font-weight-bold btn btn-link">
-                                EmployeeSalary
-                            </a>
+    <div class="container-fluid">
+        <!-- .row -->
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="white-box">
+                    <h3 class="box-title pull-left">Restaurant  Setting
+                        {{-- {{ auth()->user()->restaurant_id }} --}}
+                    </h3>
+                    @can('view-' . str_slug('Restaurant'))
+                        <a class="btn btn-success pull-right" href="{{ url('/restaurant') }}">
+                            <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
+                    @endcan
+                    <div class="clearfix"></div>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-hover table-responsive-sm">
+                            {{-- <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>location</th>
+                                    <th>Ranking</th>
+                                    @if (auth()->user()->hasRole('admin') ||
+    auth()->user()->hasRole('developer'))
+                                        <th>Restaurant Id</th>
+                                        <th>Report Handler</th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($restaurant as $restaurant)
+                                    <tr>
+                                        <td>
+                                            {{ $restaurant->created_at->format('Y-m-d') }}
+                                        </td>
+                                        <td>
+                                            {{ $restaurant->location }}
+                                        </td>
+                                        <td>
+                                            {{ $restaurant->ranking }}
+                                        </td>
+                                        
+
+                                        @if (auth()->user()->hasRole('admin') ||
+    auth()->user()->hasRole('developer'))
+                                            <td>
+                                                {{ $restaurant->restaurant_id }}
+                                            </td>
+                                            <td>
+                                                {{ $restaurant->report_handler }}
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody> --}}
+
+                            <thead>
+                                <tr>
+                                    <th> Name </th>
+                                    <th>Date of Employment </th>
+                                    <th> End of Work Date </th>
+                                    <th> Telephone </th>
+                                    <th> Status </th>
+                                    <th> Salary </th>
+                                    @if (auth()->user()->hasRole('admin') ||
+                                        auth()->user()->hasRole('developer'))
+                                        <th>Restaurant Id</th>
+                                    @endif
+
+                                </tr>
+                                <script>
+                                    {{ $restaurant_id_selected = 3 }}
+                                </script>
+                                {{-- <select name="restaurant_id_selected" id="restaurant_id_selected">
+                                    @foreach ($restaurant as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+
+                                </select> --}}
+                                
+                                {{-- <script>
+                                    restaurant_id_selected = document.getElementById('restaurant_id_selected').value
+                                    console.log(restaurant_id_selected);
+                                </script> --}}
+                            </thead>
+                            <tbody>
+                                @foreach ($employee as $item)
+                                    {{-- @if ($item->restaurant_id = $restaurant_id_selected) --}}
+                                    @if ($item->restaurant_id == $restaurant_id_selected)
+                                        <tr>
+                                            <td> {{ $item->name }} </td>
+                                            <td> {{ $item->date_of_employment }} </td>
+                                            <td> {{ $item->end_of_work_date }} </td>
+                                            <td> {{ $item->telephone }} </td>
+                                            <td> {{ $item->status }} </td>
+                                            <td> {{ $item->salary }} </td>
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('developer'))
+                                                <td>
+                                                    {{ $item->restaurant_id }}
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        {{-- @else --}}
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="col-md-6">
+                            <ul class="input_border" style="padding:0px">
+
+                                @foreach ($supplier as $key => $item)
+                                    <li style="display: flex ; list-style:none ; ">
+                                        <input class="" type="text" name="" id=""
+                                            value="{{ $item->name }}" readonly>
+                                        &nbsp;
+                                        &nbsp;
+                                        <input class="" type="text" name="" id=""
+                                            value="{{ $item->sum }}" readonly>
+                                        {{-- <input type="hidden" name="" id=""
+                                            value="{{ $item->supplier_cash += $item->sum }}" disabled>
+                                        <input type="hidden" name="" id="" value="{{ $sum += $item->sum }}"
+                                            disabled> --}}
+                                    </li>
+                                    {{-- {{$supplier->supplier_cash}} --}}
+                                @endforeach
+                            </ul>
                         </div>
-                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
-                            <i class="fa fa-shopping-bag fa-5x text-primary"></i>
-                            <a href="/expenses" class="font-weight-bold btn btn-link">
-                                Expenses
-                            </a>
+                        <div class="col-md-6">
+                            <p>Is Active for this restaurant (Sales volume by
+                                suppliers) ?</p>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="active_for_this_restaurant"
+                                    id="active_for_this_restaurant1" value="option1">
+                                <label class="form-check-label" for="active_for_this_restaurant1">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="active_for_this_restaurant"
+                                    id="active_for_this_restaurant2" value="option2">
+                                <label class="form-check-label" for="active_for_this_restaurant2">No</label>
+                            </div>
+                            <p>
+                                How many last days do employees see cash
+                                reports?</p>
+                            <input type="text" name="see_cash_reports_days" id="see_cash_reports_days">
                         </div>
-                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
-                            <i class="fa fa-clipboard-list fa-5x text-success"></i>
-                            <a href="/safe" class="font-weight-bold btn btn-link">
-                                Safe
-                            </a>
-                        </div>
-                        <div class="col-sm-4 d-flex flex-column align-items-center justify-content-center">
-                            <i class="fa fa-clipboard-list fa-5x text-success"></i>
-                            {{-- <i class="fa fa-money fa-5x text-dark" aria-hidden="true"></i> --}}
-                            <a href="/total-cash" class="font-weight-bold btn btn-link">
-                                TotalCash
-                            </a>
-                        </div>
+                        {{-- <table class="table table">
+                            <tbody> --}}
+                        {{-- <tr>
+                                    <th>ID</th>
+                                    <td>{{ $restaurant->id }}</td>
+                                </tr> --}}
+                        {{-- <tr>
+                                    <th> Name </th>
+                                    <td> {{ auth()->user()->restaurant_id }} </td>
+                                </tr> --}}
+                        {{-- <tr>
+                                    <th> Location </th>
+                                    <td> {{ $restaurant->location }} </td>
+                                </tr>
+                                <tr>
+                                    <th> Ranking </th>
+                                    <td> {{ $restaurant->location }} </td>
+                                </tr> --}}
+                        {{-- </tbody>
+                        </table> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

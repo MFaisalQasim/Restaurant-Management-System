@@ -22,6 +22,7 @@ use App\Safe;
 use App\Supplier;
 use App\TotalCash;
 use App\ExpenseFile;
+use App\Employee;
 
 use App\Exports\ReportExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -40,6 +41,8 @@ class PagesController extends Controller
     }
     public function generate_report(Request $request)
     {
+        // if (auth()->user()->hasRole('admin') ||
+        // auth()->user()->hasRole('developer')){
         $this->validate($request, [
             "from" => "required",
             "to" => "required"
@@ -48,17 +51,30 @@ class PagesController extends Controller
         $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
         $report = Report::whereBetween("created_at", [$startDate, $endDate])
         ->get();
+        $supplier = Supplier::get();
+        
         $total = $report;
         // ->where("payment_status", "paid")
         //return data
-        return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate'));;
-            return view("Report.report.index")->with([
-            "startDate" => $startDate,
-            "endDate" => $endDate,
-            // "total" => $sales->sum('total_received'),
-            "total" => $sales,
-            "report" => $sales
-        ]);
+        return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate','supplier' ));
+    // }
+        // else {
+            // return $report = Report::where('can_see_upto_days' == 2)->get();
+
+            //  $report = Report::get();
+            // return (today()-'can_see_upto_days');
+            // $report = Report::where('created_at', ">=", (today()-'can_see_upto_days'));
+            // (today()-'can_see_upto_days')
+            // 'can_see_upto_days'
+
+            // $supplier = Supplier::get();
+            // $total = $report;
+
+            // ->where("payment_status", "paid")
+            //return data
+
+            // return view("Report.report.show", compact('report', 'total','supplier' ));
+        // }
     }
     public function generate_deposite_report(Request $request)
     {
@@ -249,7 +265,30 @@ class PagesController extends Controller
     //     //     "safe" => $sales
     //     // ]);
     // }
+    public function generate_employee(Request $request)
+    {
+        $this->validate($request, [
+            "from" => "required",
+            "to" => "required"
+        ]);
+        $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
+        $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
+        $employee = Employee::whereBetween("created_at", [$startDate, $endDate])
+        ->get();
+        $supplier = Supplier::get();
+        
+        $total = $employee;
+        // ->where("payment_status", "paid")
+        return view("Employee.employee.show", compact('employee', 'total', 'startDate', 'endDate','supplier'));
 
+        //     return view("Employee.employee.index")->with([
+        //     "startDate" => $startDate,
+        //     "endDate" => $endDate,
+        //     "total" => $sales->sum('total_received'),
+        //     "total" => $sales,
+        //     "employee" => $sales
+        // ]);
+    }
 
     public function restaurant(Request $request)
     {
@@ -275,7 +314,17 @@ class PagesController extends Controller
                     // $restaurant = Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage);
                  }
             }
-            return view('Restaurant.restaurant.show', compact('restaurant'));
+            
+        $supplier = Supplier::get();
+        $employee = Employee::get();
+            // if (auth()->user()->hasRole('admin') ||
+            //     auth()->user()->hasRole('developer')){
+            //     return view('Restaurant.restaurant.index', compact('restaurant'));
+            // } else {
+            //     return view('Restaurant.restaurant.show', compact('restaurant'));
+            // }
+            // return view('Restaurant.restaurant.index', compact('restaurant'));
+            return view('Restaurant.restaurant.show', compact('restaurant','supplier','employee'));
         }
         return response(view('403'), 403);
     }
@@ -302,7 +351,6 @@ class PagesController extends Controller
             return view('Safe.safe.show', compact('safe','safe_sum'));
         }
         return response(view('403'), 403);
-
     }
 
     public function safe_deposit(Request $request)
@@ -356,7 +404,6 @@ class PagesController extends Controller
 
     }
     public function total_cash(Request $request)
-    
     {
         $model = str_slug('totalcash','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
@@ -395,7 +442,6 @@ class PagesController extends Controller
             return view('Expenses.expenses.show', compact('expenses'));
         }
         return response(view('403'), 403);
-
     }
     public function employee_salary(Request $request)
     {
@@ -446,6 +492,31 @@ class PagesController extends Controller
 
     }
 
+    public function employee(Request $request)
+    {
+        $model = str_slug('employee','-');
+        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+            $keyword = $request->get('search');
+            $perPage = 25;
+
+            if (!empty($keyword)) {
+                $employee = Employee::where('name', 'LIKE', "%$keyword%")
+                ->orWhere('date_of_employment', 'LIKE', "%$keyword%")
+                ->orWhere('end_of_work_date', 'LIKE', "%$keyword%")
+                ->orWhere('telephone', 'LIKE', "%$keyword%")
+                ->orWhere('status', 'LIKE', "%$keyword%")
+                ->orWhere('restaurant_id', 'LIKE', "%$keyword%")
+                ->orWhere('salary', 'LIKE', "%$keyword%")
+                ->paginate($perPage);
+            } else {
+                $employee = Employee::paginate($perPage);
+            }
+
+            return view('Employee.employee.show', compact('employee'));
+        }
+        return response(view('403'), 403);
+
+    }
     public function export(Request $request)
     {
         return Excel::download(new ReportExport($request->from, $request->to), "report.xlsx");

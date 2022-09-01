@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="white-box">
                     <h3 class="box-title pull-left">Create New Expense</h3>
-                    @can('view-'.str_slug('Expense'))
+                    @can('view-'.str_slug('Expenses'))
                         <a class="btn btn-success pull-right" href="{{url('/expenses')}}">
                             <i class="icon-arrow-left-circle"></i> View Expense</a>
                     @endcan

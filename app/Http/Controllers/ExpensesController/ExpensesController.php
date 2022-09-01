@@ -116,7 +116,7 @@ class ExpensesController extends Controller
                    }
                }
            }
-            return redirect('expenses')->with('flash_message', 'Expense added!');
+            return redirect('expenses/create')->with('flash_message', 'Expense added!');
         }
         return response(view('403'), 403);
     }

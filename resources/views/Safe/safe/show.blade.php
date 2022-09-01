@@ -46,7 +46,7 @@
                                             {{-- <button class="btn btn-primary">
                                                 View Expenses
                                             </button> --}}
-                                            <input class="btn btn-primary" type="submit" value="View Expenses">
+                                            <input class="btn btn-primary" type="submit" value="View Safe">
                                         </div>
                                     </form>
                                 </div>
@@ -109,10 +109,12 @@
                                         <td>-{{ $item->paycheck }}</td>
                                         @if (auth()->user()->hasRole('admin') ||
                                             auth()->user()->hasRole('developer'))
-                                            <td>{{ $item->sum }}</td>
+                                            {{-- <td>{{ $item->sum }}</td> --}}
+                                            <td>{{ $item->payment -  $item->paycheck}}</td>
                                             <th>{{ $item->restaurant_id }}
                                             </th>
                                         @else
+                                            {{-- <td>{{ $safe_sum }}</td> --}}
                                             <td>{{ $safe_sum }}</td>
                                         @endif
                                     </tr>

@@ -79,14 +79,16 @@ class EmployeeSalaryController extends Controller
 			// 'number_of_hours' => 'required',
 			'rate' => 'required',
 			'date' => 'required',
-			'date' => 'required',
-			'date' => 'required',
+			// 'date' => 'required',
+			// 'date' => 'required',
 			// 'sum' => 'required'
 		]);
             $requestData = $request->all();
             
             // return $request;
             // EmployeeSalary::create($requestData);
+            $bonus_for_what = "Good Will Bonus";
+            $bonus_sum = "not paid in cash";
             $employeesalary = new EmployeeSalary;
             $employeesalary->name =    $request->name;
             $employeesalary->restaurant_id =    $request->restaurant_id or Auth::User()->restaurant_id;
@@ -96,11 +98,12 @@ class EmployeeSalaryController extends Controller
             $employeesalary->finish_hour =    $request->finish_hour;
             $employeesalary->date =    $request->date;
             $employeesalary->type =    $request->type;
-            $employeesalary->for_what =    $request->for_what;
-            $employeesalary->bonus_sum =    $request->bonus_sum;
+            $employeesalary->bonus_for_what =    $request->for_what or $bonus_for_what;
+            $employeesalary->bonus_sum =    $request->bonus_sum or $bonus_sum;
             $employeesalary->sum =    $request->sum;
+            // return $employeesalary;
             $employeesalary->save();
-            return redirect('employee-salary')->with('flash_message', 'EmployeeSalary added!');
+            return redirect('employee-salary/create')->with('flash_message', 'EmployeeSalary added!');
         }
         return response(view('403'), 403);
     }

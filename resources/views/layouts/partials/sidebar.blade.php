@@ -38,6 +38,28 @@
                                 class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
 
                     </li>
+                    <li>
+                        <a class="active waves-effect" href="{{ url('restaurant') }}" aria-expanded="false"><i
+                                class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Restaurant </span></a>
+
+                    </li>
+                    {{-- <li>
+                        <a class="active waves-effect" href="{{ url('employee') }}" aria-expanded="false"><i
+                                class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Employee </span></a>
+
+                    </li> --}}
+                    
+                    {{-- <div class="dropdown show">
+                        <a class="active waves-effect dropdown-toggle" role="button" id="dropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Restaurant
+                            </span></a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="{{ url('restaurant') }}">Restaurant</a>
+                            <a class="dropdown-item" href="{{ url('employee') }}">Employee</a>
+                        </div>
+                    </div> --}}
                     @if (auth()->user()->isAdmin() == true)
                         <li><a href="{{ asset('user/create') }}">Add New User</a></li>
                         <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li>

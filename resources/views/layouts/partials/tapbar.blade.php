@@ -46,12 +46,12 @@
                     </a>
                 </li> --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('safe/deposit') }}">
+                    <a class="waves-effect" href="{{ url('safe/deposit_create') }}">
                         <span class="hide-menu style_border">Add the deposit to the safe</span>
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect" href="{{ url('safe/payouts') }}">
+                    <a class="waves-effect" href="{{ url('safe/payouts_create') }}">
                         <span class="hide-menu style_border">Add payouts from the safe</span>
                     </a>
                 </li>
@@ -61,13 +61,13 @@
                     </a>
                 </li> --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('expenses') }}">
+                    <a class="waves-effect" href="{{ url('expenses/create') }}">
                         <span class="hide-menu style_border">Add Expense</span>
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect" href="{{ url('employee-salary') }}">
-                        <span class="hide-menu style_border">Add Employee Salary</span>
+                    <a class="waves-effect" href="{{ url('employee-salary/create') }}">
+                        <span class="hide-menu style_border">Add Salary</span>
                     </a>
                 </li>
                 {{-- <li>
@@ -76,8 +76,8 @@
                     </a>
                 </li> --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('report') }}">
-                        <span class="hide-menu style_border">Add Report</span>
+                    <a class="waves-effect" href="{{ url('report/create') }}">
+                        <span class="hide-menu style_border">Add Daily Report</span>
                     </a>
                 </li>
             </ul>
