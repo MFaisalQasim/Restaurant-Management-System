@@ -6,7 +6,7 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => ['admin','user','deve
     // Route::get('/dashboard', function () {
     //     return view('dashboard.index');
     // });
-    Route::get('dashboard', 'PagesController@Dashboard');
+    Route::get('dashboard{id}', 'PagesController@Dashboard');
 
     Route::get('account-settings', 'UsersController@getSettings');
     Route::post('account-settings', 'UsersController@saveSettings');
@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     /*routes for blog*/
     Route::group(['prefix' => 'blog'], function () {
-        Route::get('/create', 'BlogController@create');
-        Route::post('/create', 'BlogController@store');
+        Route::get('/create{id}', 'BlogController@create');
+        Route::post('/create{id}', 'BlogController@store');
         Route::get('delete/{id}', 'BlogController@destroy')->name('blog.delete');
         Route::get('edit/{id}', 'BlogController@edit')->name('blog.edit');
         Route::post('edit/{id}', 'BlogController@update');
@@ -45,8 +45,8 @@ Route::group(['middleware' => 'auth'], function () {
     /*routes for blog category*/
     Route::group(['prefix' => 'blog-category'], function () {
         Route::get('/', 'BlogCategoryController@getIndex');
-        Route::get('/create', 'BlogCategoryController@create');
-        Route::post('/create', 'BlogCategoryController@save');
+        Route::get('/create{id}', 'BlogCategoryController@create');
+        Route::post('/create{id}', 'BlogCategoryController@save');
         Route::get('/delete/{id}', 'BlogCategoryController@delete');
         Route::get('/edit/{id}', 'BlogCategoryController@edit');
         Route::post('/edit/{id}', 'BlogCategoryController@update');
@@ -277,16 +277,16 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
 
     #Permission management
     Route::get('permission-management', 'PermissionController@getIndex');
-    Route::get('permission/create', 'PermissionController@create');
-    Route::post('permission/create', 'PermissionController@save');
+    Route::get('permission/create{id}', 'PermissionController@create');
+    Route::post('permission/create{id}', 'PermissionController@save');
     Route::get('permission/delete/{id}', 'PermissionController@delete');
     Route::get('permission/edit/{id}', 'PermissionController@edit');
     Route::post('permission/edit/{id}', 'PermissionController@update');
     
     #Role management
     Route::get('role-management', 'RoleController@getIndex');
-    Route::get('role/create', 'RoleController@create');
-    Route::post('role/create', 'RoleController@save');
+    Route::get('role/create{id}', 'RoleController@create');
+    Route::post('role/create{id}', 'RoleController@save');
     Route::get('role/delete/{id}', 'RoleController@delete');
     Route::get('role/edit/{id}', 'RoleController@edit');
     Route::post('role/edit/{id}', 'RoleController@update');
@@ -301,8 +301,8 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
 
     #User Management routes
     Route::get('users', 'UsersController@getIndex');
-    Route::get('user/create', 'UsersController@create');
-    Route::post('user/create', 'UsersController@save');
+    Route::get('user/create{id}', 'UsersController@create');
+    Route::post('user/create{id}', 'UsersController@save');
     Route::get('user/edit/{id}', 'UsersController@edit');
     Route::post('user/edit/{id}', 'UsersController@update');
     Route::get('user/delete/{id}', 'UsersController@delete');
@@ -313,8 +313,8 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
 
 #User Management routes
 Route::get('users', 'UsersController@getIndex');
-Route::get('user/create', 'UsersController@create');
-Route::post('user/create', 'UsersController@save');
+Route::get('user/create{id}', 'UsersController@create');
+Route::post('user/create{id}', 'UsersController@save');
 Route::get('user/edit/{id}', 'UsersController@edit');
 Route::post('user/edit/{id}', 'UsersController@update');
 Route::get('user/delete/{id}', 'UsersController@delete');
@@ -354,73 +354,80 @@ Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailControl
 // Route::resource('report', 'ReportController\\ReportController');
 
 
+Route::get('/dashboard', 'PagesController@Dashboard');
 Route::get('restaurant', 'PagesController@restaurant');
-Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
-Route::post('restaurant/create', 'RestaurantController\\RestaurantController@store');
+Route::get('restaurant/create{id}', 'RestaurantController\\RestaurantController@create');
+Route::post('restaurant/create{id}', 'RestaurantController\\RestaurantController@store');
+
+// Route::get('restaurant_setting/{id}', 'PagesController@restaurant_setting');
+Route::get('restaurant_setting/{id}', 'PagesController@Dashboard');
+Route::patch('restaurant_setting/{id}', 'RestaurantController\\RestaurantController@update');
+// Route::get('restaurant/setting/create{id}', 'RestaurantController\\RestaurantController@create');
+// Route::post('restaurant/setting/create{id}', 'RestaurantController\\RestaurantController@store');
 
 // Route::get('safe', 'SafeController\\SafeController@index');
-Route::get('safe', 'PagesController@safe');
-// Route::get('safe/deposit', 'PagesController@safe');
-// Route::get('safe/payouts', 'PagesController@safe');
-Route::get('safe/deposit', 'PagesController@safe_deposit');
-Route::get('safe/payouts', 'PagesController@safe_payouts');
-// Route::get('safe/create', 'SafeController\\SafeController@create');
-Route::get('safe/deposit_create', 'SafeController\\SafeController@create_deposit');
-Route::get('safe/payouts_create', 'SafeController\\SafeController@create_payouts');
-Route::get('safe/deposit/create', 'SafeController\\SafeController@create');
-Route::post('safe/deposit/create', 'SafeController\\SafeController@store');
-Route::get('safe/payouts/create', 'SafeController\\SafeController@create');
-Route::post('safe/payouts/create', 'SafeController\\SafeController@store');
+Route::get('safe{id}', 'PagesController@safe');
+// Route::get('safe/deposit{id}', 'PagesController@safe');
+// Route::get('safe/payouts{id}', 'PagesController@safe');
+Route::get('safe/deposit{id}', 'PagesController@safe_deposit');
+Route::get('safe/payouts{id}', 'PagesController@safe_payouts');
+// Route::get('safe/create{id}', 'SafeController\\SafeController@create');
+Route::get('safe/deposit_create{id}', 'SafeController\\SafeController@create_deposit');
+Route::get('safe/payouts_create{id}', 'SafeController\\SafeController@create_payouts');
+Route::get('safe/deposit/create{id}', 'SafeController\\SafeController@create');
+Route::post('safe/deposit/create{id}', 'SafeController\\SafeController@store');
+Route::get('safe/payouts/create{id}', 'SafeController\\SafeController@create');
+Route::post('safe/payouts/create{id}', 'SafeController\\SafeController@store');
 
-Route::get('total-cash', 'PagesController@total_cash');
-Route::get('total-cash/create', 'TotalCashController\\TotalCashController@create');
-Route::post('total-cash/create', 'TotalCashController\\TotalCashController@store');
+Route::get('total-cash{id}', 'PagesController@total_cash');
+Route::get('total-cash/create{id}', 'TotalCashController\\TotalCashController@create');
+Route::post('total-cash/create{id}', 'TotalCashController\\TotalCashController@store');
 
-Route::get('expenses', 'PagesController@expenses');
-Route::get('expenses/create', 'ExpensesController\\ExpensesController@create');
-Route::post('expenses/create', 'ExpensesController\\ExpensesController@store');
+Route::get('expenses{id}', 'PagesController@expenses');
+Route::get('expenses/create{id}', 'ExpensesController\\ExpensesController@create');
+Route::post('expenses/create{id}', 'ExpensesController\\ExpensesController@store');
 
-Route::get('employee-salary', 'PagesController@employee_salary');
-Route::get('employee-salary/create', 'EmployeeSalaryController\\EmployeeSalaryController@create');
-Route::post('employee-salary/create', 'EmployeeSalaryController\\EmployeeSalaryController@store');
+Route::get('employee-salary{id}', 'PagesController@employee_salary');
+Route::get('employee-salary/create{id}', 'EmployeeSalaryController\\EmployeeSalaryController@create');
+Route::post('employee-salary/create{id}', 'EmployeeSalaryController\\EmployeeSalaryController@store');
 
-Route::get('suppliers', 'PagesController@suppliers');
-Route::get('suppliers/create', 'SuppliersController\\SuppliersController@create');
-Route::post('suppliers/create', 'SuppliersController\\SuppliersController@store');
+Route::get('suppliers{id}', 'PagesController@suppliers');
+Route::get('suppliers/create{id}', 'SuppliersController\\SuppliersController@create');
+Route::post('suppliers/create{id}', 'SuppliersController\\SuppliersController@store');
 
-Route::get('report', 'PagesController@report');
-Route::get('report/create', 'ReportController\\ReportController@create');
-Route::post('report/create', 'ReportController\\ReportController@store');
+Route::get('report{id}', 'PagesController@report');
+Route::get('report/create{id}', 'ReportController\\ReportController@create');
+Route::post('report/create{id}', 'ReportController\\ReportController@store');
 
-Route::get('employee', 'PagesController@employee');
-Route::get('employee/create', 'EmployeeController\\EmployeeController@create');
-Route::post('employee/create', 'EmployeeController\\EmployeeController@store');
+Route::get('employee{id}', 'PagesController@employee');
+Route::get('employee/create{id}', 'EmployeeController\\EmployeeController@create');
+Route::post('employee/create{id}', 'EmployeeController\\EmployeeController@store');
 
-Route::post('report/generate', 'PagesController@generate_report')->name("report.generate");
-Route::post('report/deposite/generate', 'PagesController@generate_report')->name("report.deposite.generate");
-Route::post('report/payout/generate', 'PagesController@generate_payout_report')->name("report.payout.generate");
-Route::post('report/export', 'PagesController@export')->name("report.export");
+Route::post('report/generate{id}', 'PagesController@generate_report')->name("report.generate");
+Route::post('report/deposite/generate{id}', 'PagesController@generate_report')->name("report.deposite.generate");
+Route::post('report/payout/generate{id}', 'PagesController@generate_payout_report')->name("report.payout.generate");
+Route::post('report/export{id}', 'PagesController@export')->name("report.export");
 
-Route::post('safe/generate', 'PagesController@generate_safe')->name("safe.generate");
-Route::post('safe/deposite/generate', 'PagesController@generate_safe')->name("safe.deposite.generate");
-Route::post('safe/payout/generate', 'PagesController@generate_safe')->name("safe.payout.generate");
+Route::post('safe/generate{id}', 'PagesController@generate_safe')->name("safe.generate");
+Route::post('safe/deposite/generate{id}', 'PagesController@generate_safe')->name("safe.deposite.generate");
+Route::post('safe/payout/generate{id}', 'PagesController@generate_safe')->name("safe.payout.generate");
 
-Route::post('expenses/generate', 'PagesController@generate_expenses')->name("expenses.generate");
-Route::post('employee-salary/generate', 'PagesController@generate_employee_salary')->name("employeesalary.generate");
-Route::post('employee/generate', 'PagesController@generate_employee')->name("employee.generate");
+Route::post('expenses/generate{id}', 'PagesController@generate_expenses')->name("expenses.generate");
+Route::post('employee-salary/generate{id}', 'PagesController@generate_employee_salary')->name("employeesalary.generate");
+Route::post('employee/generate{id}', 'PagesController@generate_employee')->name("employee.generate");
 
 
-Route::get('report/generate', 'PagesController@report')->name("report.generate");
-Route::get('report/deposite/generate', 'PagesController@report')->name("report.deposite.generate");
-Route::get('report/payout/generate', 'PagesController@report')->name("report.payout.generate");
-Route::get('report/export', 'PagesController@report')->name("report.export");
+Route::get('report/generate{id}', 'PagesController@report')->name("report.generate");
+Route::get('report/deposite/generate{id}', 'PagesController@report')->name("report.deposite.generate");
+Route::get('report/payout/generate{id}', 'PagesController@report')->name("report.payout.generate");
+Route::get('report/export{id}', 'PagesController@report')->name("report.export");
 
-Route::get('safe/generate', 'PagesController@safe')->name("safe.generate");
-Route::get('safe/deposite/generate', 'PagesController@safe')->name("safe.deposite.generate");
-Route::get('safe/payout/generate', 'PagesController@safe')->name("safe.payout.generate");
+Route::get('safe/generate{id}', 'PagesController@safe')->name("safe.generate");
+Route::get('safe/deposite/generate{id}', 'PagesController@safe')->name("safe.deposite.generate");
+Route::get('safe/payout/generate{id}', 'PagesController@safe')->name("safe.payout.generate");
 
-Route::get('expenses/generate', 'PagesController@expenses')->name("expenses.generate");
-Route::get('employee-salary/generate', 'PagesController@employee_salary')->name("employeesalary.generate");
-Route::get('employee/generate', 'PagesController@employee')->name("employee.generate");
+Route::get('expenses/generate{id}', 'PagesController@expenses')->name("expenses.generate");
+Route::get('employee-salary/generate{id}', 'PagesController@employee_salary')->name("employeesalary.generate");
+Route::get('employee/generate{id}', 'PagesController@employee')->name("employee.generate");
 
 // Route::resource('employee', 'EmployeeController\\EmployeeController');

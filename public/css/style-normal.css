@@ -2828,6 +2828,7 @@ ul.common li a:hover {
 .table>thead>tr>td.active,
 .table>thead>tr>th.active {
     background-color: #f7fafc !important;
+
 }
 
 .table-bordered,
@@ -2839,7 +2840,12 @@ ul.common li a:hover {
 .table>thead>tr>th {
     border-top: 1px solid #e5ebec;
     border-right: 2px solid black;
-}
+    font-size: 12px !important;
+    max-width: 10px;
+    width: auto !important;
+    padding: 15px 0px  15px 0px !important;
+    text-align: center;
+} 
 
 .table>tbody>tr>td,
 .table>tbody>tr>th,
@@ -16286,6 +16292,7 @@ html input[date] {
 
 .table {
     border: 2px solid black !important;
+    font-size: 12px !important;
 
 }
 

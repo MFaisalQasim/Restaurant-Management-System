@@ -23,7 +23,10 @@ use App\Supplier;
 use App\TotalCash;
 use App\ExpenseFile;
 use App\Employee;
+// use App\User;
 
+
+use Auth;
 use App\Exports\ReportExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -41,41 +44,60 @@ class PagesController extends Controller
     }
     public function generate_report(Request $request)
     {
-        // if (auth()->user()->hasRole('admin') ||
-        // auth()->user()->hasRole('developer')){
-        $this->validate($request, [
-            "from" => "required",
-            "to" => "required"
-        ]);
-        $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
-        $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
-        $report = Report::whereBetween("created_at", [$startDate, $endDate])
-        ->get();
-        $supplier = Supplier::get();
+        // $time = now();
+        // return date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time)- 1 ,date("Y", $time)));
+        // return $report = Report::where('can_see_upto_days' == date('Y-m-d', strtotime(' -2 day')));
+        // return date('Y-m-d', strtotime(' " {{-$date_day}}" . day'));
+
+        if (auth()->user()->hasRole('admin') ||
+        auth()->user()->hasRole('developer')){
+            
+            $model = str_slug('restaurant','-');
+            if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+                $keyword = $request->get('search');
+                $perPage = 25;
+
+                if (!empty($keyword)) {
+                    $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
+                    ->orWhere('location', 'LIKE', "%$keyword%")
+                    ->orWhere('ranking', 'LIKE', "%$keyword%")
+                    ->orWhere('description', 'LIKE', "%$keyword%")
+                    ->orWhere('focalperson', 'LIKE', "%$keyword%")
+                    ->orWhere('details', 'LIKE', "%$keyword%")
+                    ->paginate($perPage);
+                } 
+                else {
+                    $this->validate($request, [
+                        "from" => "required",
+                        "to" => "required"
+                    ]);
+                    $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
+                    $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
+                    $report = Report::whereBetween("created_at", [$startDate, $endDate])
+                    ->get();
+                    $supplier = Supplier::get();
+                    
+                    $total = $report;
+                    return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate','supplier' ));
+                    
+                }
+                }
+        }
         
-        $total = $report;
-        // ->where("payment_status", "paid")
-        //return data
-        return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate','supplier' ));
-    // }
-        // else {
-            // return $report = Report::where('can_see_upto_days' == 2)->get();
+        else {
+            $restaurant = Restaurant::where('id', '=' , Auth::User()->restaurant_id)->first();
+            $report = Report::where( 'created_at', '>=', Carbon::now()->subDays($restaurant->see_cash_reports_days))
+            ->get();
 
-            //  $report = Report::get();
-            // return (today()-'can_see_upto_days');
-            // $report = Report::where('created_at', ">=", (today()-'can_see_upto_days'));
-            // (today()-'can_see_upto_days')
-            // 'can_see_upto_days'
 
-            // $supplier = Supplier::get();
-            // $total = $report;
+                $supplier = Supplier::get();
+                $total = $report;
 
-            // ->where("payment_status", "paid")
-            //return data
-
-            // return view("Report.report.show", compact('report', 'total','supplier' ));
-        // }
+                return view("Report.report.show", compact('report', 'total','supplier' ));
+        }
+        return response(view('403'), 403);
     }
+
     public function generate_deposite_report(Request $request)
     {
         $this->validate($request, [
@@ -210,16 +232,7 @@ class PagesController extends Controller
             $safe_sum = Safe::sum('sum');
         }
         
-        // ->where("payment_status", "paid")
         return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum'));
-
-        //     return view("Safe.safe.index")->with([
-        //     "startDate" => $startDate,
-        //     "endDate" => $endDate,
-        //     "total" => $sales->sum('total_received'),
-        //     "total" => $sales,
-        //     "safe" => $sales
-        // ]);
     }
     // public function generate_Supplier(Request $request)
     // {
@@ -296,7 +309,6 @@ class PagesController extends Controller
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
-
             if (!empty($keyword)) {
                 $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
                 ->orWhere('location', 'LIKE', "%$keyword%")
@@ -307,24 +319,33 @@ class PagesController extends Controller
                 ->paginate($perPage);
             } else {
                 $restaurant_find = Restaurant::get();
-                // return Auth::User()->restaurant_id;
-                // return $restaurant_here = Restaurant::Where( 'id' , '=' , Auth::User()->restaurant_id )->get();
                 foreach ($restaurant_find as $key => $value) {
                     $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::paginate($perPage) : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage) ;
-                    // $restaurant = Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage);
                  }
             }
-            
-        $supplier = Supplier::get();
-        $employee = Employee::get();
-            // if (auth()->user()->hasRole('admin') ||
-            //     auth()->user()->hasRole('developer')){
-            //     return view('Restaurant.restaurant.index', compact('restaurant'));
-            // } else {
-            //     return view('Restaurant.restaurant.show', compact('restaurant'));
-            // }
-            // return view('Restaurant.restaurant.index', compact('restaurant'));
-            return view('Restaurant.restaurant.show', compact('restaurant','supplier','employee'));
+                        
+                    $supplier = Supplier::get();
+                    $employee = Employee::get();
+                    $users = User::get();
+            return view('Restaurant.restaurant.index', compact('restaurant'));
+            return view('Restaurant.restaurant.show', compact('restaurant','supplier','employee', 'users'));
+        }
+        return response(view('403'), 403);
+    }
+    public function restaurant_setting(Request $request, $id)
+    {
+        $model = str_slug('restaurant','-');
+        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+                $restaurant_find = Restaurant::get();
+                foreach ($restaurant_find as $key => $value) {
+                    $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::get() : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->get() ;
+                 }
+                
+                $restaurant = Restaurant::findOrFail($id);
+                $supplier = Supplier::get();
+                $employee = Employee::get();
+                $users = User::where('restaurant_id' ,'=', $id)->get();
+            return view('Restaurant.restaurant.edit', compact('restaurant','supplier','employee', 'users'));
         }
         return response(view('403'), 403);
     }

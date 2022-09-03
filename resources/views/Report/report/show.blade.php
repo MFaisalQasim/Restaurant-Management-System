@@ -27,8 +27,8 @@
                                         style="justify-content: space-around;">
                                         @csrf
                                         
-                            {{-- @if (auth()->user()->hasRole('admin') ||
-                            auth()->user()->hasRole('developer')) --}}
+                            @if (auth()->user()->hasRole('admin') ||
+                            auth()->user()->hasRole('developer'))
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">from</label>
                                             <input type="date" name="from" placeholder="Date Début"
@@ -39,7 +39,7 @@
                                             <input type="date" name="to" placeholder="Date Fin"
                                                 class="form-control input_border">
                                         </div>
-                                        {{-- @endif --}}
+                                        @endif
                                         <div class="form-group d-flex">
                                             <button class="btn btn-primary">
                                                 View Report
@@ -108,9 +108,13 @@
                                             {{ $report->bank_cash_total }}
                                         </td>
                                         <td>
-                                            {{ $report->bank_cash_total - $report->cash }}
+                                           {{ 
+                                            ($report->bank_cash_total - $report->cash >= -5)
+                                            ? "Compliant =" .($report->bank_cash_total - $report->cash)
+                                            : "Incosistent ="   .($report->bank_cash_total - $report->cash)
+                                            }}
+                                            {{-- {{ $report->bank_cash_total - $report->cash }} --}}
                                         </td>
-
                                         @if (auth()->user()->hasRole('admin') ||
                                             auth()->user()->hasRole('developer'))
                                             <td>
@@ -139,15 +143,15 @@
                         <form action="{{ route('report.export') }}" method="post">
                             @csrf
 
-                            {{-- @if (auth()->user()->hasRole('admin') ||
-                            auth()->user()->hasRole('developer')) --}}
+                            @if (auth()->user()->hasRole('admin') ||
+                            auth()->user()->hasRole('developer'))
                                 <div class="form-group">
                                     <input type="hidden" name="from" value="{{ $startDate }}" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" name="to" value="{{ $endDate }}" class="form-control">
                                 </div>
-                                {{-- @endif --}}
+                                @endif
                             {{-- <div class="form-group">
                                 <button class="btn btn-danger">
                                     Generate the Excel Report

@@ -191,56 +191,39 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<script>
-    function total_sales() {
-        let sales_volume_supplier = document.getElementById('sales_volume_supplier').value
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-        let canceled_sale = document.getElementById('canceled_sale').value
+    <script>
+        function total_sales() {
+            let sales_volume_supplier = document.getElementById('sales_volume_supplier').value
 
-        let card_transactions = document.getElementById('card_transactions').value
+            let canceled_sale = document.getElementById('canceled_sale').value
 
-        let total_income = document.getElementById('total_income').value
+            let card_transactions = document.getElementById('card_transactions').value
 
-        let expense_today = document.getElementById('expense_today').value
-        let employee_salary_paid_today = document.getElementById('employee_salary_paid_today').value
-        let Cash = total_income - card_transactions - canceled_sale - sales_volume_supplier;
+            let total_income = document.getElementById('total_income').value
 
-        document.getElementById('Cash').value = Math.abs(Cash)
+            let expense_today = document.getElementById('expense_today').value
+            let employee_salary_paid_today = document.getElementById('employee_salary_paid_today').value
+            let Cash = total_income - card_transactions - canceled_sale - sales_volume_supplier;
 
-    }
+            document.getElementById('Cash').value = Math.abs(Cash)
 
-    function show(value, num) {
-        console.log(value, 'bank_note')
-        console.log(num, 'num')
-        // multiplying(value, num);
+        }
 
-        let bank_note = value
-        console.log(bank_note, 'bank_note')
+        function show(value, num) {
+            let bank_note = value
 
-        let key = document.getElementById('bank_note' + num).value
-        console.log(key, 'key')
+            let key = document.getElementById('bank_note' + num).value
 
-        let total_bank_note = bank_note * key
-        console.log(total_bank_note, 'total_bank_note');
+            let total_bank_note = bank_note * key
 
-        document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
+            document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
 
-        total_bank_note += total_bank_note
-        console.log(total_bank_note, 'total_bank_note 2');
-        // let total_bank_note_sum 
-        // total_bank_note_sum += total_bank_note
-        console.log(total_bank_note_sum, 'total_bank_note_sum');
-        document.getElementById('total_bank_note_sum').value = Math.abs(total_bank_note)
-        // return total_bank_note_sum
-    }
-
-    // function multiplying(mvalue, mnum) {
-    //     // if (mvalue === '') $('#total_bank_note' + mnum).val('');
-    //     // else {
-    //         parseInt(mvalue);
-    //         $('#total_bank_note' + mnum).val(parseInt($('#bank_note' + mnum).val()) * mvalue);
-    //     // }
-    // }
-</script>
+            total_bank_note += total_bank_note
+            document.getElementById('total_bank_note_sum').value = Math.abs(total_bank_note)
+        }
+    </script>
+@endpush

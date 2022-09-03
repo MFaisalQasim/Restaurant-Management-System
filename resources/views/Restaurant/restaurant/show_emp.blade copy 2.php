@@ -1,17 +1,12 @@
 @extends('layouts.master')
 
-@push('css')
-    <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <!-- .row -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Restaurant Setting
+                    <h3 class="box-title pull-left">Restaurant  Setting
                         {{-- {{ auth()->user()->restaurant_id }} --}}
                     </h3>
                     @can('view-' . str_slug('Restaurant'))
@@ -21,7 +16,45 @@
                     <div class="clearfix"></div>
                     <hr>
                     <div class="table-responsive">
-                        <table class="table table-hover table-responsive-sm" id="myTable">
+                        <table class="table table-hover table-responsive-sm">
+                            {{-- <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>location</th>
+                                    <th>Ranking</th>
+                                    @if (auth()->user()->hasRole('admin') ||
+    auth()->user()->hasRole('developer'))
+                                        <th>Restaurant Id</th>
+                                        <th>Report Handler</th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($restaurant as $restaurant)
+                                    <tr>
+                                        <td>
+                                            {{ $restaurant->created_at->format('Y-m-d') }}
+                                        </td>
+                                        <td>
+                                            {{ $restaurant->location }}
+                                        </td>
+                                        <td>
+                                            {{ $restaurant->ranking }}
+                                        </td>
+                                        
+
+                                        @if (auth()->user()->hasRole('admin') ||
+    auth()->user()->hasRole('developer'))
+                                            <td>
+                                                {{ $restaurant->restaurant_id }}
+                                            </td>
+                                            <td>
+                                                {{ $restaurant->report_handler }}
+                                            </td>
+                                        @endif
+                                    </tr>
+                                @endforeach
+                            </tbody> --}}
 
                             <thead>
                                 <tr>
@@ -31,30 +64,37 @@
                                     <th> Telephone </th>
                                     <th> Status </th>
                                     <th> Salary </th>
-                                    {{-- <th> Active As A </th> --}}
                                     @if (auth()->user()->hasRole('admin') ||
                                         auth()->user()->hasRole('developer'))
                                         <th>Restaurant Id</th>
                                     @endif
+
                                 </tr>
+                                <script>
+                                    {{ $restaurant_id_selected = 3 }}
+                                </script>
+                                {{-- <select name="restaurant_id_selected" id="restaurant_id_selected">
+                                    @foreach ($restaurant as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
 
+                                </select> --}}
+                                
+                                {{-- <script>
+                                    restaurant_id_selected = document.getElementById('restaurant_id_selected').value
+                                    console.log(restaurant_id_selected);
+                                </script> --}}
                             </thead>
-                            <select name="emp_status" id="emp_status" class="emp_status">
-                                <option value="2">InActive</option>
-                                <option value="1">Active</option>
-                            </select>
                             <tbody>
-                                @foreach ($users as $item)
-
-                                    @if ($item->hasRole('Kitchen') || $item->hasRole('Waiter'))
+                                @foreach ($employee as $item)
+                                    {{-- @if ($item->restaurant_id = $restaurant_id_selected) --}}
+                                    @if ($item->restaurant_id == $restaurant_id_selected)
                                         <tr>
                                             <td> {{ $item->name }} </td>
                                             <td> {{ $item->date_of_employment }} </td>
                                             <td> {{ $item->end_of_work_date }} </td>
                                             <td> {{ $item->telephone }} </td>
-                                            <td>
-                                                {{ $item->status == 1 ? 'Active ' : 'InActive' }}
-                                            </td>
+                                            <td> {{ $item->status }} </td>
                                             <td> {{ $item->salary }} </td>
                                             @if (auth()->user()->hasRole('admin') ||
                                                 auth()->user()->hasRole('developer'))
@@ -63,11 +103,11 @@
                                                 </td>
                                             @endif
                                         </tr>
+                                        {{-- @else --}}
                                     @endif
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="pagination-wrapper"> {!! $restaurant->appends(['search' => Request::get('search')])->render() !!} </div> --}}
                         <div class="col-md-6">
                             <ul class="input_border" style="padding:0px">
 
@@ -89,12 +129,6 @@
                             </ul>
                         </div>
                         <div class="col-md-6">
-                            {!! Form::model($restaurant, [
-                                'method' => 'PATCH',
-                                'url' => ['/restaurant_setting', $restaurant->id],
-                                'class' => 'form-horizontal',
-                                'files' => true,
-                            ]) !!}
                             <p>Is Active for this restaurant (Sales volume by
                                 suppliers) ?</p>
                             <div class="form-check form-check-inline">
@@ -111,34 +145,30 @@
                                 How many last days do employees see cash
                                 reports?</p>
                             <input type="text" name="see_cash_reports_days" id="see_cash_reports_days">
-                            <div class="form-group">
-                                <div class="col-md-offset-4 col-md-4">
-                                    {{-- {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!} --}}
-                                    <input type="submit" value="Save">
-                                </div>
-                            </div>
-                            {!! Form::close() !!}
                         </div>
+                        {{-- <table class="table table">
+                            <tbody> --}}
+                        {{-- <tr>
+                                    <th>ID</th>
+                                    <td>{{ $restaurant->id }}</td>
+                                </tr> --}}
+                        {{-- <tr>
+                                    <th> Name </th>
+                                    <td> {{ auth()->user()->restaurant_id }} </td>
+                                </tr> --}}
+                        {{-- <tr>
+                                    <th> Location </th>
+                                    <td> {{ $restaurant->location }} </td>
+                                </tr>
+                                <tr>
+                                    <th> Ranking </th>
+                                    <td> {{ $restaurant->location }} </td>
+                                </tr> --}}
+                        {{-- </tbody>
+                        </table> --}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
-@push('js')
-<script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
-<script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
-<script>
-    
-    $(function() {
-            $('#myTable').DataTable({
-                'aoColumnDefs': [{
-                    'bSortable': false,
-                    'aTargets': [-1] /* 1st one, start by the right */
-                }]
-            });
-
-        });
-</script>
-@endpush

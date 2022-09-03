@@ -26,7 +26,9 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
-        $model = str_slug('restaurant','-');
+        
+        return $request->get('search');
+        // $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
@@ -140,17 +142,23 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return "update here";
+        // return $request;
+        
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
-            $this->validate($request, [
-			'name' => 'required',
-			'location' => 'required',
-			'ranking' => 'required'
-		]);
-            $requestData = $request->all();
+        //     $this->validate($request, [
+		// 	'name' => 'required',
+		// 	'location' => 'required',
+		// 	'ranking' => 'required'
+		// ]);
+            // $requestData = $request->all();
             
             $restaurant = Restaurant::findOrFail($id);
-             $restaurant->update($requestData);
+            $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
+
+            $restaurant->save();
+            //  $restaurant->update($requestData);
 
              return redirect('restaurant')->with('flash_message', 'Restaurant updated!');
         }

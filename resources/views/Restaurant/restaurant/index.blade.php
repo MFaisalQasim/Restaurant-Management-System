@@ -1,9 +1,8 @@
 @extends('layouts.master')
 
 @push('css')
-    <link href="{{asset('plugins/components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css"/>
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet"
-          type="text/css"/>
+    <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('content')
@@ -13,98 +12,106 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     <h3 class="box-title pull-left">Restaurant</h3>
-                    @can('add-'.str_slug('Restaurant'))
-                        <a class="btn btn-success pull-right" href="{{ url('/restaurant/create') }}"><i
-                                    class="icon-plus"></i> Add Restaurant</a>
+                    @can('add-' . str_slug('Restaurant'))
+                        <a class="btn btn-success pull-right" href="{{ url('/restaurant/create') }}"><i class="icon-plus"></i>
+                            Add Restaurant</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
                     <div class="table-responsive">
                         <table class="table table-borderless" id="myTable">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th><th>Location</th><th>Ranking</th>
-                                <th>Actions</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Location</th>
+                                    <th>Ranking</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach($restaurant as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration  }}</td>
-                                    <td>{{ $item->name }}</td><td>{{ $item->location }}</td><td>{{ $item->ranking }}</td>
-                                    <td>
-                                        @can('view-'.str_slug('Restaurant'))
-                                            <a href="{{ url('/restaurant/' . $item->id) }}"
-                                               title="View Restaurant">
-                                                <button class="btn btn-info btn-sm">
-                                                    <i class="fa fa-eye" aria-hidden="true"></i> View
-                                                </button>
-                                            </a>
-                                        @endcan
+                                @foreach ($restaurant as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->location }}</td>
+                                        <td>{{ $item->ranking }}</td>
+                                        <td>
+                                            @can('edit-' . str_slug('Restaurant'))
+                                                {{-- <a href="{{ url('/restaurant/' . $item->id) }}" title="View Restaurant"> --}}
+                                                    <a href="{{ url('/restaurant_setting/' . $item->id) }}" title="View Restaurant">
+                                                    
+                                                    <button class="btn btn-info btn-sm">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i> Restaurant Setting
+                                                    </button>
+                                                </a>
+                                            @endcan
 
-                                        @can('edit-'.str_slug('Restaurant'))
-                                            <a href="{{ url('/restaurant/' . $item->id . '/edit') }}"
-                                               title="Edit Restaurant">
-                                                <button class="btn btn-primary btn-sm">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
-                                                </button>
-                                            </a>
-                                        @endcan
+                                            {{--@can('view-' . str_slug('Restaurant'))
+                                                <a href="{{ url('/restaurant/' . $item->id) }}" title="View Restaurant">
+                                                    <button class="btn btn-info btn-sm">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i> View
+                                                    </button>
+                                                </a>
+                                            @endcan
 
-                                        @can('delete-'.str_slug('Restaurant'))
-                                            {!! Form::open([
-                                       'method'=>'DELETE',
-                                       'url' => ['/restaurant', $item->id],
-                                       'style' => 'display:inline'
-                                   ]) !!}
-                                            {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', array(
+                                             @can('edit-' . str_slug('Restaurant'))
+                                                <a href="{{ url('/restaurant/' . $item->id . '/edit') }}"
+                                                    title="Edit Restaurant">
+                                                    <button class="btn btn-primary btn-sm">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
+                                                    </button>
+                                                </a>
+                                            @endcan
+
+                                            @can('delete-' . str_slug('Restaurant'))
+                                                {!! Form::open([
+                                                    'method' => 'DELETE',
+                                                    'url' => ['/restaurant', $item->id],
+                                                    'style' => 'display:inline',
+                                                ]) !!}
+                                                {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i> Delete', [
                                                     'type' => 'submit',
                                                     'class' => 'btn btn-danger btn-sm',
                                                     'title' => 'Delete Restaurant',
-                                                    'onclick'=>'return confirm("Confirm delete?")'
-                                            )) !!}
-                                        @endcan
-                                        {!! Form::close() !!}
-                                    </td>
-                                </tr>
-                            @endforeach
+                                                    'onclick' => 'return confirm("Confirm delete?")',
+                                                ]) !!}
+                                            @endcan --}}
+                                            {!! Form::close() !!}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <div class="pagination-wrapper"> {!! $restaurant->appends(['search' => Request::get('search')])->render() !!} </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 @endsection
 
-
-
 @push('js')
-    <script src="{{asset('plugins/components/toast-master/js/jquery.toast.js')}}"></script>
-
-    <script src="{{asset('plugins/components/datatables/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
     <!-- start - This is for export functionality only -->
     <!-- end - This is for export functionality only -->
     <script>
-        $(document).ready(function () {
+        // $(document).ready(function() {
 
-            @if(\Session::has('message'))
-            $.toast({
-                heading: 'Success!',
-                position: 'top-center',
-                text: '{{session()->get('message')}}',
-                loaderBg: '#ff6849',
-                icon: 'success',
-                hideAfter: 3000,
-                stack: 6
-            });
-            @endif
-        })
-
-        $(function () {
+        //     @if (\Session::has('message'))
+        //         $.toast({
+        //             heading: 'Success!',
+        //             position: 'top-center',
+        //             text: '{{ session()->get('message') }}',
+        //             loaderBg: '#ff6849',
+        //             icon: 'success',
+        //             hideAfter: 3000,
+        //             stack: 6
+        //         });
+        //     @endif
+        // })
+        $(function() {
             $('#myTable').DataTable({
                 'aoColumnDefs': [{
                     'bSortable': false,
@@ -114,5 +121,4 @@
 
         });
     </script>
-
 @endpush

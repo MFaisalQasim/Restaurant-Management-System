@@ -22,12 +22,13 @@
 
                     {!! Form::model($restaurant, [
                         'method' => 'PATCH',
+                        // 'url' => ['/restaurant', $restaurant->id],
                         'url' => ['/restaurant', $restaurant->id],
                         'class' => 'form-horizontal',
                         'files' => true
                     ]) !!}
 
-                    @include ('Restaurant.restaurant.form', ['submitButtonText' => 'Update'])
+                    @include ('Restaurant.restaurant.show', ['submitButtonText' => 'Update'])
 
                     {!! Form::close() !!}
 
