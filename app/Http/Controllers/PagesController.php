@@ -213,11 +213,7 @@ class PagesController extends Controller
     public function generate_safe(Request $request)
     {
         // return 'here';
-        // return 'generate_safe';
-        // $this->validate($request, [
-        //     "from" => "required",
-        //     "to" => "required"
-        // ]);
+        $from_date_cont = $request->from_date;
         $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
         $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
          $safe = Safe::whereBetween("created_at", [$startDate, $endDate])
@@ -232,8 +228,42 @@ class PagesController extends Controller
             $safe_sum = Safe::sum('sum');
         }
         
-        return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum'));
+        return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum', 'from_date_cont'));
     }
+
+    public function generate_safe_fetch(Request $request)
+    {
+        
+        $safe = Safe::get();
+        return response()->json([
+            'safe'=>  $safe,
+        ]);
+    }
+    public function generate_employee_salary_fetch(Request $request)
+    {
+        
+        $employee_salary = EmployeeSalary::get();
+        return response()->json([
+            'employee_salary'=>  $employee_salary,
+        ]);
+    }
+    public function generate_expenses_fetch(Request $request)
+    {
+        $expenses = Expense::get();
+        return response()->json([
+            'expenses'=>  $expenses,
+        ]);
+    }
+    public function generate_report_fetch(Request $request)
+    {
+        $report = Report::get();
+        $supplier = Supplier::get();
+        return response()->json([
+            'report'=>  $report,
+            'supplier'=>  $supplier,
+        ]);
+    }
+
     // public function generate_Supplier(Request $request)
     // {
     //     $this->validate($request, [
@@ -278,8 +308,10 @@ class PagesController extends Controller
     //     //     "safe" => $sales
     //     // ]);
     // }
+    
     public function generate_employee(Request $request)
     {
+        return $request;
         $this->validate($request, [
             "from" => "required",
             "to" => "required"
@@ -337,20 +369,22 @@ class PagesController extends Controller
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
                 $restaurant_find = Restaurant::get();
-                foreach ($restaurant_find as $key => $value) {
-                    $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::get() : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->get() ;
-                 }
+                // foreach ($restaurant_find as $key => $value) {
+                //     $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::get() : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->get() ;
+                //  }
                 
                 $restaurant = Restaurant::findOrFail($id);
                 $supplier = Supplier::get();
                 $employee = Employee::get();
-                $users = User::where('restaurant_id' ,'=', $id)->get();
+                   $users = User::where('restaurant_id' ,'=', $id)->get();
+                // return  [ $id ,  $users = User::where('restaurant_id' ,'=', $id)->get()];
             return view('Restaurant.restaurant.edit', compact('restaurant','supplier','employee', 'users'));
         }
         return response(view('403'), 403);
     }
     public function safe(Request $request)
     {
+        // return "here";
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
@@ -373,7 +407,6 @@ class PagesController extends Controller
         }
         return response(view('403'), 403);
     }
-
     public function safe_deposit(Request $request)
     {
         $model = str_slug('safe','-');
@@ -506,8 +539,9 @@ class PagesController extends Controller
             } else {
                 $report = Report::paginate($perPage);
             }
+            $supplier = Supplier::get();
 
-            return view('Report.report.show', compact('report'));
+            return view('Report.report.show', compact('report', 'supplier'));
         }
         return response(view('403'), 403);
 

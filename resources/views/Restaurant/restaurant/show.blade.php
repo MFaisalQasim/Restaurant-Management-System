@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@push('css')
+{{-- @push('css')
     <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endpush
+@endpush --}}
 
 @section('content')
     <div class="container-fluid">
@@ -31,13 +31,7 @@
                                     <th> Telephone </th>
                                     <th> Status </th>
                                     <th> Salary </th>
-                                    {{-- <th> Active As A </th> --}}
-                                    @if (auth()->user()->hasRole('admin') ||
-                                        auth()->user()->hasRole('developer'))
-                                        <th>Restaurant Id</th>
-                                    @endif
                                 </tr>
-
                             </thead>
                             <select name="emp_status" id="emp_status" class="emp_status">
                                 <option value="2">InActive</option>
@@ -45,29 +39,21 @@
                             </select>
                             <tbody>
                                 @foreach ($users as $item)
-
-                                    @if ($item->hasRole('Kitchen') || $item->hasRole('Waiter'))
-                                        <tr>
-                                            <td> {{ $item->name }} </td>
-                                            <td> {{ $item->date_of_employment }} </td>
-                                            <td> {{ $item->end_of_work_date }} </td>
-                                            <td> {{ $item->telephone }} </td>
-                                            <td>
-                                                {{ $item->status == 1 ? 'Active ' : 'InActive' }}
-                                            </td>
-                                            <td> {{ $item->salary }} </td>
-                                            @if (auth()->user()->hasRole('admin') ||
-                                                auth()->user()->hasRole('developer'))
-                                                <td>
-                                                    {{ $item->restaurant_id }}
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endif
+                                    {{-- @if ($item->hasRole('Employee')) --}}
+                                    <tr>
+                                        <td> {{ $item->name }} </td>
+                                        <td> {{ $item->date_of_employment }} </td>
+                                        <td> {{ $item->end_of_work_date }} </td>
+                                        <td> {{ $item->telephone }} </td>
+                                        <td>
+                                            {{ $item->status == 1 ? 'Active ' : 'InActive' }}
+                                        </td>
+                                        <td> {{ $item->salary }} </td>
+                                    </tr>
+                                    {{-- @endif --}}
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="pagination-wrapper"> {!! $restaurant->appends(['search' => Request::get('search')])->render() !!} </div> --}}
                         <div class="col-md-6">
                             <ul class="input_border" style="padding:0px">
 
@@ -126,7 +112,7 @@
     </div>
 @endsection
 
-@push('js')
+{{-- @push('js')
 <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
 <script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
 <script>
@@ -141,4 +127,4 @@
 
         });
 </script>
-@endpush
+@endpush --}}

@@ -1,14 +1,26 @@
 @extends('layouts.master')
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
+
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
 
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Create New EmployeeSalary</h3>
+                    <h3 class="box-title pull-left">Create New Salary</h3>
                     @can('view-'.str_slug('EmployeeSalary'))
-                        <a class="btn btn-success pull-right" href="{{url('/employee-salary')}}">
-                            <i class="icon-arrow-left-circle"></i> View EmployeeSalary</a>
+                        <a class="btn btn-success pull-right" href="{{url('/employee-salary/'. $url_restaurant_id)}}">
+                            <i class="icon-arrow-left-circle"></i> View Salary</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
@@ -20,7 +32,7 @@
                         </ul>
                     @endif
 
-                    {!! Form::open(['url' => '/employee-salary/create', 'class' => 'form-horizontal', 'files' => true]) !!}
+                    {!! Form::open(['url' => '/employee-salary/create/'. $url_restaurant_id, 'class' => 'form-horizontal', 'files' => true]) !!}
 
                     @include ('EmployeeSalary.employee-salary.form')
 

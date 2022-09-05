@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 use App\Expense;
 use App\EmployeeSalary;
+use App\Restaurant;
 use Carbon;
 
 class ReportController extends Controller
@@ -60,12 +61,13 @@ class ReportController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($id)
     {
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $supplier = Supplier::get();
             $total_cash = TotalCash::get();
+            $restaurant = Restaurant::findOrFail($id);
 
              $expense_today = Expense::whereRaw('Date(created_at) = CURDATE()')->sum('sum');
 
@@ -73,7 +75,7 @@ class ReportController extends Controller
             //   return sum($employee_salary_paid_today);
              
             
-            return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today'));
+            return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today', 'restaurant'));
         }
         return response(view('403'), 403);
     }
@@ -85,8 +87,9 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
+        // return $request;
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -103,7 +106,7 @@ class ReportController extends Controller
             $report->bank_cash_total =  $request->total_bank_note_sum;
             $report->supplier_cash =  $request->supplier_cash;
             $report->cash =  $request->cash;
-            $report->restaurant_id =  $request->restaurant_id;
+            $report->restaurant_id =  $id;
             $report->report_handler =  Auth::User()->name;
             if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
                 $report->restaurant_id =     $request->restaurant_id ;
@@ -111,7 +114,7 @@ class ReportController extends Controller
                 $report->restaurant_id =     auth()->user()->restaurant_id;
             }
             $report->save();
-            return redirect('report/create')->with('flash_message', 'Report added!');
+            return redirect('report/create/'. $id)->with('flash_message', 'Report added!');
         }
         return response(view('403'), 403);
     }

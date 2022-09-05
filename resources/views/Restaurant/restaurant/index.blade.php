@@ -1,10 +1,5 @@
 @extends('layouts.master')
 
-@push('css')
-    <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endpush
-
 @section('content')
     <div class="container-fluid">
         <!-- .row -->
@@ -13,7 +8,7 @@
                 <div class="white-box">
                     <h3 class="box-title pull-left">Restaurant</h3>
                     @can('add-' . str_slug('Restaurant'))
-                        <a class="btn btn-success pull-right" href="{{ url('/restaurant/create') }}"><i class="icon-plus"></i>
+                        <a class="btn btn-success pull-right" href="{{ url('/restaurant/create' ) }}"><i class="icon-plus"></i>
                             Add Restaurant</a>
                     @endcan
                     <div class="clearfix"></div>
@@ -22,7 +17,7 @@
                         <table class="table table-borderless" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {{-- <th>#</th> --}}
                                     <th>Name</th>
                                     <th>Location</th>
                                     <th>Ranking</th>
@@ -40,8 +35,8 @@
                                             @can('edit-' . str_slug('Restaurant'))
                                                 {{-- <a href="{{ url('/restaurant/' . $item->id) }}" title="View Restaurant"> --}}
                                                     <a href="{{ url('/restaurant_setting/' . $item->id) }}" title="View Restaurant">
-                                                    
                                                     <button class="btn btn-info btn-sm">
+                                                        <input type="hidden" name="restaurant_id" value="{{$item->id}}">
                                                         <i class="fa fa-eye" aria-hidden="true"></i> Restaurant Setting
                                                     </button>
                                                 </a>

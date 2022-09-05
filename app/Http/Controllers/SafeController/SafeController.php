@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use App\Safe;
+use App\Restaurant;
 use Illuminate\Http\Request;
 
 class SafeController extends Controller
@@ -29,7 +30,6 @@ class SafeController extends Controller
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
-
             if (!empty($keyword)) {
                 $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -67,20 +67,23 @@ class SafeController extends Controller
 
     }
 
-    public function create_deposit()
+    public function create_deposit($id)
     {
+        // return 'create_deposit';
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Safe.safe.create_deposit');
+            $restaurant = Restaurant::findOrFail($id);
+            return view('Safe.safe.create_deposit', compact('restaurant'));
         }
         return response(view('403'), 403);
 
     }
-    public function create_payouts()
+    public function create_payouts($id)
     {
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Safe.safe.create_payouts');
+            $restaurant = Restaurant::findOrFail($id);
+            return view('Safe.safe.create_payouts', compact('restaurant'));
         }
         return response(view('403'), 403);
     }
@@ -91,7 +94,7 @@ class SafeController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, $restaurant_id)
     {
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
@@ -106,18 +109,78 @@ class SafeController extends Controller
             // Safe::create($requestData);
             $safe = new Safe;
             $safe->employee_complete_name =    auth()->user()->name;
-            $safe->restaurant_id =    $request->restaurant_id;
+            $safe->restaurant_id =    $restaurant_id;
             $safe->sum =    $request->sum;
             $safe->ty_of_transaction =    $request->ty_of_transaction;
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
             $safe->save();
-            return redirect('safe')->with('flash_message', 'Safe added!');
+            return redirect('safe/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
         }
         return response(view('403'), 403);
     }
 
+
+
+
+
+    
+    public function store_deposit (Request $request, $restaurant_id)
+    {
+        $model = str_slug('safe','-');
+        if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
+            $this->validate($request, [
+			// 'employee_complete_name' => 'required',
+			// 'sum' => 'required',
+			// 'ty_of_transaction' => 'required',
+			'date' => 'required'
+		]);
+            $requestData = $request->all();
+            // return $request;
+            // Safe::create($requestData);
+            $safe = new Safe;
+            $safe->employee_complete_name =    auth()->user()->name;
+            $safe->restaurant_id =    $restaurant_id;
+            $safe->sum =    $request->sum;
+            $safe->ty_of_transaction =    $request->ty_of_transaction;
+            $safe->date =    $request->date;
+            $safe->payment =    $request->deposite;
+            $safe->paycheck =    $request->payout;
+            $safe->save();
+            return redirect('safe/deposit/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+        }
+        return response(view('403'), 403);
+    }
+
+
+    
+    public function store_payout(Request $request, $restaurant_id)
+    {
+        $model = str_slug('safe','-');
+        if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
+            $this->validate($request, [
+			// 'employee_complete_name' => 'required',
+			// 'sum' => 'required',
+			// 'ty_of_transaction' => 'required',
+			'date' => 'required'
+		]);
+            $requestData = $request->all();
+            // return $request;
+            // Safe::create($requestData);
+            $safe = new Safe;
+            $safe->employee_complete_name =    auth()->user()->name;
+            $safe->restaurant_id =    $restaurant_id;
+            $safe->sum =    $request->sum;
+            $safe->ty_of_transaction =    $request->ty_of_transaction;
+            $safe->date =    $request->date;
+            $safe->payment =    $request->deposite;
+            $safe->paycheck =    $request->payout;
+            $safe->save();
+            return redirect('safe/payouts/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+        }
+        return response(view('403'), 403);
+    }
     /**
      * Display the specified resource.
      *

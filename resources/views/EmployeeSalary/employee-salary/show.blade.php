@@ -1,5 +1,16 @@
 @extends('layouts.master')
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
 
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
 @section('content')
     <div class="container-fluid">
         <!-- .row -->
@@ -9,62 +20,86 @@
                     {{-- <h3 class="box-title pull-left">Employee {{ $employee->id }}</h3> --}}
                     @can('view-' . str_slug('EmployeeSalary'))
                         <a class="btn btn-success pull-right" href="{{ url('/employee-salary') }}">
-                            <i class="icon-arrow-left-circle" aria-hidden="true"></i>View Employee salary</a>
+                            <i class="icon-arrow-left-circle" aria-hidden="true"></i>View Salary</a>
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
-                    
+
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 mx-auto p-2">
-                                    <form action="{{ route('employeesalary.generate') }}" method="post" class=" d-flex "
-                                        style="justify-content: space-around;">
-                                        @csrf
+                                    {{-- <form action="{{ url('safe/generate') . '/' . $url_restaurant_id }}" method="post" --}}
+                                    {{-- @csrf --}}
+                                    <div class=" d-flex " style="justify-content: space-around;">
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">from</label>
-                                            <input type="date" name="from" placeholder="Date Début"
+                                            <label class="form-control" for="">From</label>
+                                            <input type="date" name="from" placeholder="Date" id="from"
+                                                class="form-control input_border from" data-id="2">
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">To</label>
+                                            <input type="date" name="to" placeholder="Date" id="to"
+                                                onload="getDate()" value="<?php echo $today; ?>"
+                                                class="form-control input_border">
+                                            <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"
+                                                value="{{ $url_restaurant_id }}">
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <style>
+                                                .red_bold_text {
+                                                    color: red;
+                                                    font-size: 12px;
+                                                    font-weight: bolder
+                                                }
+                                            </style>
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('developer'))
+                                                <label class="form-control red_bold_text" for="">The sum for the
+                                                    Selected Period:
+                                                    {{-- {{ number_format($safe_sum, 2, '.', ',') }} --}}
+                                                </label>
+                                            @endif
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">Month</label>
+                                            <input type="month" name="month" placeholder="month" id="month"
+                                                onload="getMonth()" value="<?php echo $month; ?>"
                                                 class="form-control input_border">
                                         </div>
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">to</label>
-                                            <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control input_border">
-                                        </div>
-                                        <div class="form-group d-flex">
-                                            <button class="btn btn-primary">
-                                                View Employee Salary
+                                            <button class="btn btn-primary" onclick="safe_fetch()">
+                                                View Salary
                                             </button>
                                         </div>
-                                    </form>
+                                        {{-- </form> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @isset($total)
-                        {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
+                    {{-- @isset($total) --}}
+                    {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
                             Report from {{ $startDate }} to {{ $endDate }}
                         </h4> --}}
-                        <table class="table table-hover table-responsive-sm">
-                            <thead>
-                                <tr>
-                                    <th> Name </th>
-                                    {{-- <th> Start Hours </th>
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th> Name </th>
+                                {{-- <th> Start Hours </th>
                                     <th> Finish Hours </th> --}}
-                                    <th> Salary sum </th>
-                                    <th> Hours sum </th>
-                                    <th> Average for the hour </th>
-                                    <th> Bonus sum </th>
-                                    <th> Total salary with bonus </th>
+                                <th> Salary sum </th>
+                                <th> Hours sum </th>
+                                <th> Average for the hour </th>
+                                <th> Bonus sum </th>
+                                <th> Total salary with bonus </th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($employeesalary as $item)
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- @foreach ($employeesalary as $item)
                                     <tr>
-                                        <td> {{ $item->name }} </td>
-                                        {{-- <td> {{ $item->start_hour }} </td>
-                                        <td> {{ $item->finish_hour }} </td> --}}
+                                        <td> {{ $item->name }} </ td>
                                         <td> {{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate }}
                                         </td>
                                         <td>{{ abs(strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600 }}</td>
@@ -74,16 +109,16 @@
                                         <td> {{ abs(((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate + $item->bonus_sum) }}
                                         </td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- <p class="text-danger text-center font-weight-bold">
+                                @endforeach --}}
+                        </tbody>
+                    </table>
+                    {{-- <p class="text-danger text-center font-weight-bold">
                             <span class="border border-danger p-2">
                                 Total : {{ $total }} DH
                                 Total : {{ $report->bank_cash_total }} DH
                             </span>
                         </p> --}}
-                    @endisset
+                    {{-- @endisset --}}
                     {{-- <div class="table-responsive">
                         <table class="table table">
                             <tbody>
@@ -111,3 +146,80 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        // $(document).ready( function () {
+        // safe_fetch();
+
+
+        function safe_fetch() {
+            $from_date = $('#from').val();
+            $to_date = $('#to').val();
+            $month = $('#month').val();
+            console.log($from_date);
+            console.log($to_date);
+            console.log($month);
+
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id);
+            $.ajax({
+                type: "GET",
+                url: '{{ url('employee-salary/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    // console.log(response.safe);
+                    arr = response.employee_salary;
+                    $('tbody').find('tr').remove()
+                    response.employee_salary.forEach(item => {
+                        if (item.restaurant_id == $url_restaurant_id) {
+                            if (!$month) {
+                                console.log(arr.length + ' if');
+                                console.log($month + 'not month');
+
+                                if (item.date >= $from_date & item.date <= $to_date) {
+                                    console.log(arr.length + ' if if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                            <td>' + item.name  + '</td>\
+                                            <td>' + item.bonus_sum + '</td>\
+                                            <td>' + item.bonus_sum + '</td>\
+                                            <td>' + (((item.finish_hour) - (item.start_hour))) + '</td>\
+                                            <td>' + item.bonus_sum + '</td>\
+                                            <td>' + item.rate  + '</td>\
+                                                                                                                                     </tr>'
+                                    )
+
+                                }
+                            } else {
+                                console.log($month + 'month');
+                                item_date = item.date.slice(0, 7)
+                                console.log(item_date);
+                                if (item.date.slice(0, 7) == $month) {
+                                    console.log(arr.length + ' else if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                                                    <td>' + item.name + '</td>\
+                                                                    <td>' + item.finish_hour - item.start_hour + '</td>\
+                                                                                            <td>' + item.payment + '</td>\
+                                                                                            <td>' + item.payment + '</td>\
+                                                                                            <td>' + item.payment + '</td>\
+                                                                                            <td>' + (item.payment - item
+                                            .paycheck) +
+                                        '</td>\
+                                                                                                                                     </tr>'
+                                    )
+
+                                }
+                            }
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+        // })
+    </script>
+@endpush

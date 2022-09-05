@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use App\EmployeeSalary;
+use App\Restaurant;
+use App\User;
 use Illuminate\Http\Request;
 
 class EmployeeSalaryController extends Controller
@@ -51,11 +53,13 @@ class EmployeeSalaryController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($id)
     {
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('EmployeeSalary.employee-salary.create');
+            $restaurant = Restaurant::findOrFail($id);
+            $user = User::get();
+            return view('EmployeeSalary.employee-salary.create', compact('restaurant','user'));
         }
         return response(view('403'), 403);
 
@@ -68,7 +72,7 @@ class EmployeeSalaryController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
 
         $model = str_slug('employeesalary','-');
@@ -91,7 +95,7 @@ class EmployeeSalaryController extends Controller
             $bonus_sum = "not paid in cash";
             $employeesalary = new EmployeeSalary;
             $employeesalary->name =    $request->name;
-            $employeesalary->restaurant_id =    $request->restaurant_id or Auth::User()->restaurant_id;
+            $employeesalary->restaurant_id =    $id;
             $employeesalary->rate =    $request->rate;
             $employeesalary->number_of_hours =    $request->number_of_hours;
             $employeesalary->start_hour =    $request->start_hour;
@@ -103,7 +107,7 @@ class EmployeeSalaryController extends Controller
             $employeesalary->sum =    $request->sum;
             // return $employeesalary;
             $employeesalary->save();
-            return redirect('employee-salary/create')->with('flash_message', 'EmployeeSalary added!');
+            return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
         }
         return response(view('403'), 403);
     }

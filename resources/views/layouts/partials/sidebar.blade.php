@@ -72,13 +72,13 @@
                         <li class="two-column">
                             <a class="waves-effect" href="javascript:void(0);" aria-expanded="false"><i
                                     class="icon-user fa-fw"></i> <span class="hide-menu"> Users</span></a>
-                            <ul aria-expanded="false" class="collapse">
+                            {{-- <ul aria-expanded="false" class="collapse"> --}}
                                 <li><a href="{{ asset('users') }}">Manage Users</a></li>
                                 <li><a href="{{ asset('user/create') }}">Add New User</a></li>
                                 <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li>
 
 
-                            </ul>
+                            {{-- </ul> --}}
                         </li>
                         <li>
                             <hr />

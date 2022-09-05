@@ -1,29 +1,21 @@
 <div class="form-group {{ $errors->has('for_whom') ? 'has-error' : '' }}">
-    {!! Form::label('for_whom', 'Name', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('for_whom', 'Employee Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {!! Form::text(
+        {{-- {!! Form::text(
             'for_whom',
             null,
             'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
-        ) !!}
+        ) !!} --}}
+        <select class="form-control" name="for_whom" id="for_whom">
+            @foreach ($user as $item)
+                @if ($item->hasRole('Employee'))
+                    <option value="$item->id">{{ $item->name }}</option>
+                @endif
+            @endforeach
+        </select>
         {!! $errors->first('for_whom', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
-@if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer'))
-<div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
-    {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-
-        <select class="form-select" aria-label="Default select example" name="restaurant_id">
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-        </select>
-        {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
-    
-@endif
 <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Sum', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -39,11 +31,15 @@
 <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
     {!! Form::label('date', 'Date', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {!! Form::date(
+        {{-- {!! Form::date(
             'date',
             null,
             'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
-        ) !!}
+        ) !!} --}}
+
+        <input type="date" name="date" placeholder="Date" id="date" onload="getDate()"
+            value="<?php echo $today; ?>" class="form-control ">
+
         {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

@@ -12,16 +12,10 @@
             <div class="form-group {{ $errors->has('total_income') ? 'has-error' : '' }}">
                 {{-- {!! Form::label('total_income', 'Total Income', ['class' => 'col-md-4 control-label']) !!} --}}
                 <div class="col-md-12">
-                    {{-- {!! Form::number(
-                    'total_income',
-                    null,
-                    '' == 'required'
-                        ? ['class' => 'form-control input_border', 'required' => 'required']
-                        : ['class' => 'form-control input_border', 'placeholder' => 'Total Income', 'id' => 'total_income'],
-                ) !!} --}}
                     <div style="display: flex   ;  justify-content: space-between;">
                         <div>
-                            <input class="form-control input_border" type="date" name="date" id="date">
+                            <input type="date" name="date" placeholder="Date" id="date" onload="getDate()"
+                                value="<?php echo $today; ?>" class="form-control">
                         </div>
 
                         {{-- <div class="keywords_div">
@@ -70,17 +64,8 @@
             </div>
             <div class="form-group {{ $errors->has('canceled_sale') ? 'has-error' : '' }}">
                 <div class="col-md-6">
-                    {{-- {!! Form::number(
-                    'canceled_sale',
-                    null,
-                    '' == 'required'
-                        ? ['class' => 'form-control input_border', 'required' => 'required']
-                        : ['class' => 'form-control input_border', 'placeholder' => 'Canceled Sale', 'id' => 'canceled_sale'],
-                ) !!} --}}
-
                     <input class="form-control input_border" type="number" name="canceled_sale" id="canceled_sale"
                         placeholder="Canceled Sale" required onkeyup="total_sales()">
-
                     {!! $errors->first('canceled_sale', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
@@ -93,21 +78,17 @@
                     {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
                     <div class="col-md-6">
 
-                        <select class="form-select" aria-label="Default select example" name="restaurant_id">
+                        {{-- <select class="form-select" aria-label="Default select example" name="restaurant_id">
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
-                        </select>
+                        </select> --}}
+            <input type="text" class="form-control" value="{{$restaurant->name}}" readonly>
                         {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
                     </div>
                 </div>
             @endif
-            {{-- <br>
-        <br> --}}
-
-            {{-- {{ $supplier }} --}}
             <div class="form-group {{ $errors->has('supplier_cash') ? 'has-error' : '' }}">
-                {{-- {!! Form::label('supplier_cash', 'Supplier Cash', ['class' => 'col-md-4 control-label']) !!} --}}
                 <div class="col-md-6">
                     <ul style="padding:0px">
                         @foreach ($supplier as $key => $item)
@@ -123,11 +104,8 @@
                                 <input type="hidden" name="" id="" value="{{ $sum += $item->sum }}"
                                     disabled>
                             </li>
-                            {{-- {{$supplier->supplier_cash}} --}}
                         @endforeach
                     </ul>
-                    {{-- <input class="form-control input_border" id="supplier_cash" type="button" value="Cash" onclick="total_sales()"> --}}
-
                     @if (auth()->user()->hasRole('admin') ||
                         auth()->user()->hasRole('developer'))
                         <input class="form-control input_border" id="Cash" name="cash" type="text"

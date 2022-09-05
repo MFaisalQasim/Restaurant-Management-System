@@ -1,16 +1,27 @@
 @extends('layouts.master')
 {{-- @extends('layouts.design') --}}
-@section('content')
 
-    <script>
-        {{ $sum = 0 }}
-    </script>
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
+
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
+@section('content')
     <div class="container-fluid">
         <!-- .row -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    {{-- <h3 class="box-title pull-left">Safe {{ $safe->id }}</h3> --}}
+                    <h3 class="box-title pull-left">Safe
+                        {{-- {{ $url_restaurant_id }} --}}
+                    </h3>
                     {{-- @can('view-' . str_slug('Safe'))
                         <a class="btn btn-success pull-right" href="{{ url('/safe') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
@@ -27,145 +38,148 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 mx-auto p-2">
-                                    <form action="{{ route('safe.generate') }}" method="post" class=" d-flex "
-                                        style="justify-content: space-around;">
-                                        {{-- <form action="{{ url('safe/generate') }}" method="post" class=" d-flex "
-                                        style="justify-content: space-around;"> --}}
-                                        @csrf
+                                    {{-- <form action="{{ url('safe/generate') . '/' . $url_restaurant_id }}" method="post" --}}
+                                    {{-- @csrf --}}
+                                    <div class=" d-flex " style="justify-content: space-around;">
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">from</label>
-                                            <input type="date" name="from" placeholder="Date Début"
+                                            <label class="form-control" for="">From</label>
+                                            <input type="date" name="from" placeholder="Date" id="from"
+                                                class="form-control input_border from" data-id="2">
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">To</label>
+                                            <input type="date" name="to" placeholder="Date" id="to"
+                                                onload="getDate()" value="<?php echo $today; ?>"
+                                                class="form-control input_border">
+                                                <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{$url_restaurant_id}}">
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">Month</label>
+                                            <input type="month" name="month" placeholder="month" id="month"
+                                                onload="getMonth()" value="<?php echo $month; ?>"
                                                 class="form-control input_border">
                                         </div>
+
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">to</label>
-                                            <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control input_border">
+                                            <style>
+                                                .red_bold_text {
+                                                    color: red;
+                                                    font-size: 12px;
+                                                    font-weight: bolder
+                                                }
+                                            </style>
+                                            @if (auth()->user()->hasRole('admin') ||
+                                                auth()->user()->hasRole('developer'))
+                                                <label class="form-control red_bold_text" for="">Currently In Safe :
+                                                    {{ number_format($safe_sum, 2, '.', ',') }} </label>
+                                            @endif
                                         </div>
+
                                         <div class="form-group d-flex">
-                                            {{-- <button class="btn btn-primary">
-                                                View Expenses
-                                            </button> --}}
-                                            <input class="btn btn-primary" type="submit" value="View Safe">
+                                            <button class="btn btn-primary" onclick="safe_fetch()">
+                                                View Safe
+                                            </button>
                                         </div>
-                                    </form>
+                                        {{-- </form> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    @isset($total)
-                        {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
-                            Report from {{ $startDate }} to {{ $endDate }}
-                        </h4> --}}
-                        <table class="table table-hover table-responsive-sm">
-                            <thead>
-                                <tr>
-                                    {{-- <th>#</th> --}}
-                                    <th>Date</th>
-                                    <th>Payment</th>
-                                    <th>Paycheck</th>
-                                    <th>Sum after transaction
-                                    </th>
-                                    @if (auth()->user()->hasRole('admin') ||
-                                        auth()->user()->hasRole('developer'))
-                                        <th>Belong To Restaurant
-                                        </th>
-                                    @endif
-
-                                    {{-- <th>Actions</th> --}}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- @foreach ($report as $report)
-                                    <tr>
-                                        <td>
-                                            {{ $report->card_transactions }}
-                                        </td>
-                                        <td>
-                                            {{ $report->canceled_sale }}
-                                        </td>
-                                        <td>
-                                            {{ $report->supplier_cash }}
-                                        </td>
-                                        <td>
-                                            {{ $report->total_income }}
-                                        </td>
-                                        <td>
-                                            {{ $report->bank_cash_total }}
-                                        </td>
-                                        <td>
-                                            {{ $report->restaurant_id }}
-                                        </td>
-                                        <td>
-                                            {{ $report->report_handler }}
-                                        </td>
-                                    </tr>
-                                @endforeach --}}
-                                @foreach ($safe as $item)
-                                    <tr>
-                                        {{-- <td>{{ $loop->iteration }}</td> --}}
-                                        <td>{{ $item->date }}</td>
-                                        <td>{{ $item->payment }}</td>
-                                        <td>-{{ $item->paycheck }}</td>
-                                        @if (auth()->user()->hasRole('admin') ||
-                                            auth()->user()->hasRole('developer'))
-                                            {{-- <td>{{ $item->sum }}</td> --}}
-                                            <td>{{ $item->payment -  $item->paycheck}}</td>
-                                            <th>{{ $item->restaurant_id }}
-                                            </th>
-                                        @else
-                                            {{-- <td>{{ $safe_sum }}</td> --}}
-                                            <td>{{ $safe_sum }}</td>
-                                        @endif
-                                    </tr>
-                                    <input type="hidden" name="" value="{{ $sum = $item->sum }}">
-                                @endforeach
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    {{-- <td>{{$sum}}</td> --}}
-                                    @if (auth()->user()->hasRole('admin') ||
-                                        auth()->user()->hasRole('developer'))
-                                        <td>{{ $safe_sum }}</td>
-                                    @else
-                                        <td>{{ $safe_sum }}</td>
-                                    @endif
-
-                                </tr>
-                            </tbody>
-                        </table>
-                        {{-- <p class="text-danger text-center font-weight-bold">
-                            <span class="border border-danger p-2">
-                                Total : {{ $total }} DH
-                                Total : {{ $report->bank_cash_total }} DH
-                            </span>
-                        </p> --}}
-                    @endisset
-                    {{-- <div class="table-responsive">
-                        <table class="table table">
-                            <tbody>
-                                <tr>
-                                    <th>ID</th>
-                                    <td>{{ $safe->id }}</td>
-                                </tr>
-                                <tr>
-                                    <th> Employee Complete Name </th>
-                                    <td> {{ $safe->employee_complete_name }} </td>
-                                </tr>
-                                <tr>
-                                    <th> Amount of Money  </th>
-                                    <td> {{ $safe->sum }} </td>
-                                </tr>
-                                <tr>
-                                    <th> Date of Deposited  </th>
-                                    <td> {{ $safe->date_of_deposited  }} </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div> --}}
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Payment</th>
+                                <th>Paycheck</th>
+                                <th>Sum after transaction
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+
+@push('js')
+    <script>
+        // $(document).ready( function () {
+        // safe_fetch();
+
+
+        function safe_fetch() {
+            $from_date = $('#from').val();
+            $to_date = $('#to').val();
+            $month = $('#month').val();
+            console.log($from_date);
+            console.log($to_date);
+            console.log($month);
+            
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id);
+            // url_restaurant_id = $url_restaurant_id;
+            // console.log($url_restaurant_id);
+            // console.log(url_restaurant_id);
+            $.ajax({
+                type: "GET",
+                url: '{{ url('safe/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    // console.log(response.safe);
+                    arr = response.safe;
+                    $('tbody').find('tr').remove()
+                    response.safe.forEach(item => {
+                        if (item.restaurant_id == $url_restaurant_id) {
+                        if (!$month) {
+                            console.log(arr.length + ' if');
+                            console.log($month + 'not month');
+
+                            if (item.date >= $from_date & item.date <= $to_date) {
+                                console.log(arr.length + ' if if');
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                    <td>' + item.date + '</td>\
+                                                    <td>' + item.paycheck + '</td>\
+                                                    <td>' + item.payment + '</td>\
+                                                    <td>' + (item.payment - item.paycheck) + '</td>\
+                                                                                             </tr>'
+                                )
+
+                            }
+                        } else {
+                            console.log($month + 'month');
+                            item_date = item.date.slice(0, 7)
+                            console.log(item_date);
+
+                            // console.log($month + 'month' + (item.date).format( "M-yy") + 'date');
+                            // console.log(formatDate( "M-yy", item.date););
+
+                            if (item.date.slice(0, 7) == $month) {
+                                console.log(arr.length + ' else if');
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                    <td>' + item.date + '</td>\
+                                                    <td>' + item.paycheck + '</td>\
+                                                    <td>' + item.payment + '</td>\
+                                                    <td>' + (item.payment - item.paycheck) + '</td>\
+                                                                                             </tr>'
+                                )
+
+                            }
+                        }
+                            
+                        }
+
+                    });
+                }
+            });
+
+        }
+        // })
+    </script>
+@endpush

@@ -1,6 +1,18 @@
 @extends('layouts.master')
 {{-- @extends('layouts.design') --}}
 
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
+
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
 @section('content')
     <div class="container-fluid">
         <!-- .row -->
@@ -22,47 +34,57 @@
                         <div class="card-body">
                             <div class="row ">
                                 <div class="col-sm-12 mx-auto p-2">
-                                    <form action="{{ route('expenses.generate') }}" method="post" class=" d-flex "
-                                        style="justify-content: space-around;">
-                                        @csrf
+                                    {{-- <form action="{{ url('safe/generate') . '/' . $url_restaurant_id }}" method="post" --}}
+                                    {{-- @csrf --}}
+                                    <div class=" d-flex " style="justify-content: space-around;">
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">from</label>
-                                            <input type="date" name="from" placeholder="Date Début"
+                                            <label class="form-control" for="">From</label>
+                                            <input type="date" name="from" placeholder="Date" id="from"
+                                                class="form-control input_border from" data-id="2">
+                                        </div>
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">To</label>
+                                            <input type="date" name="to" placeholder="Date" id="to"
+                                                onload="getDate()" value="<?php echo $today; ?>"
+                                                class="form-control input_border">
+                                            <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"
+                                                value="{{ $url_restaurant_id }}">
+                                        </div>
+
+                                        <div class="form-group d-flex">
+                                            <label class="form-control" for="">Month</label>
+                                            <input type="month" name="month" placeholder="month" id="month"
+                                                onload="getMonth()" value="<?php echo $month; ?>"
                                                 class="form-control input_border">
                                         </div>
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">to</label>
-                                            <input type="date" name="to" placeholder="Date Fin"
-                                                class="form-control input_border">
-                                        </div>
-                                        <div class="form-group d-flex">
-                                            <button class="btn btn-primary">
-                                                View Expenses
+                                            <button class="btn btn-primary" onclick="safe_fetch()">
+                                                View Expense
                                             </button>
                                         </div>
-                                    </form>
+                                        {{-- </form> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     {{-- @dd($expensesFile) --}}
-                    @isset($total)
-                        {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
+                    {{-- @isset($total) --}}
+                    {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold">
                             Report from {{ $startDate }} to {{ $endDate }}
                         </h4> --}}
-                        <table class="table table-hover table-responsive-sm">
-                            <thead>
-                                <tr>
-                                    <th> Date </th>
-                                    <th> Name </th>
-                                    <th> Sum </th>
-                                    <th> File </th>
-                                    <th> Download </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {{-- @dd($expensesFile) --}}
-                                @foreach ($expenses as $item)
+                    <table class="table table-hover table-responsive-sm">
+                        <thead>
+                            <tr>
+                                <th> Date </th>
+                                <th> Name </th>
+                                <th> Sum </th>
+                                <th> File </th>
+                                <th> Download </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{-- @foreach ($expenses as $item)
                                     <tr>
                                         <td> {{ $item->date_of_expense }} </td>
                                         <td> {{ $item->for_whom }} </td>
@@ -70,28 +92,22 @@
                                         <td>
                                             @foreach ($expensesFile as $file)
                                                 @if ($item->id == $file->expenses_id)
-                                                    {{-- <td> {{ $item->id }} </td>
-                                                <td> {{ $item->expenses_id }} </td>
-                                                <td> {{ $item->date_of_issue }} </td> --}}
-                                                    {{-- <td> --}}
                                                     <a href="{{ $file->file }}">Download!</a>
-
-                                                    {{-- </td> --}}
                                                 @endif
                                             @endforeach
                                         </td>
                                         <td> {{ $item->sum }} </td>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{-- <p class="text-danger text-center font-weight-bold">
+                                @endforeach --}}
+                        </tbody>
+                    </table>
+                    {{-- <p class="text-danger text-center font-weight-bold">
                             <span class="border border-danger p-2">
                                 Total : {{ $total }} DH
                                 Total : {{ $report->bank_cash_total }} DH
                             </span>
                         </p> --}}
-                    @endisset
+                    {{-- @endisset --}}
                     {{-- <div class="table-responsive">
                         <table class="table table">
                             <tbody>
@@ -119,3 +135,81 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        // $(document).ready( function () {
+        // safe_fetch();
+
+
+        function safe_fetch() {
+            $from_date = $('#from').val();
+            $to_date = $('#to').val();
+            $month = $('#month').val();
+            console.log($from_date);
+            console.log($to_date);
+            console.log($month);
+
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id);
+            $.ajax({
+                type: "GET",
+                url: '{{ url('expenses/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    // console.log(response.expenses);
+                    arr = response.expenses;
+                    $('tbody').find('tr').remove()
+                    response.expenses.forEach(item => {
+                        if (item.restaurant_id == $url_restaurant_id) {
+                            if (!$month) {
+                                console.log(arr.length + ' if');
+                                console.log($month + 'not month');
+
+                                if (item.date_of_expense >= $from_date & item.date_of_expense <=
+                                    $to_date) {
+                                    console.log($month + 'date match');
+                                    console.log(arr.length + ' if if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                                                                            <td>' + item.date_of_expense + '</td>\
+                                                                                            <td>' + item.for_whom + '</td>\
+                                                                                            <td>' + item.sum + '</td>\
+                                                                                            <td>' + item.sum + '</td>\
+                                                                                            <td>' + item.sum +
+                                        '</td>\
+                                                                                                                                     </tr>'
+                                    )
+
+                                }
+                            } else {
+                                console.log($month + 'month');
+                                item_date = item.date_of_expense.slice(0, 7)
+                                console.log(item_date);
+                                if (item.date_of_expense.slice(0, 7) == $month) {
+                                    console.log($month + 'month match');
+                                    console.log(arr.length + ' else if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                            <td>' + item.date_of_expense + '</td>\
+                                            <td>' + item.for_whom + '</td>\
+                                                                                            <td>' + item.sum + '</td>\
+                                                                                            <td>' + item.sum +
+                                        '</td>\
+                                                                                            <td>' + item.sum +
+                                        '</td>\
+                                                                                                                                     </tr>'
+                                    )
+                                }
+                            }
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+        // })
+    </script>
+@endpush

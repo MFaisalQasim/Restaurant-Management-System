@@ -7,6 +7,9 @@ use App\Http\Requests;
 
 use App\Expense;
 use App\ExpenseFile;
+use App\Restaurant;
+use App\User;
+
 use App\Helpers\AppHelper;
 use Config;
 
@@ -51,11 +54,13 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($id)
     {
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Expenses.expenses.create');
+            $restaurant = Restaurant::findOrFail($id);
+            $user = User::get();
+            return view('Expenses.expenses.create', compact('restaurant', 'user'));
         }
         return response(view('403'), 403);
 
@@ -68,7 +73,7 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         // return $request;
         $ErrorMsg = "";
@@ -77,13 +82,13 @@ class ExpensesController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'for_whom' => 'required',
-			// 'sum' => 'required'
+			'file' => 'required'
 		]);
             $requestData = $request->all();
            $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
             $expenses = new Expense;
             $expenses->for_whom =    $request->for_whom;
-            $expenses->restaurant_id =    $request->restaurant_id;
+            $expenses->restaurant_id =    $id;
             $expenses->date_of_expense =    $request->date;
             $expenses->sum =    $request->sum;
 
@@ -106,7 +111,7 @@ class ExpensesController extends Controller
                        ExpenseFile::create([
                         "expenses_id" => $expenses->id,
                         "expense_name" => $request->name,
-                           "date_of_issue" => $request->date,
+                           "date_of_issue" =>   $request->date,
                            "file" => $itemAttachment[$i],
                            // "user_id" =>  Auth::User()->id
                        ]);
@@ -116,7 +121,7 @@ class ExpensesController extends Controller
                    }
                }
            }
-            return redirect('expenses/create')->with('flash_message', 'Expense added!');
+            return redirect('expenses/create/' . $id)->with('flash_message', 'Expense added!');
         }
         return response(view('403'), 403);
     }

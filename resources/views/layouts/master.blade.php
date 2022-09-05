@@ -42,7 +42,6 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.9.0/css/bootstrap-iconpicker.min.css" />
 
-
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -74,6 +73,19 @@
     </style>
 </head>
 
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
+
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
+
 <body class="@if (session()->get('theme-layout')) {{ session()->get('theme-layout') }} @endif">
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -88,7 +100,7 @@
         <!-- ===== Left-Sidebar ===== -->
 
         @include('layouts.partials.sidebar')
-        @include('layouts.partials.right-sidebar')
+        {{-- @include('layouts.partials.right-sidebar') --}}
         <div class="container-fluid">
             <style>
                 .page-wrapper {
@@ -105,16 +117,18 @@
                     margin: 50px;
                     margin-bottom: 0px !important;
                 } */
-                .sidebar-nav{
+                .sidebar-nav {
                     background: none
                 }
             </style>
-            @include('layouts.partials.tapbar')
+            @if ($url_restaurant_id != 0)
+                @include('layouts.partials.tapbar')
+            @endif
         </div>
 
         {{-- <div class="container-fluid">
             @if (// auth()->user()->hasRole('admin') ||
-                auth()->user()->hasRole('developer'))
+    auth()->user()->hasRole('developer'))
                 @include('layouts.partials.sidebar')
                 @include('layouts.partials.right-sidebar')
             @else
@@ -140,26 +154,26 @@
 
                 @include('layouts.partials.tapbar')
             @endif --}}
-            {{-- </div>
+        {{-- </div>
             </div> --}}
-        </div>
+    </div>
 
 
 
 
 
-        <!-- ===== Left-Sidebar-End ===== -->
-        <!-- ===== Page-Content ===== -->
-        <div class="page-wrapper">
-            @yield('content')
-            <footer class="footer t-a-c">
-                <div class="p-20 bg-white">
-                    <center> 2017 © Cubic Admin / Design & Developed By <a href="https://jthemes.com"
-                            target="_blank">jThemes Studio</a> </center>
-                </div>
-            </footer>
-        </div>
-        <!-- ===== Page-Content-End ===== -->
+    <!-- ===== Left-Sidebar-End ===== -->
+    <!-- ===== Page-Content ===== -->
+    <div class="page-wrapper">
+        @yield('content')
+        <footer class="footer t-a-c">
+            <div class="p-20 bg-white">
+                <center> 2017 © Cubic Admin / Design & Developed By <a href="https://jthemes.com"
+                        target="_blank">jThemes Studio</a> </center>
+            </div>
+        </footer>
+    </div>
+    <!-- ===== Page-Content-End ===== -->
     </div>
     <!-- ===== Main-Wrapper-End ===== -->
     <!-- ==============================
@@ -202,6 +216,84 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.9.0/js/bootstrap-iconpicker.min.js"></script>
 
     @stack('js')
+    @push('js')
+        <script>
+            // $(document).ready( function () {
+            // safe_fetch();
+    
+    
+            function safe_fetch() {
+                $from_date = $('#from').val();
+                $to_date = $('#to').val();
+                $month = $('#month').val();
+                console.log($from_date);
+                console.log($to_date);
+                console.log($month);
+                
+                $url_restaurant_id = $('#url_restaurant_id').val();
+                console.log($url_restaurant_id);
+                // url_restaurant_id = $url_restaurant_id;
+                // console.log($url_restaurant_id);
+                // console.log(url_restaurant_id);
+                $.ajax({
+                    type: "GET",
+                    url: '{{ url('safe/fetch/' . $url_restaurant_id) }}',
+                    dataType: "json",
+                    success: function(response) {
+                        // console.log(response.safe);
+                        arr = response.safe;
+                        $('tbody').find('tr').remove()
+                        response.safe.forEach(item => {
+                            if (item.restaurant_id == $url_restaurant_id) {
+                            if (!$month) {
+                                console.log(arr.length + ' if');
+                                console.log($month + 'not month');
+    
+                                if (item.date >= $from_date & item.date <= $to_date) {
+                                    console.log(arr.length + ' if if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                                        <td>' + item.date + '</td>\
+                                                        <td>' + item.paycheck + '</td>\
+                                                        <td>' + item.payment + '</td>\
+                                                        <td>' + (item.payment - item.paycheck) + '</td>\
+                                                                                                 </tr>'
+                                    )
+    
+                                }
+                            } else {
+                                console.log($month + 'month');
+                                item_date = item.date.slice(0, 7)
+                                console.log(item_date);
+    
+                                // console.log($month + 'month' + (item.date).format( "M-yy") + 'date');
+                                // console.log(formatDate( "M-yy", item.date););
+    
+                                if (item.date.slice(0, 7) == $month) {
+                                    console.log(arr.length + ' else if');
+                                    $('tbody').append(
+                                        '<tr class="tr_remove" >\
+                                                        <td>' + item.date + '</td>\
+                                                        <td>' + item.paycheck + '</td>\
+                                                        <td>' + item.payment + '</td>\
+                                                        <td>' + (item.payment - item.paycheck) + '</td>\
+                                                                                                 </tr>'
+                                    )
+    
+                                }
+                            }
+                                
+                            }
+    
+                        });
+                    }
+                });
+    
+            }
+            // })
+        </script>
+    @endpush
+    
 </body>
 
 
