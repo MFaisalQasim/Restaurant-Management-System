@@ -31,20 +31,23 @@ $today = $year . '-' . $month . '-' . $day;
                                 <div class="col-sm-12 mx-auto p-2">
                                     {{-- <form action="{{ url('safe/generate') . '/' . $url_restaurant_id }}" method="post" --}}
                                     {{-- @csrf --}}
+
                                     <div class=" d-flex " style="justify-content: space-around;">
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">From</label>
                                             <input type="date" name="from" placeholder="Date" id="from"
-                                                class="form-control input_border from" data-id="2">
+                                                onchange="salary_fetch()" class="form-control input_border from"
+                                                data-id="2">
                                         </div>
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">To</label>
                                             <input type="date" name="to" placeholder="Date" id="to"
-                                                onload="getDate()" value="<?php echo $today; ?>"
+                                                onchange="salary_fetch()" value="<?php echo $today; ?>"
                                                 class="form-control input_border">
-                                            <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"
-                                                value="{{ $url_restaurant_id }}">
+                                            <input type="hidden" name="url_restaurant_id"
+                                                id="url_restaurant_id"value="{{ $url_restaurant_id }}">
                                         </div>
+
                                         <div class="form-group d-flex">
                                             <style>
                                                 .red_bold_text {
@@ -56,21 +59,19 @@ $today = $year . '-' . $month . '-' . $day;
                                             @if (auth()->user()->hasRole('admin') ||
                                                 auth()->user()->hasRole('developer'))
                                                 <label class="form-control red_bold_text" for="">The sum for the
-                                                    Selected Period:
-                                                    {{-- {{ number_format($safe_sum, 2, '.', ',') }} --}}
+                                                    Selected Period: 34,00.0
+                                                    {{-- {{ number_format($salary_sum, 2, '.', ',') }} --}}
                                                 </label>
                                             @endif
                                         </div>
                                         <div class="form-group d-flex">
-                                            <label class="form-control" for="">Month</label>
-                                            <input type="month" name="month" placeholder="month" id="month"
-                                                onload="getMonth()" value="<?php echo $month; ?>"
-                                                class="form-control input_border">
-                                        </div>
-                                        <div class="form-group d-flex">
-                                            <button class="btn btn-primary" onclick="safe_fetch()">
-                                                View Salary
-                                            </button>
+                                            <select class="this_previous_month form-control input_border"
+                                                name="this_previous_month" id="this_previous_month"
+                                                onchange="salary_status_fetch()">
+                                                <option value="{{ date('Y-m') }}">This Month</option>
+                                                <option value="{{ date('Y-m', strtotime(' -1 month')) }}">Previous Month
+                                                </option>
+                                            </select>
                                         </div>
                                         {{-- </form> --}}
                                     </div>
@@ -97,19 +98,6 @@ $today = $year . '-' . $month . '-' . $day;
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($employeesalary as $item)
-                                    <tr>
-                                        <td> {{ $item->name }} </ td>
-                                        <td> {{ abs((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate }}
-                                        </td>
-                                        <td>{{ abs(strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600 }}</td>
-                                        <td> {{ $item->rate }} </td>
-                                        <td> {{ $item->bonus_sum }}
-                                        </td>
-                                        <td> {{ abs(((strtotime($item->finish_hour) - strtotime($item->start_hour)) / 3600) * $item->rate + $item->bonus_sum) }}
-                                        </td>
-                                    </tr>
-                                @endforeach --}}
                         </tbody>
                     </table>
                     {{-- <p class="text-danger text-center font-weight-bold">
@@ -150,16 +138,14 @@ $today = $year . '-' . $month . '-' . $day;
 @push('js')
     <script>
         // $(document).ready( function () {
-        // safe_fetch();
+        // salary_fetch();
 
 
-        function safe_fetch() {
+        function salary_fetch() {
             $from_date = $('#from').val();
             $to_date = $('#to').val();
-            $month = $('#month').val();
             console.log($from_date);
             console.log($to_date);
-            console.log($month);
 
             $url_restaurant_id = $('#url_restaurant_id').val();
             console.log($url_restaurant_id);
@@ -173,46 +159,72 @@ $today = $year . '-' . $month . '-' . $day;
                     $('tbody').find('tr').remove()
                     response.employee_salary.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
-                            if (!$month) {
-                                console.log(arr.length + ' if');
-                                console.log($month + 'not month');
+                            console.log(arr.length + ' if');
 
-                                if (item.date >= $from_date & item.date <= $to_date) {
-                                    console.log(arr.length + ' if if');
-                                    $('tbody').append(
-                                        '<tr class="tr_remove" >\
-                                            <td>' + item.name  + '</td>\
-                                            <td>' + item.bonus_sum + '</td>\
-                                            <td>' + item.bonus_sum + '</td>\
-                                            <td>' + (((item.finish_hour) - (item.start_hour))) + '</td>\
-                                            <td>' + item.bonus_sum + '</td>\
-                                            <td>' + item.rate  + '</td>\
-                                                                                                                                     </tr>'
-                                    )
+                            if (item.date >= $from_date & item.date <= $to_date) {
+                                console.log(arr.length + ' if if');
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                            <td>' + item.name + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + (((item.finish_hour) - (item.start_hour))) + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.rate +
+                                    '</td>\
+                                                                                                                                                     </tr>'
+                                )
 
-                                }
-                            } else {
-                                console.log($month + 'month');
-                                item_date = item.date.slice(0, 7)
-                                console.log(item_date);
-                                if (item.date.slice(0, 7) == $month) {
-                                    console.log(arr.length + ' else if');
-                                    $('tbody').append(
-                                        '<tr class="tr_remove" >\
-                                                                    <td>' + item.name + '</td>\
-                                                                    <td>' + item.finish_hour - item.start_hour + '</td>\
-                                                                                            <td>' + item.payment + '</td>\
-                                                                                            <td>' + item.payment + '</td>\
-                                                                                            <td>' + item.payment + '</td>\
-                                                                                            <td>' + (item.payment - item
-                                            .paycheck) +
-                                        '</td>\
-                                                                                                                                     </tr>'
-                                    )
-
-                                }
                             }
 
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+        function salary_status_fetch() {
+            $this_previous_month = $('#this_previous_month').val();
+            console.log($this_previous_month);
+
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id);
+            $.ajax({
+                type: "GET",
+                url: '{{ url('employee-salary/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    arr = response.employee_salary;
+                    $('tbody').find('tr').remove()
+                    response.employee_salary.forEach(item => {
+                        
+                        // let rate = ((strtotime(item.finish_hour) - strtotime(item.start_hour)) / 3600) * item.rate
+                        // let rate = ((Date.parse(item.finish_hour,"MM/dd/yyyy") - Date.parse(item.start,"MM/dd/yyyy")) / 3600) * item.rate;
+
+                        // console.log(rate + 'rate');
+
+                        if (item.restaurant_id == $url_restaurant_id) {
+                            console.log($this_previous_month + 'this_previous_month');
+                            item_date = item.date.slice(0, 7)
+                            console.log(item_date);
+                            if (item.date.slice(0, 7) == $this_previous_month) {
+                                console.log(arr.length + ' else if');
+                                
+
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                            <td>' + item.name + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.bonus_sum + '</td>\
+                                                            <td>' + item.rate +
+                                    '</td>\
+                                                                                                                                                     </tr>'
+                                )
+                            }
                         }
 
                     });

@@ -104,8 +104,12 @@ class ReportController extends Controller
             $report->canceled_sale =  $request->canceled_sale;
             $report->supplier_cash =  $request->supplier_cash;
             $report->bank_cash_total =  $request->total_bank_note_sum;
-            $report->supplier_cash =  $request->supplier_cash;
             $report->cash =  $request->cash;
+            $report->UBER =  $request->UBER;
+            $report->BOLT =  $request->BOLT;
+            $report->WOLT =  $request->WOLT;
+            $report->PYSZNE =  $request->PYSZNE;
+            $report->GLOVO =  $request->GLOVO;
             $report->restaurant_id =  $id;
             $report->report_handler =  Auth::User()->name;
             if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {

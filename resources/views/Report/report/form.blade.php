@@ -25,7 +25,7 @@
                             <button type="submit" class="search_button">
                                 <img src="{{ asset('assets/images/search_icon_bar.png') }}" alt="">
                             </button>
-                            <input class="form-control input_border mr-sm-2 keywords_search" name="keywords_search"
+                            <input class="form-control  mr-sm-2 keywords_search" name="keywords_search"
                                 type="search" placeholder="Employee" aria-label="Search">
                         </div>
                         {{-- </nav>
@@ -75,7 +75,7 @@
             @if (auth()->user()->hasRole('admin') ||
                 auth()->user()->hasRole('developer'))
                 <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
-                    {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
+                    {!! Form::label('restaurant_id', 'Restaurant Name', ['class' => 'col-md-4 control-label']) !!}
                     <div class="col-md-6">
 
                         {{-- <select class="form-select" aria-label="Default select example" name="restaurant_id">
@@ -83,7 +83,7 @@
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                         </select> --}}
-            <input type="text" class="form-control" value="{{$restaurant->name}}" readonly>
+                        <input type="text" class="form-control" value="{{ $restaurant->name }}" readonly>
                         {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
                     </div>
                 </div>
@@ -91,20 +91,58 @@
             <div class="form-group {{ $errors->has('supplier_cash') ? 'has-error' : '' }}">
                 <div class="col-md-6">
                     <ul style="padding:0px">
-                        @foreach ($supplier as $key => $item)
+                        {{-- @foreach ($supplier as $key => $item)
                             <li style="display: flex ; list-style:none ; ">
                                 <input class="input_border" type="text" name="" id=""
                                     value="{{ $item->name }}" disabled>
                                 &nbsp;
                                 &nbsp;
                                 <input class="input_border" type="text" name="" id=""
-                                    value="{{ $item->sum }}" disabled>
+                                    value="{{ $item->sum }}" onkeyup="total_sales()">
                                 <input type="hidden" name="" id=""
                                     value="{{ $item->supplier_cash += $item->sum }}" disabled>
                                 <input type="hidden" name="" id="" value="{{ $sum += $item->sum }}"
                                     disabled>
                             </li>
-                        @endforeach
+                        @endforeach --}}
+
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="text" name="" id="" placeholder="UBER"
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="text" name="UBER" id="UBER" >
+                        </li>
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="text" name="" id=""  placeholder="BOLT"
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="text" name="BOLT" id="" >
+                        </li>
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="text" name="" id=""  placeholder="WOLT"
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="text" name="WOLT" id="" >
+                        </li>
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="text" name="" id=""   placeholder="PYSZNE"
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="text" name="PYSZNE" id=""
+                                >
+                        </li>
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="text" name="" id=""  placeholder="GLOVO"
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="text" name="GLOVO" id=""
+                                >
+                        </li>
                     </ul>
                     @if (auth()->user()->hasRole('admin') ||
                         auth()->user()->hasRole('developer'))
@@ -141,13 +179,14 @@
                     @foreach ($total_cash as $key => $value)
                         <tr>
                             <td>
-                                <input id="bank_note{{ $key }}" type="number"
-                                    data-id={{ $value->bank_note }} value="{{ $value->bank_note }}" placeholder="0"
+                                <input id="bank_note{{ $key }}" type="float"
+                                    data-id={{ $value->bank_note }} value="{{ $value->bank_note }}" 
                                     disabled>
                             </td>
                             <td>
-                                <input id="quantity" class="quantity" onkeyup="show(this.value, {{ $key }})"
-                                    data-id={{ $value->bank_note }} type="number" placeholder="0" name="quantity">
+                                <input id="quantity" class="quantity"
+                                    onkeyup="show(this.value, {{ $key }})" data-id={{ $value->bank_note }}
+                                    type="number" placeholder="0" name="quantity">
                             </td>
                             <td>
                                 <input name="total_bank_note" class="total_bank_note"

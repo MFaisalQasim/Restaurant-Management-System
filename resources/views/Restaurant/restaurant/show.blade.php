@@ -1,9 +1,19 @@
 @extends('layouts.master')
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
 
-{{-- @push('css')
-    <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
-@endpush --}}
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+$month = $month;
+$year_month = $year . '-' . $month;
+?>
+
 
 @section('content')
     <div class="container-fluid">
@@ -18,8 +28,33 @@
                         <a class="btn btn-success pull-right" href="{{ url('/restaurant') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan
+                    <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{ $url_restaurant_id }}">
                     <div class="clearfix"></div>
                     <hr>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-12 mx-auto p-2">
+
+                                    <h3 class="box-title pull-left">Employee List
+                                    </h3>
+                                    <div class=" d-flex " style="justify-content: space-around;">
+                                        <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"
+                                            value="{{ $url_restaurant_id }}">
+                                        <div class="form-group d-flex">
+
+                                            <select class="emp_status form-control input_border" name="emp_status" id="emp_status"
+                                                onchange="restaurant_fetch()">
+                                                <option value="2">InActive</option>
+                                                <option value="1">Active</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-hover table-responsive-sm" id="myTable">
 
@@ -33,13 +68,8 @@
                                     <th> Salary </th>
                                 </tr>
                             </thead>
-                            <select name="emp_status" id="emp_status" class="emp_status">
-                                <option value="2">InActive</option>
-                                <option value="1">Active</option>
-                            </select>
                             <tbody>
-                                @foreach ($users as $item)
-                                    {{-- @if ($item->hasRole('Employee')) --}}
+                                {{-- @foreach ($users as $item)
                                     <tr>
                                         <td> {{ $item->name }} </td>
                                         <td> {{ $item->date_of_employment }} </td>
@@ -50,8 +80,7 @@
                                         </td>
                                         <td> {{ $item->salary }} </td>
                                     </tr>
-                                    {{-- @endif --}}
-                                @endforeach
+                                @endforeach --}}
                             </tbody>
                         </table>
                         <div class="col-md-6">
@@ -112,19 +141,55 @@
     </div>
 @endsection
 
-{{-- @push('js')
-<script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
-<script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
-<script>
-    
-    $(function() {
-            $('#myTable').DataTable({
-                'aoColumnDefs': [{
-                    'bSortable': false,
-                    'aTargets': [-1] /* 1st one, start by the right */
-                }]
+
+@push('js')
+    <script>
+        // $(document).ready( function () {
+        // restaurant_fetch();
+
+
+        function restaurant_fetch() {
+            $emp_status = $('#emp_status').val();
+            console.log($emp_status + 'emp_status 1');
+
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id + 'url_restaurant_id');
+
+            $.ajax({
+                type: "GET",
+                url: '{{ url('restaurant/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    console.log(response.user);
+                    arr = response.user;
+                    $('tbody').find('tr').remove()
+                    response.user.forEach(item => {
+                        if (item.restaurant_id == $url_restaurant_id) {
+                            console.log(item.restaurant_id + 'restaurant_id');
+
+                            if (item.status == $emp_status) {
+                                console.log(arr.length + ' if if');
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                                    <td>' + item.name + '</td>\
+                                                                    <td>' + item.date_of_employment + '</td>\
+                                                                    <td>' + item.end_of_work_date + '</td>\
+                                                                    <td>' + item.telephone + '</td>\
+                                                                    <td>' + item.date_of_employment + '</td>\
+                                                                    <td>' + item.salary +
+                                    '</td>\
+                                                                                                                                                                 </tr>'
+                                )
+
+                            }
+
+                        }
+
+                    });
+                }
             });
 
-        });
-</script>
-@endpush --}}
+        }
+        // })
+    </script>
+@endpush

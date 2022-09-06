@@ -6,7 +6,8 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => ['admin','user','deve
     // Route::get('/dashboard', function () {
     //     return view('dashboard.index');
     // });
-    Route::get('dashboard', 'PagesController@Dashboard');
+    // Route::get('dashboard', 'PagesController@Dashboard');
+    Route::get('dashboard/{id}', 'PagesController@Dashboard');
 
     Route::get('account-settings', 'UsersController@getSettings');
     Route::post('account-settings', 'UsersController@saveSettings');
@@ -357,6 +358,7 @@ Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailControl
 
 // Route::get('/dashboard/{id}', 'PagesController@Dashboard');
 Route::get('restaurant', 'PagesController@restaurant');
+Route::get('restaurant/fetch/{id}', 'PagesController@generate_restaurant_fetch');
 // Route::get('restaurant/{id}', 'PagesController@restaurant');
 Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
 Route::post('restaurant/create', 'RestaurantController\\RestaurantController@store');

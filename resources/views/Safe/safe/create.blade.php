@@ -6,10 +6,10 @@
             <div class="col-md-12">
                 <div class="white-box">
                     <h3 class="box-title pull-left">Create New</h3>
-                    @can('view-'.str_slug('Safe'))
+                    {{-- @can('view-'.str_slug('Safe'))
                         <a class="btn btn-success pull-right" href="{{url('/safe')}}">
                             <i class="icon-arrow-left-circle"></i> View Safe</a>
-                    @endcan
+                    @endcan --}}
                     <div class="clearfix"></div>
                     <hr>
                     @if ($errors->any())

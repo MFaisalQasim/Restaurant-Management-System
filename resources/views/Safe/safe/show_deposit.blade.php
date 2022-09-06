@@ -30,7 +30,7 @@
                                     <form action="{{ route('safe.deposite.generate') }}" method="post" class=" d-flex "
                                         style="justify-content: space-around;">
                                         {{-- <form action="{{ url('safe/generate') }}" method="post" class=" d-flex "
-                                        style="justify-content: space-around;"> --}}
+                                        style="justify-content: space-around;"> 
                                         @csrf
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">from</label>
@@ -41,12 +41,12 @@
                                             <label class="form-control" for="">to</label>
                                             <input type="date" name="to" placeholder="Date Fin"
                                                 class="form-control input_border">
-                                        </div>
+                                        </div>--}}
                                         <div class="form-group d-flex">
-                                            {{-- <button class="btn btn-primary">
-                                                View Expenses
-                                            </button> --}}
-                                            <input class="btn btn-primary" type="submit" value="View Deposit">
+                                            <button class="btn btn-primary">
+                                                View Deposit
+                                            </button>
+                                            {{-- <input class="btn btn-primary" type="submit" value="View Deposit"> --}}
                                         </div>
                                     </form>
                                 </div>

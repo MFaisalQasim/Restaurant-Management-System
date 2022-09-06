@@ -60,42 +60,48 @@
                     </a>
                 @endcan --}}
                 <li>
-                    {{-- <a class="waves-effect" href="{{ url('safe/deposit_create'.  auth()->user()->restaurant_id) }}"> 
-                        <a class="waves-effect" href="{{  url()->current() }}"> --}}
-                    <a class="waves-effect" href="{{ url('safe/deposit_create/'. $url_restaurant_id) }}">
+                    <a class="waves-effect" href="{{ url('safe/deposit_create/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">Add the deposit to the safe</span>
                     </a>
                 </li>
-                {{-- @dd(url()->current()); --}}
-                {{-- @dd(url()->current()->segment(1)); --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('safe/payouts_create/'. $url_restaurant_id) }}">
+                    <a class="waves-effect" href="{{ url('safe/payouts_create/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">Add payouts from the safe</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a class="waves-effect" href="total-cash">
-                        <span class="hide-menu style_border">Add total-cash</span>
-                    </a>
-                </li> --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('expenses/create/'. $url_restaurant_id) }}">
+                    <a class="waves-effect" href="{{ url('expenses/create/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">Add Expense</span>
                     </a>
                 </li>
                 <li>
-                    <a class="waves-effect" href="{{ url('employee-salary/create/'. $url_restaurant_id) }}">
+                    <a class="waves-effect" href="{{ url('employee-salary/create/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">Add Salary</span>
                     </a>
                 </li>
-                {{-- <li>
-                    <a class="waves-effect" href="suppliers">
-                        <span class="hide-menu style_border">Add Suppliers</span>
-                    </a>
-                </li> --}}
                 <li>
-                    <a class="waves-effect" href="{{ url('report/create/'. $url_restaurant_id) }}">
+                    <a class="waves-effect" href="{{ url('report/create/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">Add Daily Report</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="{{ url('safe/' . $url_restaurant_id) }}">
+                        <span class="hide-menu style_border">View safe</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="{{ url('expenses/' . $url_restaurant_id) }}">
+                        <span class="hide-menu style_border">View Expense</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="{{ url('employee-salary/' . $url_restaurant_id) }}">
+                        <span class="hide-menu style_border">View Salary</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="waves-effect" href="{{ url('report/' . $url_restaurant_id) }}">
+                        <span class="hide-menu style_border">View Daily Report</span>
                     </a>
                 </li>
             </ul>

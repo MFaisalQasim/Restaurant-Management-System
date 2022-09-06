@@ -18,10 +18,10 @@ $today = $year . '-' . $month . '-' . $day;
             <div class="col-md-12">
                 <div class="white-box">
                     <h3 class="box-title pull-left">Create New Expense</h3>
-                    @can('view-'.str_slug('Expenses'))
+                    {{-- @can('view-'.str_slug('Expenses'))
                         <a class="btn btn-success pull-right" href="{{url('/expenses/'. $url_restaurant_id)}}">
                             <i class="icon-arrow-left-circle"></i> View Expense</a>
-                    @endcan
+                    @endcan --}}
                     <div class="clearfix"></div>
                     <hr>
                     @if ($errors->any())

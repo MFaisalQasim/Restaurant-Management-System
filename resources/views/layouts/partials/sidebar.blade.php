@@ -33,11 +33,11 @@
             <nav class="sidebar-nav">
                 <ul id="side-menu">
 
-                    <li>
+                    {{-- <li>
                         <a class="active waves-effect" href="{{ url('dashboard') }}" aria-expanded="false"><i
                                 class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
 
-                    </li>
+                    </li> --}}
                     <li>
                         <a class="active waves-effect" href="{{ url('restaurant') }}" aria-expanded="false"><i
                                 class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Restaurant </span></a>

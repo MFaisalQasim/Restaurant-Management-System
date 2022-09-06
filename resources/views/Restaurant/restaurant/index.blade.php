@@ -33,7 +33,14 @@
                                         <td>{{ $item->ranking }}</td>
                                         <td>
                                             @can('edit-' . str_slug('Restaurant'))
-                                                {{-- <a href="{{ url('/restaurant/' . $item->id) }}" title="View Restaurant"> --}}
+                                                    <a class="" href="{{ url('/dashboard/' . $item->id) }}" title="View Restaurant">
+                                                    <button class="btn btn-info btn-sm m-2">
+                                                        <input type="hidden" name="restaurant_id" value="{{$item->id}}">
+                                                        <i class="fa fa-eye" aria-hidden="true"></i> Go to Dashboard
+                                                    </button>
+                                                </a>
+                                            @endcan
+                                            @can('edit-' . str_slug('Restaurant'))
                                                     <a href="{{ url('/restaurant_setting/' . $item->id) }}" title="View Restaurant">
                                                     <button class="btn btn-info btn-sm">
                                                         <input type="hidden" name="restaurant_id" value="{{$item->id}}">

@@ -263,51 +263,6 @@ class PagesController extends Controller
             'supplier'=>  $supplier,
         ]);
     }
-
-    // public function generate_Supplier(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         "from" => "required",
-    //         "to" => "required"
-    //     ]);
-    //     $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
-    //     $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
-    //     $safe = Safe::whereBetween("created_at", [$startDate, $endDate])
-    //     ->get();
-    //     $total = $safe;
-    //     // ->where("payment_status", "paid")
-    //     return view("Safe.safe.index", compact('safe', 'total', 'startDate', 'endDate'));
-
-    //     //     return view("Safe.safe.index")->with([
-    //     //     "startDate" => $startDate,
-    //     //     "endDate" => $endDate,
-    //     //     "total" => $sales->sum('total_received'),
-    //     //     "total" => $sales,
-    //     //     "safe" => $sales
-    //     // ]);
-    // }
-    // public function generate_TotalCash(Request $request)
-    // {
-    //     $this->validate($request, [
-    //         "from" => "required",
-    //         "to" => "required"
-    //     ]);
-    //     $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
-    //     $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
-    //     $safe = Safe::whereBetween("created_at", [$startDate, $endDate])
-    //     ->get();
-    //     $total = $safe;
-    //     // ->where("payment_status", "paid")
-    //     return view("Safe.safe.index", compact('safe', 'total', 'startDate', 'endDate'));
-
-    //     //     return view("Safe.safe.index")->with([
-    //     //     "startDate" => $startDate,
-    //     //     "endDate" => $endDate,
-    //     //     "total" => $sales->sum('total_received'),
-    //     //     "total" => $sales,
-    //     //     "safe" => $sales
-    //     // ]);
-    // }
     
     public function generate_employee(Request $request)
     {
@@ -363,6 +318,16 @@ class PagesController extends Controller
             return view('Restaurant.restaurant.show', compact('restaurant','supplier','employee', 'users'));
         }
         return response(view('403'), 403);
+    }
+    
+    public function generate_restaurant_fetch(Request $request)
+    {
+        $restaurant = Restaurant::get();
+        $user = User::get();
+        return response()->json([
+            'restaurant'=>  $restaurant,
+            'user'=>  $user,
+        ]);
     }
     public function restaurant_setting(Request $request, $id)
     {
@@ -485,7 +450,6 @@ class PagesController extends Controller
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
-
             if (!empty($keyword)) {
                 $expenses = Expense::where('for_whom', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -575,5 +539,9 @@ class PagesController extends Controller
     public function export(Request $request)
     {
         return Excel::download(new ReportExport($request->from, $request->to), "report.xlsx");
+    }
+    public function callAction($method, $parameters)
+    {
+        return parent::callAction($method, array_values($parameters));
     }
 }

@@ -8,6 +8,8 @@ $url_restaurant_id = intval(end($tmp));
 $sum = 0;
 
 $month = date('m');
+// $this_previous_month = date('Y-m');
+// $this_previous_month = date('Y-m', strtotime(' -1 month'));
 $day = date('d');
 $year = date('Y');
 
@@ -40,27 +42,25 @@ $today = $year . '-' . $month . '-' . $day;
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">From</label>
                                             <input type="date" name="from" placeholder="Date" id="from"
-                                                class="form-control input_border from" data-id="2">
+                                                onchange="expenses_fetch()" class="form-control input_border from"
+                                                data-id="2">
                                         </div>
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">To</label>
                                             <input type="date" name="to" placeholder="Date" id="to"
-                                                onload="getDate()" value="<?php echo $today; ?>"
+                                                onchange="expenses_fetch()" value="<?php echo $today; ?>"
                                                 class="form-control input_border">
-                                            <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"
-                                                value="{{ $url_restaurant_id }}">
-                                        </div>
-
-                                        <div class="form-group d-flex">
-                                            <label class="form-control" for="">Month</label>
-                                            <input type="month" name="month" placeholder="month" id="month"
-                                                onload="getMonth()" value="<?php echo $month; ?>"
-                                                class="form-control input_border">
+                                            <input type="hidden" name="url_restaurant_id"
+                                                id="url_restaurant_id"value="{{ $url_restaurant_id }}">
                                         </div>
                                         <div class="form-group d-flex">
-                                            <button class="btn btn-primary" onclick="safe_fetch()">
-                                                View Expense
-                                            </button>
+                                            <select class="this_previous_month form-control input_border"
+                                                name="this_previous_month" id="this_previous_month"
+                                                onchange="expenses_status_fetch()">
+                                                <option value="{{ date('Y-m') }}">This Month</option>
+                                                <option value="{{ date('Y-m', strtotime(' -1 month')) }}">Previous Month
+                                                </option>
+                                            </select>
                                         </div>
                                         {{-- </form> --}}
                                     </div>
@@ -138,17 +138,55 @@ $today = $year . '-' . $month . '-' . $day;
 
 @push('js')
     <script>
-        // $(document).ready( function () {
-        // safe_fetch();
-
-
-        function safe_fetch() {
+        function expenses_fetch() {
             $from_date = $('#from').val();
             $to_date = $('#to').val();
-            $month = $('#month').val();
+            $this_previous_month = $('#month').val();
             console.log($from_date);
             console.log($to_date);
-            console.log($month);
+            console.log($this_previous_month);
+
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id);
+            $.ajax({
+                type: "GET",
+                url: '{{ url('expenses/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    arr = response.expenses;
+                    $('tbody').find('tr').remove()
+                    response.expenses.forEach(item => {
+                        if (item.restaurant_id == $url_restaurant_id) {
+                            console.log(arr.length + ' if');
+
+                            if (item.date_of_expense >= $from_date & item.date_of_expense <=
+                                $to_date) {
+                                console.log(arr.length + ' if if');
+                                $('tbody').append(
+                                    '<tr class="tr_remove" >\
+                                                            <td>' + item
+                                    .date_of_expense + '</td>\
+                                                                <td>' + item.for_whom + '</td>\
+                                                 <td>' + item.sum + '</td>\
+                                                                        <td>' + item.sum + '</td>\
+                                                        <td>' + item.sum +
+                                    '</td>\
+                                                                                                                                                 </tr>'
+                                )
+
+                            }
+
+                        }
+
+                    });
+                }
+            });
+
+        }
+
+        function expenses_status_fetch() {
+            $this_previous_month = $('#this_previous_month').val();
+            console.log($this_previous_month);
 
             $url_restaurant_id = $('#url_restaurant_id').val();
             console.log($url_restaurant_id);
@@ -162,44 +200,29 @@ $today = $year . '-' . $month . '-' . $day;
                     $('tbody').find('tr').remove()
                     response.expenses.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
-                            if (!$month) {
-                                console.log(arr.length + ' if');
-                                console.log($month + 'not month');
+                            console.log(arr.length + ' if');
+                            console.log($this_previous_month + 'not this_previous_month');
 
-                                if (item.date_of_expense >= $from_date & item.date_of_expense <=
-                                    $to_date) {
-                                    console.log($month + 'date match');
+                            {
+                                console.log($this_previous_month + 'this_previous_month');
+                                item_date = item.date_of_expense.slice(0, 7)
+                                console.log(item_date);
+                                if (item.date_of_expense.slice(0, 7) == $this_previous_month) {
+                                    console.log($this_previous_month + 'date match');
                                     console.log(arr.length + ' if if');
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
-                                                                                            <td>' + item.date_of_expense + '</td>\
-                                                                                            <td>' + item.for_whom + '</td>\
-                                                                                            <td>' + item.sum + '</td>\
-                                                                                            <td>' + item.sum + '</td>\
-                                                                                            <td>' + item.sum +
+                                                                                                        <td>' + item
+                                        .date_of_expense + '</td>\
+                                                                                                        <td>' + item
+                                        .for_whom + '</td>\
+                                                                                                        <td>' + item.sum + '</td>\
+                                                                                                        <td>' + item.sum + '</td>\
+                                                                                                        <td>' + item.sum +
                                         '</td>\
-                                                                                                                                     </tr>'
+                                                                                                                                                 </tr>'
                                     )
 
-                                }
-                            } else {
-                                console.log($month + 'month');
-                                item_date = item.date_of_expense.slice(0, 7)
-                                console.log(item_date);
-                                if (item.date_of_expense.slice(0, 7) == $month) {
-                                    console.log($month + 'month match');
-                                    console.log(arr.length + ' else if');
-                                    $('tbody').append(
-                                        '<tr class="tr_remove" >\
-                                            <td>' + item.date_of_expense + '</td>\
-                                            <td>' + item.for_whom + '</td>\
-                                                                                            <td>' + item.sum + '</td>\
-                                                                                            <td>' + item.sum +
-                                        '</td>\
-                                                                                            <td>' + item.sum +
-                                        '</td>\
-                                                                                                                                     </tr>'
-                                    )
                                 }
                             }
 
@@ -210,6 +233,5 @@ $today = $year . '-' . $month . '-' . $day;
             });
 
         }
-        // })
     </script>
 @endpush
