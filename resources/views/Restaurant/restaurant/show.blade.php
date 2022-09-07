@@ -84,7 +84,7 @@ $year_month = $year . '-' . $month;
                             </tbody>
                         </table>
                         <div class="col-md-6">
-                            <ul class="input_border" style="padding:0px">
+                            {{-- <ul class="input_border" style="padding:0px">
 
                                 @foreach ($supplier as $key => $item)
                                     <li style="display: flex ; list-style:none ; ">
@@ -94,14 +94,9 @@ $year_month = $year . '-' . $month;
                                         &nbsp;
                                         <input class="" type="text" name="" id=""
                                             value="{{ $item->sum }}" readonly>
-                                        {{-- <input type="hidden" name="" id=""
-                                            value="{{ $item->supplier_cash += $item->sum }}" disabled>
-                                        <input type="hidden" name="" id="" value="{{ $sum += $item->sum }}"
-                                            disabled> --}}
                                     </li>
-                                    {{-- {{$supplier->supplier_cash}} --}}
                                 @endforeach
-                            </ul>
+                            </ul> --}}
                         </div>
                         <div class="col-md-6">
                             {!! Form::model($restaurant, [
@@ -166,18 +161,17 @@ $year_month = $year . '-' . $month;
                     response.user.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(item.restaurant_id + 'restaurant_id');
-
+                            console.log(item.date_of_employment + 'date_of_employment');
                             if (item.status == $emp_status) {
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                                                     <td>' + item.name + '</td>\
-                                                                    <td>' + item.date_of_employment + '</td>\
-                                                                    <td>' + item.end_of_work_date + '</td>\
+                                                                    <td>' + item.date_of_joining + '</td>\
+                                                                    <td>' + item.date_of_leaving + '</td>\
                                                                     <td>' + item.telephone + '</td>\
-                                                                    <td>' + item.date_of_employment + '</td>\
-                                                                    <td>' + item.salary +
-                                    '</td>\
+                                            <td>' + item.status + '</td>\
+                                            <td>' + item.salary +'</td>\
                                                                                                                                                                  </tr>'
                                 )
 

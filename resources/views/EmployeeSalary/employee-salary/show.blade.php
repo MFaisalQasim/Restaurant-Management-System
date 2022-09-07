@@ -24,7 +24,6 @@ $today = $year . '-' . $month . '-' . $day;
                     @endcan
                     <div class="clearfix"></div>
                     <hr>
-
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -87,14 +86,11 @@ $today = $year . '-' . $month . '-' . $day;
                         <thead>
                             <tr>
                                 <th> Name </th>
-                                {{-- <th> Start Hours </th>
-                                    <th> Finish Hours </th> --}}
                                 <th> Salary sum </th>
                                 <th> Hours sum </th>
                                 <th> Average for the hour </th>
                                 <th> Bonus sum </th>
                                 <th> Total salary with bonus </th>
-
                             </tr>
                         </thead>
                         <tbody>
@@ -137,8 +133,6 @@ $today = $year . '-' . $month . '-' . $day;
 
 @push('js')
     <script>
-        // $(document).ready( function () {
-        // salary_fetch();
 
 
         function salary_fetch() {
@@ -161,16 +155,16 @@ $today = $year . '-' . $month . '-' . $day;
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
 
-                            if (item.date >= $from_date & item.date <= $to_date) {
+                            if (item.date >= $from_date & item.date <= $to_date ) {
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                                             <td>' + item.name + '</td>\
+                                                            <td>' + item.sum + '</td>\
+                                                            <td>' + item.number_of_hours + '</td>\
+                                                            <td>' + item.rate + '</td>\
                                                             <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + (((item.finish_hour) - (item.start_hour))) + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.rate +
+                                                            <td>' + item.total_sum +
                                     '</td>\
                                                                                                                                                      </tr>'
                                 )
@@ -216,11 +210,11 @@ $today = $year . '-' . $month . '-' . $day;
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                                             <td>' + item.name + '</td>\
+                                                            <td>' + item.sum + '</td>\
+                                                            <td>' + item.number_of_hours + '</td>\
+                                                            <td>' + item.rate + '</td>\
                                                             <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.rate +
+                                                            <td>' + item.total_sum +
                                     '</td>\
                                                                                                                                                      </tr>'
                                 )

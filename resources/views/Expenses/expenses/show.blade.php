@@ -80,7 +80,7 @@ $today = $year . '-' . $month . '-' . $day;
                                 <th> Name </th>
                                 <th> Sum </th>
                                 <th> File </th>
-                                <th> Download </th>
+                                {{-- <th> Download </th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -154,24 +154,23 @@ $today = $year . '-' . $month . '-' . $day;
                 dataType: "json",
                 success: function(response) {
                     arr = response.expenses;
+                    arr_expenseFile = response.expenseFile;
+                    console.log(arr_expenseFile + ' arr_expenseFile');
+                    
                     $('tbody').find('tr').remove()
                     response.expenses.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
-
                             if (item.date_of_expense >= $from_date & item.date_of_expense <=
                                 $to_date) {
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                            <td>' + item
-                                    .date_of_expense + '</td>\
-                                                                <td>' + item.for_whom + '</td>\
-                                                 <td>' + item.sum + '</td>\
-                                                                        <td>' + item.sum + '</td>\
-                                                        <td>' + item.sum +
-                                    '</td>\
-                                                                                                                                                 </tr>'
+                                                        <td>' + item.date_of_expense + '</td>\
+                                                        <td>' + item.for_whom + '</td>\
+                                                        <td>' + item.sum + '</td>\
+                                                        <td>' + item.sum + '</td>\
+                                                                                                                                                             </tr>'
                                 )
 
                             }
@@ -205,22 +204,21 @@ $today = $year . '-' . $month . '-' . $day;
 
                             {
                                 console.log($this_previous_month + 'this_previous_month');
-                                item_date = item.date_of_expense.slice(0, 7)
-                                console.log(item_date);
-                                if (item.date_of_expense.slice(0, 7) == $this_previous_month) {
+                                console.log(item.date_of_expense + 'item.date_of_expense');
+                                item_date = item.date_of_expense;
+                                console.log(item_date + 'item_date');
+
+                                if (item_date.slice(0, 7) == $this_previous_month) {
                                     console.log($this_previous_month + 'date match');
                                     console.log(arr.length + ' if if');
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
-                                                                                                        <td>' + item
-                                        .date_of_expense + '</td>\
-                                                                                                        <td>' + item
-                                        .for_whom + '</td>\
-                                                                                                        <td>' + item.sum + '</td>\
-                                                                                                        <td>' + item.sum + '</td>\
-                                                                                                        <td>' + item.sum +
+                                                        <td>' + item.date_of_expense + '</td>\
+                                                        <td>' + item.for_whom + '</td>\
+                                                        <td>' + item.sum + '</td>\
+                                                        <td>' + item.file +
                                         '</td>\
-                                                                                                                                                 </tr>'
+                                                                                                                                                             </tr>'
                                     )
 
                                 }

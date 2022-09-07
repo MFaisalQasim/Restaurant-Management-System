@@ -210,7 +210,7 @@ class PagesController extends Controller
     //     //     "safe" => $sales
     //     // ]);
     // }
-    public function generate_safe(Request $request)
+    public function generate_safe(Request $request, $id)
     {
         // return 'here';
         $from_date_cont = $request->from_date;
@@ -223,7 +223,7 @@ class PagesController extends Controller
          auth()->user()->hasRole('developer')
         ) {
             
-        $safe_sum = Safe::sum('sum');
+        $safe_sum = Safe::where('restaurant_id', '=', $id)->sum('sum') ;
         } else {
             $safe_sum = Safe::sum('sum');
         }
@@ -250,8 +250,10 @@ class PagesController extends Controller
     public function generate_expenses_fetch(Request $request)
     {
         $expenses = Expense::get();
+        $expenseFile = ExpenseFile::get();
         return response()->json([
             'expenses'=>  $expenses,
+            'expenseFile'=>  $expenseFile,
         ]);
     }
     public function generate_report_fetch(Request $request)

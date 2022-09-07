@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\EmployeeSalary;
 use App\Restaurant;
 use App\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class EmployeeSalaryController extends Controller
@@ -59,7 +60,8 @@ class EmployeeSalaryController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $restaurant = Restaurant::findOrFail($id);
             $user = User::get();
-            return view('EmployeeSalary.employee-salary.create', compact('restaurant','user'));
+            $EmployeeSalary = EmployeeSalary::where('restaurant_id', '=' , $id)->get();
+            return view('EmployeeSalary.employee-salary.create', compact('restaurant','user', 'EmployeeSalary'));
         }
         return response(view('403'), 403);
 
@@ -93,7 +95,7 @@ class EmployeeSalaryController extends Controller
             $bonus_for_what = "Good Will Bonus";
             $bonus_sum = "not paid in cash";
             $employeesalary = new EmployeeSalary;
-            $employeesalary->name =    $request->name;
+            $employeesalary->name =   Auth::User()->name;
             $employeesalary->restaurant_id =    $id;
             $employeesalary->rate =    $request->rate;
             $employeesalary->number_of_hours =    $request->number_of_hours;
@@ -104,9 +106,12 @@ class EmployeeSalaryController extends Controller
             $employeesalary->bonus_for_what =    $request->for_what or $bonus_for_what;
             $employeesalary->bonus_sum =    $request->bonus_sum or $bonus_sum;
             $employeesalary->sum =    $request->sum;
+            $employeesalary->total_sum =    $request->total_sum;
+            
             // return $employeesalary;
             $employeesalary->save();
-            return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
+            // return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
+            return redirect('employee-salary/'. $id)->with('flash_message', 'EmployeeSalary added!');
         }
         return response(view('403'), 403);
     }

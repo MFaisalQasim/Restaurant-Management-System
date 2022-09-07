@@ -183,8 +183,8 @@ $year_month = $year . '-' . $month;
                                                                                     <td>' + item.date + '</td>\
                                                                                     <td>' + item.paycheck + '</td>\
                                                                                     <td>' + item.payment + '</td>\
-                                                                                    <td>' + (item.payment - item
-                                    .paycheck) +
+                                                                                    <td>' + (item.paycheck - item
+                                    .payment) +
                                     '</td>\
                                                                                                                              </tr>'
                                 )

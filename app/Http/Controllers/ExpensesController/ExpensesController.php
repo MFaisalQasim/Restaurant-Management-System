@@ -82,7 +82,7 @@ class ExpensesController extends Controller
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'for_whom' => 'required',
-			'file' => 'required'
+			// 'file' => 'required'
 		]);
             $requestData = $request->all();
            $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
@@ -95,7 +95,7 @@ class ExpensesController extends Controller
            if ($ErrorMsg == "") {
                $expenses->save();
            }
-           if ($ErrorMsg == "") {
+           if ($ErrorMsg == "" & $request->file) {
                    
                for ($i = 0; $i < count($request->file); $i++) {
                    $SavedTourAttachment = AppHelper::SaveFileAndGetPath($request->file[$i], $UploadTourImagesPath);
@@ -121,7 +121,8 @@ class ExpensesController extends Controller
                    }
                }
            }
-            return redirect('expenses/create/' . $id)->with('flash_message', 'Expense added!');
+            // return redirect('expenses/create/' . $id)->with('flash_message', 'Expense added!');
+            return redirect('expenses/' . $id)->with('flash_message', 'Expense added!');
         }
         return response(view('403'), 403);
     }

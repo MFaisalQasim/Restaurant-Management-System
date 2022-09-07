@@ -27,7 +27,7 @@
                             <tbody>
                                 @foreach ($restaurant as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        {{-- <td>{{ $loop->iteration }}</td> --}}
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->location }}</td>
                                         <td>{{ $item->ranking }}</td>
@@ -64,7 +64,7 @@
                                                         <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
                                                     </button>
                                                 </a>
-                                            @endcan
+                                            @endcan--}}
 
                                             @can('delete-' . str_slug('Restaurant'))
                                                 {!! Form::open([
@@ -78,7 +78,7 @@
                                                     'title' => 'Delete Restaurant',
                                                     'onclick' => 'return confirm("Confirm delete?")',
                                                 ]) !!}
-                                            @endcan --}}
+                                            @endcan 
                                             {!! Form::close() !!}
                                         </td>
                                     </tr>
@@ -93,7 +93,7 @@
     </div>
 @endsection
 
-@push('js')
+{{-- @push('js')
     <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
     <script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
     <!-- start - This is for export functionality only -->
@@ -123,4 +123,4 @@
 
         });
     </script>
-@endpush
+@endpush --}}

@@ -1,6 +1,4 @@
-
-
-    <div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
+<div class="form-group {{ $errors->has('') ? 'has-error' : '' }}">
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6" style="display: flex   ;  justify-content: space-between;">
         <div>
@@ -9,15 +7,30 @@
         </div>
         <div class="topnav search_icon_div " style="display: flex;
                 ">
-            <button onclick="employee_fetch()" class="search_button">
-                {{-- <div  class="search_button button"> --}}
+            {{-- <button onclick="employee_fetch()" class="search_button">
                 <img src="{{ asset('assets/images/search_icon_bar.png') }}" alt="">
-                {{-- </div> --}}
-            </button>
-            {{-- <input type="text" name="keywords_search"
-            id="keywords_search" value=""> --}}
-            <input class="form-control mr-sm-2 keywords_search" id="keywords_search" name="keywords_search"
-                type="search" onkeyup="employee_fetch()" value="" placeholder="Employee" aria-label="Search">
+            </button> --}}
+
+            {{-- <input class="form-control mr-sm-2 keywords_search" id="keywords_search" name="keywords_search"
+                type="search" onkeyup="employee_fetch()" value="" placeholder="Employee" aria-label="Search"> --}}
+
+            {{-- <div class="input-group">
+                <div id="search-autocomplete" class="form-outline">
+                    <input type="search" id="keywords_search" class="form-control" onkeyup="employee_fetch()" />
+                    <label class="form-label" for="keywords_search">Search</label>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="employee_fetch()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div> --}}
+            <label class="form-label mt-3" for="keywords_search">Employee : </label>
+
+            <select class="select" data-mdb-filter="true" onchange="employee_fetch();" id="keywords_search"
+                name="keywords_search">
+                @foreach ($EmployeeSalary as $item)
+                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                @endforeach
+            </select>
         </div>
     </div>
     {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
@@ -45,25 +58,21 @@
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         <input class="form-control" type="number" name="rate" id="rate" placeholder="Rate"
-            onkeyup="get_number_of_hours()" required>
+            onkeyup="get_number_of_hours()" {{-- onchange="get_number_of_hours()" --}} required>
         {!! $errors->first('rate', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 
-{{-- <div class="form-group {{ $errors->has('number_of_hours') ? 'has-error' : '' }}">
-    {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6"> --}}
 <input class="form-control" id="number_of_hours" type="hidden" value='' name="number_of_hours"
     placeholder='value of "Number Of Hours" ' readonly>
 {!! $errors->first('number_of_hours', '<p class="help-block">:message</p>') !!}
-{{-- </div>
-</div> --}}
+
 
 <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         <input class="form-control" id="sum" type="text" value='' placeholder=' value of "Sum" '
-            readonly>
+            name="sum" readonly>
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -86,17 +95,16 @@
             </div>
             <div class="col">
                 <input class="form-control" id="total_sum" type="float" name="bonus_sum" placeholder="Bonus Amount"
-                    onkeyup="get_sum()">
+                    required onkeyup="get_sum()">
                 {!! $errors->first('bonus_sum', '<p class="help-block">:message</p>') !!}
             </div>
         </div>
     </div>
 </div>
-
 <div class="form-group {{ $errors->has('extra_bonus') ? 'has-error' : '' }}">
     {!! Form::label('extra_bonus', ' ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <input class="form-control" id="total_total" type="text" name="sum" value=''
+        <input class="form-control" id="total_total" type="text" name="total_sum" value=''
             placeholder='Calculated "Total Sum" will be Generated Autometically' readonly {{-- placeholder="Total (=start/fnish * rate) + bonus sum" --}}>
         {{-- <input id="total"  value="total_sum" type='button' onkeyup="get_sum()" /> --}}
         {{-- <input id="total"  value="total_sum" type='button' onclick="get_sum()" /> --}}
@@ -114,28 +122,41 @@
     <div class="col-md-offset-6 col-md-6">
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Save', ['class' => 'btn btn-primary']) !!}
     </div>
-{{-- <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"value="{{ $url_restaurant_id }}"> --}}
+    <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"value="{{ $url_restaurant_id }}">
 </div>
 
 <script>
     function get_number_of_hours() {
-        let start_hour = document.getElementById('start_hour').value;
-        let finish_hour = document.getElementById('finish_hour').value;
+        let start_time = document.getElementById('start_hour').value;
+        let finish_time = document.getElementById('finish_hour').value;
         console.log(start_hour);
         console.log(finish_hour);
+        var start_hour_arr = start_time.split(':');
+        console.log(start_hour_arr.slice(0, 1) + 'start_hour_arr hour');
+        console.log(start_hour_arr.slice(1, 2) + 'start_hour_arr min');
 
-        number_of_hours = (eval((parseFloat(finish_hour) - parseFloat(start_hour))));
-        console.log(eval((parseFloat(start_hour) - parseFloat(finish_hour))));
-        console.log(number_of_hours +
-            'number_of_hours');
-        document.getElementById('number_of_hours').value = Math.abs(number_of_hours)
+        var finish_hour_arr = finish_time.split(':');
+        console.log(finish_hour_arr + 'finish_hour_arr');
+        console.log(finish_hour_arr.slice(0, 1) + 'finish_hour_arr hour');
+        console.log(finish_hour_arr.slice(1, 2) + 'finish_hour_arr min');
 
-        console.log(number_of_hours +
-            'number_of_hours');
+        number_of_hours = finish_hour_arr.slice(0, 1) - start_hour_arr.slice(0, 1);
+        number_of_min = finish_hour_arr.slice(1, 2) - start_hour_arr.slice(1, 2);
+
+        console.log(number_of_hours + 'number_of_hours');
+        console.log(number_of_min + 'number_of_min');
+
+        // document.getElementById('number_of_hours').value = Math.abs(number_of_hours)
         let rate = document.getElementById('rate').value
         console.log(rate +
             'rate');
-        sum = (((parseFloat(rate) * parseFloat(number_of_hours))));
+        rate_for_hours = eval(parseFloat(rate) * parseFloat(number_of_hours));
+        console.log(rate_for_hours + 'rate for hour');
+        rate_for_min = parseFloat(rate) * (parseFloat(number_of_min) / 60);
+        console.log(rate_for_min + 'rate for min');
+        average_time = rate_for_hours + rate_for_min;
+
+        sum = (average_time);
         console.log(sum);
         document.getElementById('number_of_hours').value = Math.abs(number_of_hours)
         document.getElementById('sum').value = Math.abs(sum)
@@ -158,39 +179,34 @@
 
     }
 
-    // function employee_fetch() {
-    //     let keywords_search = document.getElementById('keywords_search').value
-    //     // $keywords_search = $('#keywords_search').val();
-    //     // $keywords_search = $(this).attr();
-    //     // $keywords_search = $('#keywords_search').html();
-    //     // $keywords_search = $('#keywords_search');
-    //     console.log($keywords_search = 'keywords_search');
-    //     console.log($keywords_search = 'keywords_searchattr');
-    //     console.log($keywords_search = 'keywords_searchhtml');
+    function employee_fetch() {
 
-    //     $url_restaurant_id = $('#url_restaurant_id').val();
-    //     console.log($url_restaurant_id + 'url_restaurant_id');
-    //     $.ajax({
-    //         type: "GET",
-    //         url: '{{ url('employee-salary/fetch/' . $url_restaurant_id) }}',
-    //         dataType: "json",
-    //         success: function(response) {
-    //             arr = response.employee_salary;
-    //             // $('tbody').find('tr').remove()
-    //             response.employee_salary.forEach(item => {
-    //                 console.log($keywords_search + 'keywords_search');
-    //                 if (item.restaurant_id == $url_restaurant_id) {
-    //                     // if ( $keywords_search ==  item.name) {
-    //                     if (item.name == $keywords_search) {
-    //                         console.log(item.name);
-    //                         console.log(item.name + ' item.name ');
-    //                         console.log(arr.length + ' else if');
-    //                     }
-    //                 }
+            let keywords_search = document.getElementById('keywords_search').value
+            console.log(keywords_search + 'keywords_search 1');
 
-    //             });
-    //         }
-    //     });
+            $url_restaurant_id = $('#url_restaurant_id').val();
+            console.log($url_restaurant_id + 'url_restaurant_id');
+            $.ajax({
+                type: "GET",
+                url: '{{ url('employee-salary/fetch/' . $url_restaurant_id) }}',
+                dataType: "json",
+                success: function(response) {
+                    arr = response.employee_salary;
+                    response.employee_salary.forEach(item => {
+                        item_id = item.id
+                        console.log(keywords_search + 'keywords_search 2' + item_id + 'item_id 2');
 
-    // }
+                        if (item.id == keywords_search) {
+                            document.getElementById('rate').value = ("")
+                            console.log(item.name + ' item.name ');
+                            console.log(item.rate + ' item.rate ');
+                            document.getElementById('rate').value = Math.abs(item.rate)
+                        }
+
+                    });
+                }
+            });
+        
+        setTimeout(get_number_of_hours, 8000)
+    }
 </script>

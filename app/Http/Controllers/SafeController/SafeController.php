@@ -148,7 +148,8 @@ class SafeController extends Controller
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
             $safe->save();
-            return redirect('safe/deposit/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            // return redirect('safe/deposit/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
         }
         return response(view('403'), 403);
     }
@@ -177,7 +178,8 @@ class SafeController extends Controller
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
             $safe->save();
-            return redirect('safe/payouts/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            // return redirect('safe/payouts/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
         }
         return response(view('403'), 403);
     }

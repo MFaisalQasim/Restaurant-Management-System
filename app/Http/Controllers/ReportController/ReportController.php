@@ -118,7 +118,8 @@ class ReportController extends Controller
                 $report->restaurant_id =     auth()->user()->restaurant_id;
             }
             $report->save();
-            return redirect('report/create/'. $id)->with('flash_message', 'Report added!');
+            // return redirect('report/create/'. $id)->with('flash_message', 'Report added!');
+            return redirect('report/'. $id)->with('flash_message', 'Report added!');
         }
         return response(view('403'), 403);
     }
