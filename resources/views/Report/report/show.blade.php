@@ -50,7 +50,8 @@ $today = $year . '-' . $month . '-' . $day;
                                             <input type="date" name="to" placeholder="Date" id="to"
                                                 onchange="report_fetch()" value="<?php echo $today; ?>"
                                                 class="form-control input_border">
-                                            <input type="hidden" name="url_restaurant_id" id="url_restaurant_id"value="{{ $url_restaurant_id }}">
+                                            <input type="hidden" name="url_restaurant_id"
+                                                id="url_restaurant_id"value="{{ $url_restaurant_id }}">
                                         </div>
                                         <div class="form-group d-flex">
                                             <select class="this_previous_month form-control input_border"
@@ -194,32 +195,37 @@ $today = $year . '-' . $month . '-' . $day;
                 dataType: "json",
                 success: function(response) {
                     arr = response.report;
-                            console.log(arr + ' arr');
+                    console.log(arr + ' arr');
                     $('tbody').find('tr').remove()
                     response.report.forEach(item => {
-                        if (item.restaurant_id == $url_restaurant_id ) {
+                        if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
                             console.log(item.date + 'item.date');
                             console.log($to_date + 'to_date');
                             console.log($from_date + 'from_date');
 
-                            if (item.date >= $from_date & item.date <= $to_date ) {
+                            if (item.date >= $from_date & item.date <= $to_date) {
                                 console.log(arr.length + ' if if');
+                                status = item.cash - item.bank_cash_total
+                                Compliant_status = (status >= -5) ?  "Compliant = " + status : "InCompliant = " + status;
+                                // Compliant_status = (item.status <= -5) ?  "Compliant = "item.status :"InCompliant = " item.status
+                                console.log(Compliant_status + 'Compliant_status');
+
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                <td>' + item.date + '</td>\
-                                                    <td>' + item.total_income + '</td>\
-                                                    <td>' + item.card_transactions + '</td>\
-                                                    <td>' + item.canceled_sale + '</td>\
-                                                    <td>' + item.UBER + '</td>\
-                                                    <td>' + item.BOLT + '</td>\
-                                                    <td>' + item.WOLT + '</td>\
-                                                    <td>' + item.PYSZNE + '</td>\
-                                                    <td>' + item.GLOVO + '</td>\
-                                                    <td>' + item.supplier_cash + '</td>\
-                                                    <td>' + item.bank_cash_total + '</td>\
-                                                    <td>' + item.bank_cash_total + '</td>\
-                                                </tr>'
+                                                    <td>' + item.date + '</td>\
+                                                        <td>' + item.total_income + '</td>\
+                                                        <td>' + item.card_transactions + '</td>\
+                                                        <td>' + item.canceled_sale + '</td>\
+                                                        <td>' + item.UBER + '</td>\
+                                                        <td>' + item.BOLT + '</td>\
+                                                        <td>' + item.WOLT + '</td>\
+                                                        <td>' + item.PYSZNE + '</td>\
+                                                        <td>' + item.GLOVO + '</td>\
+                                                        <td>' + item.supplier_cash + '</td>\
+                                                        <td>' + item.bank_cash_total + '</td>\
+                                                        <td>' + Compliant_status + '</td>\
+                                                    </tr>'
                                 )
                             }
 
@@ -246,24 +252,26 @@ $today = $year . '-' . $month . '-' . $day;
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log($this_previous_month + 'this_previous_month');
                             console.log(item.date.slice(0, 7) + 'item.date.slice(0, 7');
-                            if (item.date.slice(0, 7) == $this_previous_month) 
-                            {
+                            if (item.date.slice(0, 7) == $this_previous_month) {
                                 console.log(arr.length + ' else if');
+                                status = item.cash - item.bank_cash_total
+                                Compliant_status = (status >= -5) ?  "Compliant = " + item.status : "InCompliant = " + item.status;
+                                // Compliant_status = (item.st
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                <td>' + item.date + '</td>\
-                                                    <td>' + item.total_income + '</td>\
-                                                    <td>' + item.card_transactions + '</td>\
-                                                    <td>' + item.canceled_sale + '</td>\
-                                                    <td>' + item.UBER + '</td>\
-                                                    <td>' + item.BOLT + '</td>\
-                                                    <td>' + item.WOLT + '</td>\
-                                                    <td>' + item.PYSZNE + '</td>\
-                                                    <td>' + item.GLOVO + '</td>\
-                                                    <td>' + item.supplier_cash + '</td>\
-                                                    <td>' + item.bank_cash_total + '</td>\
-                                                    <td>' + item.bank_cash_total + '</td>\
-                                                </tr>'
+                                                    <td>' + item.date + '</td>\
+                                                        <td>' + item.total_income + '</td>\
+                                                        <td>' + item.card_transactions + '</td>\
+                                                        <td>' + item.canceled_sale + '</td>\
+                                                        <td>' + item.UBER + '</td>\
+                                                        <td>' + item.BOLT + '</td>\
+                                                        <td>' + item.WOLT + '</td>\
+                                                        <td>' + item.PYSZNE + '</td>\
+                                                        <td>' + item.GLOVO + '</td>\
+                                                        <td>' + item.supplier_cash + '</td>\
+                                                        <td>' + item.bank_cash_total + '</td>\
+                                                        <td>' + Compliant_status + '</td>\
+                                                    </tr>'
                                 )
                             }
                         }

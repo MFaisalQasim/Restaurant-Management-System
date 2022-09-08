@@ -138,7 +138,43 @@ $today = $year . '-' . $month . '-' . $day;
 
 @push('js')
     <script>
+        // let item_file = "12312ad";
+        // function expenseFile_fetch(id, expenses_id) {
+            // let item_expenses_id;
+
+
+            // var item_expenses_id = "google.com";
+
+            // $.ajax({
+            //     type: "GET",
+            //     url: '{{ url('expensesFile/fetch/' . $url_restaurant_id) }}',
+            //     dataType: "json",
+            // success: function(response) {
+            // response.expenseFile.forEach(values => {
+            // if (expenses_id == id) {
+            //     console.log(expenses_id + 'expenses_id' + id + 'id');
+            //     item_expenses_id = expenses_id;
+            //     console.log(item_expenses_id + 'item_expenses_id');
+            //     return item_expenses_id;
+            // }
+            // else {
+            //     return item_expenses_id;
+
+            // }
+            // });
+            // }
+
+            // })
+            // return item_expenses_id;
+
+
+        // }
+
         function expenses_fetch() {
+
+            var item_file
+            let item_expenses_id;
+            // let item_file = "12312ad";
             $from_date = $('#from').val();
             $to_date = $('#to').val();
             $this_previous_month = $('#month').val();
@@ -153,10 +189,11 @@ $today = $year . '-' . $month . '-' . $day;
                 url: '{{ url('expenses/fetch/' . $url_restaurant_id) }}',
                 dataType: "json",
                 success: function(response) {
+
+
                     arr = response.expenses;
-                    arr_expenseFile = response.expenseFile;
-                    console.log(arr_expenseFile + ' arr_expenseFile');
-                    
+                    // console.log(arr_expenseFile + ' arr_expenseFile');
+
                     $('tbody').find('tr').remove()
                     response.expenses.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
@@ -164,13 +201,30 @@ $today = $year . '-' . $month . '-' . $day;
                             if (item.date_of_expense >= $from_date & item.date_of_expense <=
                                 $to_date) {
                                 console.log(arr.length + ' if if');
+
+                                response.expenseFile.forEach(values => {
+                                    item_id = item.id;
+                                    expenses_item_id = values.expenses_id;
+
+                                    if (expenses_item_id == item_id) {
+                                        console.log(expenses_item_id + 'expenses_item_id' + item_id + 'id');
+                                        if (expenses_item_id != undefined & expenses_item_id != "undefined") {
+                                            item_file = values.file;
+                                            $item_file = values.file;
+                                            console.log(item_file + "item_file");
+                                            console.log(item_file + "item_file");
+                                        }
+                                    }
+                                });
+
+
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                        <td>' + item.date_of_expense + '</td>\
-                                                        <td>' + item.for_whom + '</td>\
-                                                        <td>' + item.sum + '</td>\
-                                                        <td>' + item.sum + '</td>\
-                                                                                                                                                             </tr>'
+                                                                    <td>' + item.date_of_expense + '</td>\
+                                                                    <td>' + item.for_whom + '</td>\
+                                                                    <td>' + item.sum + '</td>\
+                                                                    <td> <a href="'+$item_file+'" download >   Download File  </a></td>\
+                                                                     </tr>'
                                 )
 
                             }
@@ -208,17 +262,31 @@ $today = $year . '-' . $month . '-' . $day;
                                 item_date = item.date_of_expense;
                                 console.log(item_date + 'item_date');
 
+                                response.expenseFile.forEach(values => {
+                                    item_id = item.id;
+                                    expenses_item_id = values.expenses_id;
+
+                                    if (expenses_item_id == item_id) {
+                                        console.log(expenses_item_id + 'expenses_item_id' + item_id + 'id');
+                                        if (expenses_item_id != undefined & expenses_item_id != "undefined") {
+                                            item_file = values.file;
+                                            $item_file = values.file;
+                                            console.log(item_file + "item_file");
+                                            console.log(item_file + "item_file");
+                                        }
+                                    }
+                                });
+
                                 if (item_date.slice(0, 7) == $this_previous_month) {
                                     console.log($this_previous_month + 'date match');
                                     console.log(arr.length + ' if if');
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
-                                                        <td>' + item.date_of_expense + '</td>\
-                                                        <td>' + item.for_whom + '</td>\
-                                                        <td>' + item.sum + '</td>\
-                                                        <td>' + item.file +
-                                        '</td>\
-                                                                                                                                                             </tr>'
+                                                                    <td>' + item.date_of_expense + '</td>\
+                                                                    <td>' + item.for_whom + '</td>\
+                                                                    <td>' + item.sum + '</td>\
+                                                                    <td> <a href="'+$item_file+'" download >   Download File  </a></td>\
+                                                                                                                                                                         </tr>'
                                     )
 
                                 }

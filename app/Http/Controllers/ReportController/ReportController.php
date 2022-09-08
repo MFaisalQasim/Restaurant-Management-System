@@ -110,6 +110,7 @@ class ReportController extends Controller
             $report->WOLT =  $request->WOLT;
             $report->PYSZNE =  $request->PYSZNE;
             $report->GLOVO =  $request->GLOVO;
+            $report->status =  $request->cash - $request->total_bank_note_sum;
             $report->restaurant_id =  $id;
             $report->report_handler =  Auth::User()->name;
             if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {

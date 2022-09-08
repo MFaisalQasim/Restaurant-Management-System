@@ -35,6 +35,7 @@
     </div>
     {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
 </div>
+
 <div class="form-group  {{ $errors->has('start_hour') ? 'has-error' : '' }}  ">
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -42,18 +43,19 @@
             {!! Form::label('', 'Start Hour', ['class' => 'col-2 control-label p-0 pt-2']) !!}
             <div class="col  pl-0 pr-0 ">
                 <input class="form-control" id="start_hour" type="time" name="start_hour" id=""
-                    placeholder="Start Hour">
+                onchange="get_number_of_hours()"    placeholder="Start Hour">
                 {!! $errors->first('start_hour', '<p class="help-block">:message</p>') !!}
             </div>
             {!! Form::label('', 'Finish Hour', ['class' => 'col-2 control-label p-0 pt-2']) !!}
             <div class="col  pl-0 pr-0 ">
                 <input class="form-control" id="finish_hour" type="time" name="finish_hour" id=""
-                    placeholder="Finish Hour">
+                 onchange="get_number_of_hours()"   placeholder="Finish Hour">
                 {!! $errors->first('finish_hour', '<p class="help-block">:message</p>') !!}
             </div>
         </div>
     </div>
 </div>
+
 <div class="form-group {{ $errors->has('rate') ? 'has-error' : '' }}">
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -76,6 +78,7 @@
         {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+
 <div class="form-group {{ $errors->has('type') ? 'has-error' : '' }}">
     <div class="row">
         <div class="col-4">
@@ -85,6 +88,7 @@
         </div>
     </div>
 </div>
+
 <div class="form-group {{ $errors->has('extra_bonus') ? 'has-error' : '' }}">
     {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -101,6 +105,7 @@
         </div>
     </div>
 </div>
+
 <div class="form-group {{ $errors->has('extra_bonus') ? 'has-error' : '' }}">
     {!! Form::label('extra_bonus', ' ', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
@@ -197,7 +202,8 @@
                         console.log(keywords_search + 'keywords_search 2' + item_id + 'item_id 2');
 
                         if (item.id == keywords_search) {
-                            document.getElementById('rate').value = ("")
+                            document.getElementById('rate').value =
+                             ("")
                             console.log(item.name + ' item.name ');
                             console.log(item.rate + ' item.rate ');
                             document.getElementById('rate').value = Math.abs(item.rate)
@@ -207,6 +213,6 @@
                 }
             });
         
-        setTimeout(get_number_of_hours, 8000)
+        // setTimeout(get_number_of_hours, 8000)
     }
 </script>

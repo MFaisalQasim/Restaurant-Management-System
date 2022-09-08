@@ -121,10 +121,6 @@ class SafeController extends Controller
         return response(view('403'), 403);
     }
 
-
-
-
-
     
     public function store_deposit (Request $request, $restaurant_id)
     {
@@ -142,7 +138,7 @@ class SafeController extends Controller
             $safe = new Safe;
             $safe->employee_complete_name =    auth()->user()->name;
             $safe->restaurant_id =    $restaurant_id;
-            $safe->sum =    $request->sum;
+            $safe->sum =    $request->payment - $request->paycheck  ;
             $safe->ty_of_transaction =    $request->ty_of_transaction;
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;
@@ -172,7 +168,7 @@ class SafeController extends Controller
             $safe = new Safe;
             $safe->employee_complete_name =    auth()->user()->name;
             $safe->restaurant_id =    $restaurant_id;
-            $safe->sum =    $request->sum;
+            $safe->sum =    $request->payment - $request->paycheck  ;
             $safe->ty_of_transaction =    $request->ty_of_transaction;
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;

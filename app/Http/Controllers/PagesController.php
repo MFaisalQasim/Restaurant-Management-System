@@ -219,14 +219,10 @@ class PagesController extends Controller
          $safe = Safe::whereBetween("created_at", [$startDate, $endDate])
         ->get();
         $total = $safe;
-        if (auth()->user()->hasRole('admin') ||
-         auth()->user()->hasRole('developer')
-        ) {
             
         $safe_sum = Safe::where('restaurant_id', '=', $id)->sum('sum') ;
-        } else {
-            $safe_sum = Safe::sum('sum');
-        }
+        // return $get_restaurant_id = Safe::where('restaurant_id', '=', $id)->get('restaurant_id', 'sum');
+       
         
         return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum', 'from_date_cont'));
     }
@@ -256,6 +252,14 @@ class PagesController extends Controller
             'expenseFile'=>  $expenseFile,
         ]);
     }
+    public function generate_expensesFile_fetch(Request $request)
+    {
+        $expenseFile = ExpenseFile::get();
+        return response()->json([
+            'expenseFile'=>  $expenseFile,
+        ]);
+    }
+    
     public function generate_report_fetch(Request $request)
     {
         $report = Report::get();

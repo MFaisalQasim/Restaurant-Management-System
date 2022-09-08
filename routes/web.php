@@ -6,7 +6,7 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => ['admin','user','deve
     // Route::get('/dashboard', function () {
     //     return view('dashboard.index');
     // });
-    // Route::get('dashboard', 'PagesController@Dashboard');
+    Route::get('dashboard', 'PagesController@Dashboard');
     Route::get('dashboard/{id}', 'PagesController@Dashboard');
 
     Route::get('account-settings', 'UsersController@getSettings');
@@ -361,7 +361,8 @@ Route::get('restaurant', 'PagesController@restaurant');
 Route::get('restaurant/fetch/{id}', 'PagesController@generate_restaurant_fetch');
 // Route::get('restaurant/{id}', 'PagesController@restaurant');
 Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
-Route::post('restaurant/create', 'RestaurantController\\RestaurantController@store');
+Route::post('restaurant', 'RestaurantController\\RestaurantController@store');
+Route::delete('restaurant/{id}', 'RestaurantController\\RestaurantController@destroy');
 
 Route::get('restaurant_setting/{id}', 'PagesController@restaurant_setting');
 Route::patch('restaurant_setting/{id}', 'RestaurantController\\RestaurantController@update');
@@ -390,6 +391,7 @@ Route::get('expenses/{id}', 'PagesController@expenses');
 Route::get('expenses/create/{id}', 'ExpensesController\\ExpensesController@create');
 Route::post('expenses/create/{id}', 'ExpensesController\\ExpensesController@store');
 Route::get('expenses/fetch/{id}', 'PagesController@generate_expenses_fetch');
+Route::get('expensesFile/fetch/{id}', 'PagesController@generate_expensesFile_fetch');
 
 Route::get('employee-salary/{id}', 'PagesController@employee_salary');
 Route::get('employee-salary/create/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@create');
@@ -418,10 +420,10 @@ Route::post('report/export/{id}', 'PagesController@export')->name("report.export
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe')->name("safe.generate.id");
 
 Route::get('safe/{id}', 'PagesController@generate_safe');
-Route::post('safe/{id}', 'PagesController@generate_safe');
+// Route::post('safe/{id}', 'PagesController@generate_safe');
 
 Route::get('safe/fetch/{id}', 'PagesController@generate_safe_fetch');
-Route::post('safe/fetch/{id}', 'PagesController@generate_safe_fetch');
+// Route::post('safe/fetch/{id}', 'PagesController@generate_safe_fetch');
 
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe');
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe')->name("safe.deposite.generate");

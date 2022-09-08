@@ -175,6 +175,7 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
+        // return $id;
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
             Restaurant::destroy($id);

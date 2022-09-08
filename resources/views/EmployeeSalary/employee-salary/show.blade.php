@@ -57,8 +57,10 @@ $today = $year . '-' . $month . '-' . $day;
                                             </style>
                                             @if (auth()->user()->hasRole('admin') ||
                                                 auth()->user()->hasRole('developer'))
-                                                <label class="form-control red_bold_text" for="">The sum for the
-                                                    Selected Period: 34,00.0
+                                                <label class="form-control red_bold_text" for=""
+                                                >The sum for the
+                                                    Selected Period: <label for="" id="selected_period_sum"></label>
+                                                    {{-- <input type="text"> --}}
                                                     {{-- {{ number_format($salary_sum, 2, '.', ',') }} --}}
                                                 </label>
                                             @endif
@@ -133,8 +135,6 @@ $today = $year . '-' . $month . '-' . $day;
 
 @push('js')
     <script>
-
-
         function salary_fetch() {
             $from_date = $('#from').val();
             $to_date = $('#to').val();
@@ -168,12 +168,18 @@ $today = $year . '-' . $month . '-' . $day;
                                     '</td>\
                                                                                                                                                      </tr>'
                                 )
+                               item.total_sum += item.total_sum
+                               total_sum_this =  item.total_sum
+                               console.log(total_sum_this + 'total_sum_this');
 
                             }
 
                         }
 
                     });
+                $selected_period_sum = total_sum_this
+                $('#selected_period_sum').html($selected_period_sum);
+                  console.log($selected_period_sum + 'selected_period_sum');
                 }
             });
 
@@ -193,20 +199,13 @@ $today = $year . '-' . $month . '-' . $day;
                     arr = response.employee_salary;
                     $('tbody').find('tr').remove()
                     response.employee_salary.forEach(item => {
-                        
-                        // let rate = ((strtotime(item.finish_hour) - strtotime(item.start_hour)) / 3600) * item.rate
-                        // let rate = ((Date.parse(item.finish_hour,"MM/dd/yyyy") - Date.parse(item.start,"MM/dd/yyyy")) / 3600) * item.rate;
-
-                        // console.log(rate + 'rate');
 
                         if (item.restaurant_id == $url_restaurant_id) {
-                            console.log($this_previous_month + 'this_previous_month');
+                            // console.log($this_previous_month + 'this_previous_month');
                             item_date = item.date.slice(0, 7)
-                            console.log(item_date);
+                            // console.log(item_date);
                             if (item.date.slice(0, 7) == $this_previous_month) {
                                 console.log(arr.length + ' else if');
-                                
-
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                                             <td>' + item.name + '</td>\
@@ -218,10 +217,15 @@ $today = $year . '-' . $month . '-' . $day;
                                     '</td>\
                                                                                                                                                      </tr>'
                                 )
+                               item.total_sum += item.total_sum
+                               total_sum_this =  item.total_sum
+                               console.log(total_sum_this + 'total_sum_this');
                             }
                         }
-
                     });
+                $selected_period_sum = total_sum_this
+                $('#selected_period_sum').html($selected_period_sum);
+                  console.log($selected_period_sum + 'selected_period_sum');
                 }
             });
 

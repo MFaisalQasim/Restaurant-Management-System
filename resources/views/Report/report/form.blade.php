@@ -10,34 +10,26 @@
 
         <div class="col">
             <div class="form-group {{ $errors->has('total_income') ? 'has-error' : '' }}">
-                {{-- {!! Form::label('total_income', 'Total Income', ['class' => 'col-md-4 control-label']) !!} --}}
                 <div class="col-md-12">
                     <div style="display: flex   ;  justify-content: space-between;">
                         <div>
                             <input type="date" name="date" placeholder="Date" id="date" onload="getDate()"
                                 value="<?php echo $today; ?>" class="form-control">
                         </div>
-
-                        {{-- <div class="keywords_div">
-                        <nav class="navbar navbar-light bg-light"> --}}
                         <div class="topnav search_icon_div " style="display: flex;
                             ">
                             <button type="submit" class="search_button">
                                 <img src="{{ asset('assets/images/search_icon_bar.png') }}" alt="">
                             </button>
-                            <input class="form-control  mr-sm-2 keywords_search" name="keywords_search"
-                                type="search" placeholder="Employee" aria-label="Search">
+                            <input class="form-control  mr-sm-2 keywords_search" name="keywords_search" type="search"
+                                placeholder="Employee" aria-label="Search">
                         </div>
-                        {{-- </nav>
-
-                    </div> --}}
 
                     </div>
                     {!! $errors->first('total_income', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
             <div class="form-group {{ $errors->has('total_income') ? 'has-error' : '' }}">
-                {{-- {!! Form::label('total_income', 'Total Income', ['class' => 'col-md-4 control-label']) !!} --}}
                 <div class="col-md-6">
                     {!! Form::number(
                         'total_income',
@@ -77,12 +69,6 @@
                 <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
                     {!! Form::label('restaurant_id', 'Restaurant Name', ['class' => 'col-md-4 control-label']) !!}
                     <div class="col-md-6">
-
-                        {{-- <select class="form-select" aria-label="Default select example" name="restaurant_id">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select> --}}
                         <input type="text" class="form-control" value="{{ $restaurant->name }}" readonly>
                         {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
                     </div>
@@ -107,41 +93,39 @@
                         @endforeach --}}
 
                         <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="text" name="" id="" placeholder="UBER"
+                            <input class="input_border" type="number" name="" id="" placeholder="UBER"
                                 disabled>
                             &nbsp;
                             &nbsp;
-                            <input class="input_border" type="text" name="UBER" id="UBER" >
+                            <input class="input_border" type="number" name="UBER" id="UBER">
                         </li>
                         <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="text" name="" id=""  placeholder="BOLT"
+                            <input class="input_border" type="number" name="" id="" placeholder="BOLT"
                                 disabled>
                             &nbsp;
                             &nbsp;
-                            <input class="input_border" type="text" name="BOLT" id="" >
+                            <input class="input_border" type="number" name="BOLT" id="">
                         </li>
                         <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="text" name="" id=""  placeholder="WOLT"
+                            <input class="input_border" type="number" name="" id="" placeholder="WOLT"
                                 disabled>
                             &nbsp;
                             &nbsp;
-                            <input class="input_border" type="text" name="WOLT" id="" >
+                            <input class="input_border" type="number" name="WOLT" id="">
                         </li>
                         <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="text" name="" id=""   placeholder="PYSZNE"
-                                disabled>
+                            <input class="input_border" type="number" name="" id=""
+                                placeholder="PYSZNE" disabled>
                             &nbsp;
                             &nbsp;
-                            <input class="input_border" type="text" name="PYSZNE" id=""
-                                >
+                            <input class="input_border" type="number" name="PYSZNE" id="">
                         </li>
                         <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="text" name="" id=""  placeholder="GLOVO"
+                            <input class="input_border" type="number" name="" id="" placeholder="GLOVO"
                                 disabled>
                             &nbsp;
                             &nbsp;
-                            <input class="input_border" type="text" name="GLOVO" id=""
-                                >
+                            <input class="input_border" type="number" name="GLOVO" id="">
                         </li>
                     </ul>
                     @if (auth()->user()->hasRole('admin') ||
@@ -180,8 +164,7 @@
                         <tr>
                             <td>
                                 <input id="bank_note{{ $key }}" type="float"
-                                    data-id={{ $value->bank_note }} value="{{ $value->bank_note }}" 
-                                    disabled>
+                                    data-id={{ $value->bank_note }} value="{{ $value->bank_note }}" disabled>
                             </td>
                             <td>
                                 <input id="quantity" class="quantity"
@@ -190,11 +173,15 @@
                             </td>
                             <td>
                                 <input name="total_bank_note" class="total_bank_note"
-                                    id="total_bank_note{{ $key }}" type='text' value=""
+                                    id="total_bank_note{{ $key }}" type='text'
+                                    onchange="change(this.value,{{ $key }})" value=""
                                     {{-- value="{{$bank_cash_total =+ }}" --}} readonly />
+                                <input type="hidden" name="bank_note_sum" id="bank_note_sum{{ $key }}"
+                                    value="" readonly>
                             </td>
                         </tr>
                     @endforeach
+                    {{-- <input type="button" value="" onclick=""> --}}
                     <input type="hidden" name="total_bank_note_sum" id="total_bank_note_sum" value=""
                         readonly>
                 </tbody>
@@ -239,8 +226,25 @@
 
             document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
 
-            total_bank_note += total_bank_note
-            document.getElementById('total_bank_note_sum').value = Math.abs(total_bank_note)
+
+
+            // total_bank_note_sum = document.getElementById('total_bank_note_sum').value
+            // console.log(total_bank_note_sum + 'total_bank_note_sum 1');
+
+            // console.log(total_bank_note + 'total_bank_note 1');
+
+            // total_bank_note_previous = parseInt(document.getElementById('total_bank_note' + (num - 1)).value)
+            // console.log(total_bank_note_previous + 'total_bank_note_previous get 2');
+
+            // total_bank_note_previous += parseInt(total_bank_note) 
+
+            // total_bank_note_sum +=  ((total_bank_note_sum)+ parseInt(total_bank_note_previous))
+
+            // document.getElementById('total_bank_note_sum').value = Math.abs(total_bank_note_sum)
+
+            // console.log(total_bank_note_sum + 'total_bank_note_sum get 3');
+
+
         }
     </script>
 @endpush

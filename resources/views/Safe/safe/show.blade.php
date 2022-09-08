@@ -137,8 +137,8 @@ $year_month = $year . '-' . $month;
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
                                                                                     <td>' + item.date + '</td>\
-                                                                                    <td>' + item.paycheck + '</td>\
                                                                                     <td>' + item.payment + '</td>\
+                                                                                    <td>' + item.paycheck+ '</td>\
                                                                                     <td>' + (item.payment - item
                                         .paycheck) +
                                         '</td>\
@@ -172,7 +172,8 @@ $year_month = $year . '-' . $month;
                     $('tbody').find('tr').remove()
                     response.safe.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
-                            console.log($this_previous_month + 'this_previous_month 2');
+                            console.log(item.restaurant_id + 'this_previous_month 2');
+                            console.log($url_restaurant_id + 'this_previous_month 2');
                             item_date = item.date.slice(0, 7)
                             console.log(item_date + 'date');
 
@@ -181,10 +182,10 @@ $year_month = $year . '-' . $month;
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                                                                     <td>' + item.date + '</td>\
-                                                                                    <td>' + item.paycheck + '</td>\
                                                                                     <td>' + item.payment + '</td>\
-                                                                                    <td>' + (item.paycheck - item
-                                    .payment) +
+                                                                                    <td>' + item.paycheck + '</td>\
+                                                                                    <td>' + (item.payment - item
+                                    .paycheck ) +
                                     '</td>\
                                                                                                                              </tr>'
                                 )
