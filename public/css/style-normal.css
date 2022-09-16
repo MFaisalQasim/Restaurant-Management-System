@@ -2841,11 +2841,11 @@ ul.common li a:hover {
     border-top: 1px solid #e5ebec;
     border-right: 2px solid black;
     font-size: 12px !important;
-    max-width: 10px;
+    /* max-width: 10px; */
     width: auto !important;
-    padding: 15px 0px  15px 0px !important;
+    padding: 15px 0px 15px 0px !important;
     text-align: center;
-} 
+}
 
 .table>tbody>tr>td,
 .table>tbody>tr>th,

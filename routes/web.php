@@ -27,37 +27,6 @@ Route::group(['middleware' => 'guest'],function (){
 
 
 
-Route::group(['middleware' => 'auth'], function () {
-
-    /*routes for blog*/
-    Route::group(['prefix' => 'blog'], function () {
-        Route::get('/create', 'BlogController@create');
-        Route::post('/create', 'BlogController@store');
-        Route::get('delete/{id}', 'BlogController@destroy')->name('blog.delete');
-        Route::get('edit/{id}', 'BlogController@edit')->name('blog.edit');
-        Route::post('edit/{id}', 'BlogController@update');
-        Route::get('view/{id}', 'BlogController@show');
-//        Route::get('{blog}/restore', 'BlogController@restore')->name('blog.restore');
-        Route::post('{id}/storecomment', 'BlogController@storeComment')->name('storeComment');
-       
-    });
-    Route::resource('blog', 'BlogController');
-
-    /*routes for blog category*/
-    Route::group(['prefix' => 'blog-category'], function () {
-        Route::get('/', 'BlogCategoryController@getIndex');
-        Route::get('/create', 'BlogCategoryController@create');
-        Route::post('/create', 'BlogCategoryController@save');
-        Route::get('/delete/{id}', 'BlogCategoryController@delete');
-        Route::get('/edit/{id}', 'BlogCategoryController@edit');
-        Route::post('/edit/{id}', 'BlogCategoryController@update');
-    });
-    Route::resource('blogcategory', 'BlogCategoryController');
-
-    
-    
-});
-
 Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'developer'], function () {
     Route::get('index2', function () {
         return view('dashboard.index2');
@@ -312,15 +281,6 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
 
 });
 
-#User Management routes
-Route::get('users', 'UsersController@getIndex');
-Route::get('user/create', 'UsersController@create');
-Route::post('user/create', 'UsersController@save');
-Route::get('user/edit/{id}', 'UsersController@edit');
-Route::post('user/edit/{id}', 'UsersController@update');
-Route::get('user/delete/{id}', 'UsersController@delete');
-Route::get('user/deleted/', 'UsersController@getDeletedUsers');
-Route::get('user/restore/{id}', 'UsersController@restoreUser');
 
 //Log Viewer
 Route::get('log-viewers', '\Arcanedev\LogViewer\Http\Controllers\LogViewerController@index')->name('log-viewers');
@@ -346,6 +306,45 @@ Auth::routes();
 Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailController');
 Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailController');
 
+
+
+Route::group(['middleware' => 'auth'], function () {
+
+    /*routes for blog*/
+    Route::group(['prefix' => 'blog'], function () {
+        Route::get('/create', 'BlogController@create');
+        Route::post('/create', 'BlogController@store');
+        Route::get('delete/{id}', 'BlogController@destroy')->name('blog.delete');
+        Route::get('edit/{id}', 'BlogController@edit')->name('blog.edit');
+        Route::post('edit/{id}', 'BlogController@update');
+        Route::get('view/{id}', 'BlogController@show');
+//        Route::get('{blog}/restore', 'BlogController@restore')->name('blog.restore');
+        Route::post('{id}/storecomment', 'BlogController@storeComment')->name('storeComment');
+       
+    });
+    Route::resource('blog', 'BlogController');
+
+    /*routes for blog category*/
+    Route::group(['prefix' => 'blog-category'], function () {
+        Route::get('/', 'BlogCategoryController@getIndex');
+        Route::get('/create', 'BlogCategoryController@create');
+        Route::post('/create', 'BlogCategoryController@save');
+        Route::get('/delete/{id}', 'BlogCategoryController@delete');
+        Route::get('/edit/{id}', 'BlogCategoryController@edit');
+        Route::post('/edit/{id}', 'BlogCategoryController@update');
+    });
+    Route::resource('blogcategory', 'BlogCategoryController');
+
+#User Management routes
+Route::get('users', 'UsersController@getIndex');
+Route::get('user/create', 'UsersController@create');
+Route::post('user/create', 'UsersController@save');
+Route::get('user/edit/{id}', 'UsersController@edit');
+Route::post('user/edit/{id}', 'UsersController@update');
+Route::get('user/delete/{id}', 'UsersController@delete');
+Route::get('user/deleted/', 'UsersController@getDeletedUsers');
+Route::get('user/restore/{id}', 'UsersController@restoreUser');
+
 // Route::resource('restaurant', 'RestaurantController\\RestaurantController');
 // Route::resource('safe', 'SafeController\\SafeController');
 // Route::resource('total-cash', 'TotalCashController\\TotalCashController');
@@ -353,8 +352,6 @@ Route::resource('payment-detail', 'PaymentDetailController\\PaymentDetailControl
 // Route::resource('employee-salary', 'EmployeeSalaryController\\EmployeeSalaryController');
 // Route::resource('suppliers', 'SuppliersController\\SuppliersController');
 // Route::resource('report', 'ReportController\\ReportController');
-
-
 
 // Route::get('/dashboard/{id}', 'PagesController@Dashboard');
 Route::get('restaurant', 'PagesController@restaurant');
@@ -397,6 +394,7 @@ Route::get('employee-salary/{id}', 'PagesController@employee_salary');
 Route::get('employee-salary/create/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@create');
 Route::post('employee-salary/create/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@store');
 Route::get('employee-salary/fetch/{id}', 'PagesController@generate_employee_salary_fetch');
+Route::get('employee-salary-user/fetch/{id}', 'PagesController@generate_employee_user_salary_fetch');
 
 
 Route::get('suppliers/{id}', 'PagesController@suppliers');
@@ -424,7 +422,6 @@ Route::get('safe/{id}', 'PagesController@generate_safe');
 
 Route::get('safe/fetch/{id}', 'PagesController@generate_safe_fetch');
 // Route::post('safe/fetch/{id}', 'PagesController@generate_safe_fetch');
-
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe');
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe')->name("safe.deposite.generate");
 // Route::post('safe/generate/{id}', 'PagesController@generate_safe')->name("safe.payout.generate");
@@ -452,3 +449,20 @@ Route::get('employee-salary/generate/{id}', 'PagesController@employee_salary')->
 Route::get('employee/generate/{id}', 'PagesController@employee')->name("employee.generate");
 
 // Route::resource('employee', 'EmployeeController\\EmployeeController');
+    
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

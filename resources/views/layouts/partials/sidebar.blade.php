@@ -61,6 +61,7 @@
                         </div>
                     </div> --}}
                     @if (auth()->user()->isAdmin() == true)
+                    <li><a href="{{ asset('users') }}">Manage Users</a></li>
                         <li><a href="{{ asset('user/create') }}">Add New User</a></li>
                         <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li>
                     @endif

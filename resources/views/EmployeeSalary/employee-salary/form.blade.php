@@ -27,12 +27,24 @@
 
             <select class="select" data-mdb-filter="true" onchange="employee_fetch();" id="keywords_search"
                 name="keywords_search">
-                @foreach ($EmployeeSalary as $item)
-                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                {{-- @foreach ($EmployeeSalary as $item)
+                    @if ($item->restaurant_id == $url_restaurant_id)
+                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                    @endif
+                @endforeach --}}
+
+                @foreach ($user as $item)
+                    {{-- @if ($item->hasRole('Employee')) --}}
+                    @if (!$item->hasRole('developer') & !$item->hasRole('Customer'))
+                        @if ($item->restaurant_id == $url_restaurant_id)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                        @endif
+                    @endif
                 @endforeach
             </select>
         </div>
     </div>
+    <input type="hidden" name="employee_name" id="employee_name">
     {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
 </div>
 
@@ -43,13 +55,13 @@
             {!! Form::label('', 'Start Hour', ['class' => 'col-2 control-label p-0 pt-2']) !!}
             <div class="col  pl-0 pr-0 ">
                 <input class="form-control" id="start_hour" type="time" name="start_hour" id=""
-                onchange="get_number_of_hours()"    placeholder="Start Hour">
+                    onchange="get_number_of_hours()" placeholder="Start Hour">
                 {!! $errors->first('start_hour', '<p class="help-block">:message</p>') !!}
             </div>
             {!! Form::label('', 'Finish Hour', ['class' => 'col-2 control-label p-0 pt-2']) !!}
             <div class="col  pl-0 pr-0 ">
                 <input class="form-control" id="finish_hour" type="time" name="finish_hour" id=""
-                 onchange="get_number_of_hours()"   placeholder="Finish Hour">
+                    onchange="get_number_of_hours()" placeholder="Finish Hour">
                 {!! $errors->first('finish_hour', '<p class="help-block">:message</p>') !!}
             </div>
         </div>
@@ -184,35 +196,38 @@
 
     }
 
+
     function employee_fetch() {
 
-            let keywords_search = document.getElementById('keywords_search').value
-            console.log(keywords_search + 'keywords_search 1');
+        let keywords_search = document.getElementById('keywords_search').value
+        console.log(keywords_search + 'keywords_search 1');
 
-            $url_restaurant_id = $('#url_restaurant_id').val();
-            console.log($url_restaurant_id + 'url_restaurant_id');
-            $.ajax({
-                type: "GET",
-                url: '{{ url('employee-salary/fetch/' . $url_restaurant_id) }}',
-                dataType: "json",
-                success: function(response) {
-                    arr = response.employee_salary;
-                    response.employee_salary.forEach(item => {
-                        item_id = item.id
-                        console.log(keywords_search + 'keywords_search 2' + item_id + 'item_id 2');
+        $url_restaurant_id = $('#url_restaurant_id').val();
+        console.log($url_restaurant_id + 'url_restaurant_id');
+        $.ajax({
+            type: "GET",
+            url: '{{ url('employee-salary-user/fetch/' . $url_restaurant_id) }}',
+            dataType: "json",
+            success: function(response) {
+                arr = response.users;
+                response.users.forEach(item => {
+                    item_id = item.id
+                    console.log(keywords_search + 'keywords_search 2' + item_id + 'item_id 2');
 
-                        if (item.id == keywords_search) {
-                            document.getElementById('rate').value =
-                             ("")
-                            console.log(item.name + ' item.name ');
-                            console.log(item.rate + ' item.rate ');
-                            document.getElementById('rate').value = Math.abs(item.rate)
-                        }
+                    if (item.id == keywords_search) {
+                        document.getElementById('rate').value =
+                            ("")
+                        console.log(item.name + ' item.name ');
+                        item_name = item.name
+                        console.log(item_name + 'name');
+                        document.getElementById('employee_name').value = (item_name)
+                        console.log(item.salary + ' item.salary ');
+                        document.getElementById('rate').value = Math.abs(item.salary)
 
-                    });
-                }
-            });
-        
-        // setTimeout(get_number_of_hours, 8000)
+                    }
+
+                });
+            }
+        });
     }
 </script>

@@ -44,16 +44,11 @@ class PagesController extends Controller
     }
     public function generate_report(Request $request)
     {
-        // $time = now();
-        // return date("Y-m-d", mktime(0,0,0,date("n", $time),date("j",$time)- 1 ,date("Y", $time)));
-        // return $report = Report::where('can_see_upto_days' == date('Y-m-d', strtotime(' -2 day')));
-        // return date('Y-m-d', strtotime(' " {{-$date_day}}" . day'));
-
-        if (auth()->user()->hasRole('admin') ||
-        auth()->user()->hasRole('developer')){
+        if (Auth::user()->hasRole('admin') ||
+        Auth::user()->hasRole('developer')){
             
             $model = str_slug('restaurant','-');
-            if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+            if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
                 $keyword = $request->get('search');
                 $perPage = 25;
 
@@ -221,16 +216,18 @@ class PagesController extends Controller
         $total = $safe;
             
         $safe_sum = Safe::where('restaurant_id', '=', $id)->sum('sum') ;
+        $safe_payment_sum = Safe::where('restaurant_id', '=', $id)->sum('payment') ;
+        $safe_paycheck_sum = Safe::where('restaurant_id', '=', $id)->sum('paycheck') ;
         // return $get_restaurant_id = Safe::where('restaurant_id', '=', $id)->get('restaurant_id', 'sum');
        
         
-        return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum', 'from_date_cont'));
+        return view("Safe.safe.show", compact('safe', 'total', 'startDate', 'endDate', 'safe_sum', 'from_date_cont', 'safe_payment_sum', 'safe_paycheck_sum'));
     }
 
     public function generate_safe_fetch(Request $request)
     {
         
-        $safe = Safe::get();
+        $safe = Safe::orderBy('created_at', 'DESC')->get();
         return response()->json([
             'safe'=>  $safe,
         ]);
@@ -238,9 +235,16 @@ class PagesController extends Controller
     public function generate_employee_salary_fetch(Request $request)
     {
         
-        $employee_salary = EmployeeSalary::get();
+        $employee_salary = EmployeeSalary::orderBy('created_at', 'DESC')->get();
         return response()->json([
             'employee_salary'=>  $employee_salary,
+        ]);
+    }
+    public function generate_employee_user_salary_fetch(Request $request)
+    {
+        $users = User::orderBy('created_at', 'DESC')->get();
+        return response()->json([
+            'users'=>  $users,
         ]);
     }
     public function generate_expenses_fetch(Request $request)
@@ -262,7 +266,8 @@ class PagesController extends Controller
     
     public function generate_report_fetch(Request $request)
     {
-        $report = Report::get();
+        // return 'here';->orderBy('job_no', 'asc')
+        $report = Report::orderBy('created_at', 'DESC')->get();
         $supplier = Supplier::get();
         return response()->json([
             'report'=>  $report,
@@ -299,7 +304,7 @@ class PagesController extends Controller
     public function restaurant(Request $request)
     {
         $model = str_slug('restaurant','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
             if (!empty($keyword)) {
@@ -311,10 +316,7 @@ class PagesController extends Controller
                 ->orWhere('details', 'LIKE', "%$keyword%")
                 ->paginate($perPage);
             } else {
-                $restaurant_find = Restaurant::get();
-                foreach ($restaurant_find as $key => $value) {
-                    $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::paginate($perPage) : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage) ;
-                 }
+                $restaurant = Restaurant::paginate($perPage);
             }
                         
                     $supplier = Supplier::get();
@@ -328,8 +330,8 @@ class PagesController extends Controller
     
     public function generate_restaurant_fetch(Request $request)
     {
-        $restaurant = Restaurant::get();
-        $user = User::get();
+        $restaurant = Restaurant::orderBy('id', 'DESC')->get();
+        $user = User::orderBy('id', 'DESC')->get();
         return response()->json([
             'restaurant'=>  $restaurant,
             'user'=>  $user,
@@ -338,10 +340,10 @@ class PagesController extends Controller
     public function restaurant_setting(Request $request, $id)
     {
         $model = str_slug('restaurant','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
                 $restaurant_find = Restaurant::get();
                 // foreach ($restaurant_find as $key => $value) {
-                //     $restaurant = (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) ? Restaurant::get() : Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->get() ;
+                //     $restaurant = (Auth::user()->hasRole('admin') || Auth::user()->hasRole('developer')) ? Restaurant::get() : Restaurant::Where( 'id' , '=' , Auth::user()->restaurant_id )->get() ;
                 //  }
                 
                 $restaurant = Restaurant::findOrFail($id);
@@ -357,9 +359,10 @@ class PagesController extends Controller
     {
         // return "here";
         $model = str_slug('safe','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
+            // $safe_sum = Safe::sum('sum');
             if (!empty($keyword)) {
                 $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -367,13 +370,13 @@ class PagesController extends Controller
             } else {
                 $safe = Safe::paginate($perPage);
             }
-            if (auth()->user()->hasRole('admin') ||
-             auth()->user()->hasRole('developer')
-            ) {
-            $safe_sum = Safe::sum('sum');
-            } else {
-                $safe_sum = Safe::sum('sum');
-            }
+            // if (Auth::user()->hasRole('admin') ||
+            //  Auth::user()->hasRole('developer')
+            // ) {
+            // $safe_sum = Safe::sum('sum');
+            // } else {
+            //     $safe_sum = Safe::sum('sum');
+            // }
             return view('Safe.safe.show', compact('safe','safe_sum'));
         }
         return response(view('403'), 403);
@@ -381,9 +384,11 @@ class PagesController extends Controller
     public function safe_deposit(Request $request)
     {
         $model = str_slug('safe','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
+            
+            $safe_sum = Safe::sum('sum');
             if (!empty($keyword)) {
                 $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -391,13 +396,13 @@ class PagesController extends Controller
             } else {
                 $safe = Safe::paginate($perPage);
             }
-            if (auth()->user()->hasRole('admin') ||
-             auth()->user()->hasRole('developer')
-            ) {
-            $safe_sum = Safe::sum('sum');
-            } else {
-                $safe_sum = Safe::sum('sum');
-            }
+            // if (Auth::user()->hasRole('admin') ||
+            //  Auth::user()->hasRole('developer')
+            // ) {
+            // $safe_sum = Safe::sum('sum');
+            // } else {
+            //     $safe_sum = Safe::sum('sum');
+            // }
             return view('Safe.safe.show_deposit', compact('safe','safe_sum'));
         }
         return response(view('403'), 403);
@@ -406,9 +411,10 @@ class PagesController extends Controller
     public function safe_payouts(Request $request)
     {
         $model = str_slug('safe','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
+            $safe_sum = Safe::sum('sum');
             if (!empty($keyword)) {
                 $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -416,13 +422,13 @@ class PagesController extends Controller
             } else {
                 $safe = Safe::paginate($perPage);
             }
-            if (auth()->user()->hasRole('admin') ||
-             auth()->user()->hasRole('developer')
-            ) {
-            $safe_sum = Safe::sum('sum');
-            } else {
-                $safe_sum = Safe::sum('sum');
-            }
+            // if (Auth::user()->hasRole('admin') ||
+            //  Auth::user()->hasRole('developer')
+            // ) {
+            // $safe_sum = Safe::sum('sum');
+            // } else {
+            //     $safe_sum = Safe::sum('sum');
+            // }
             return view('Safe.safe.show_payouts', compact('safe','safe_sum'));
         }
         return response(view('403'), 403);
@@ -431,7 +437,7 @@ class PagesController extends Controller
     public function total_cash(Request $request)
     {
         $model = str_slug('totalcash','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
@@ -453,7 +459,7 @@ class PagesController extends Controller
     public function expenses(Request $request)
     {
         $model = str_slug('expenses','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
             if (!empty($keyword)) {
@@ -470,7 +476,7 @@ class PagesController extends Controller
     public function employee_salary(Request $request)
     {
         $model = str_slug('employeesalary','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
@@ -493,7 +499,7 @@ class PagesController extends Controller
     {
         // return 'here';
         $model = str_slug('report','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 
@@ -520,7 +526,7 @@ class PagesController extends Controller
     public function employee(Request $request)
     {
         $model = str_slug('employee','-');
-        if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
+        if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
 

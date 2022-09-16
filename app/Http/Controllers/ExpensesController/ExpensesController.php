@@ -91,12 +91,13 @@ class ExpensesController extends Controller
             $expenses->restaurant_id =    $id;
             $expenses->date_of_expense =    $request->date;
             $expenses->sum =    $request->sum;
+            $expenses->name =    $request->name;
+            
 
            if ($ErrorMsg == "") {
                $expenses->save();
            }
            if ($ErrorMsg == "" & $request->file) {
-                   
                for ($i = 0; $i < count($request->file); $i++) {
                    $SavedTourAttachment = AppHelper::SaveFileAndGetPath($request->file[$i], $UploadTourImagesPath);
    
@@ -121,6 +122,9 @@ class ExpensesController extends Controller
                    }
                }
            }
+        //    else {
+        //     return redirect('expenses/' . $id)->with('flash_message', 'We found some error!');
+        //    }
             // return redirect('expenses/create/' . $id)->with('flash_message', 'Expense added!');
             return redirect('expenses/' . $id)->with('flash_message', 'Expense added!');
         }

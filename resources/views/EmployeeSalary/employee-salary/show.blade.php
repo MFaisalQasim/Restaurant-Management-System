@@ -11,17 +11,20 @@ $year = date('Y');
 
 $today = $year . '-' . $month . '-' . $day;
 ?>
+
 @section('content')
     <div class="container-fluid">
         <!-- .row -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    {{-- <h3 class="box-title pull-left">Employee {{ $employee->id }}</h3> --}}
-                    @can('view-' . str_slug('EmployeeSalary'))
+                    <h3 class="box-title pull-left">Employee
+                        {{-- {{ $employee->id }} --}}
+                    </h3>
+                    {{-- @can('view-' . str_slug('EmployeeSalary'))
                         <a class="btn btn-success pull-right" href="{{ url('/employee-salary') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i>View Salary</a>
-                    @endcan
+                    @endcan --}}
                     <div class="clearfix"></div>
                     <hr>
                     <div class="card">
@@ -57,8 +60,7 @@ $today = $year . '-' . $month . '-' . $day;
                                             </style>
                                             @if (auth()->user()->hasRole('admin') ||
                                                 auth()->user()->hasRole('developer'))
-                                                <label class="form-control red_bold_text" for=""
-                                                >The sum for the
+                                                <label class="form-control red_bold_text" for="">The sum for the
                                                     Selected Period: <label for="" id="selected_period_sum"></label>
                                                     {{-- <input type="text"> --}}
                                                     {{-- {{ number_format($salary_sum, 2, '.', ',') }} --}}
@@ -90,9 +92,9 @@ $today = $year . '-' . $month . '-' . $day;
                                 <th> Name </th>
                                 <th> Salary sum </th>
                                 <th> Hours sum </th>
-                                <th> Average for the hour </th>
                                 <th> Bonus sum </th>
                                 <th> Total salary with bonus </th>
+                                <th> Average for the hour </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -134,7 +136,17 @@ $today = $year . '-' . $month . '-' . $day;
 @endsection
 
 @push('js')
-    <script>
+    <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        let item_total_sum = 0;
+        i = 0;
+        arr = [];
+
+        $(document).ready(function() {
+            salary_status_fetch();
+        });
+
         function salary_fetch() {
             $from_date = $('#from').val();
             $to_date = $('#to').val();
@@ -155,31 +167,32 @@ $today = $year . '-' . $month . '-' . $day;
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
 
-                            if (item.date >= $from_date & item.date <= $to_date ) {
+                            if (item.date >= $from_date & item.date <= $to_date) {
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                            <td>' + item.name + '</td>\
-                                                            <td>' + item.sum + '</td>\
-                                                            <td>' + item.number_of_hours + '</td>\
-                                                            <td>' + item.rate + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.total_sum +
+                                                                            <td>' + item.name + '</td>\
+                                                                            <td>' + item.sum + '</td>\
+                                                                            <td>' + item.number_of_hours + '</td>\
+                                                                            <td>' + item.bonus_sum + '</td>\
+                                                                            <td>' + item.total_sum +
                                     '</td>\
-                                                                                                                                                     </tr>'
+                                                                            <td>' + item.rate +
+                                    '</td>\
+                                                                                                                                                                     </tr>'
                                 )
-                               item.total_sum += item.total_sum
-                               total_sum_this =  item.total_sum
-                               console.log(total_sum_this + 'total_sum_this');
+                                item.total_sum += item.total_sum
+                                total_sum_this = item.total_sum
+                                console.log(total_sum_this + 'total_sum_this');
 
                             }
 
                         }
 
                     });
-                $selected_period_sum = total_sum_this
-                $('#selected_period_sum').html($selected_period_sum);
-                  console.log($selected_period_sum + 'selected_period_sum');
+                    $selected_period_sum = total_sum_this
+                    $('#selected_period_sum').html($selected_period_sum);
+                    console.log($selected_period_sum + 'selected_period_sum');
                 }
             });
 
@@ -208,24 +221,33 @@ $today = $year . '-' . $month . '-' . $day;
                                 console.log(arr.length + ' else if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                            <td>' + item.name + '</td>\
-                                                            <td>' + item.sum + '</td>\
-                                                            <td>' + item.number_of_hours + '</td>\
-                                                            <td>' + item.rate + '</td>\
-                                                            <td>' + item.bonus_sum + '</td>\
-                                                            <td>' + item.total_sum +
+                                                                            <td>' + item.name + '</td>\
+                                                                            <td>' + item.sum + '</td>\
+                                                                            <td>' + item.number_of_hours + '</td>\
+                                                                            <td>' + item.bonus_sum + '</td>\
+                                                                            <td>' + item.total_sum +
                                     '</td>\
-                                                                                                                                                     </tr>'
+                                                                            <td>' + item.rate +
+                                    '</td>\
+                                                                                                                                                                     </tr>'
                                 )
-                               item.total_sum += item.total_sum
-                               total_sum_this =  item.total_sum
-                               console.log(total_sum_this + 'total_sum_this');
+                                arr[i] = item.total_sum
+                                i++;
+
+                                // item_total_sum = item.total_sum
+                                // item_total_sum += item_total_sum
+
+                                // total_sum_this = item.total_sum
+
+                                // total_sum_this = item.total_sum
+                                // console.log(item_total_sum + 'total_sum_this 2 we');
                             }
                         }
                     });
-                $selected_period_sum = total_sum_this
-                $('#selected_period_sum').html($selected_period_sum);
-                  console.log($selected_period_sum + 'selected_period_sum');
+
+                    $selected_period_sum = arr.reduce((a, b) => a + b, 0);
+                    $('#selected_period_sum').html($selected_period_sum);
+                    console.log($selected_period_sum + 'selected_period_sum 3');
                 }
             });
 

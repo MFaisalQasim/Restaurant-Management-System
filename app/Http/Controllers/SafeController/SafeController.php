@@ -29,7 +29,8 @@ class SafeController extends Controller
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
-            $perPage = 25;
+                $safe_sum = Safe::sum('sum');
+                $perPage = 25;
             if (!empty($keyword)) {
                 $safe = Safe::where('employee_complete_name', 'LIKE', "%$keyword%")
                 ->orWhere('sum', 'LIKE', "%$keyword%")
@@ -37,13 +38,14 @@ class SafeController extends Controller
             } else {
                 $safe = Safe::paginate($perPage);
             }
-            if (auth()->user()->hasRole('admin') ||
-             auth()->user()->hasRole('developer')
-            ) {
-            $safe_sum = Safe::sum('sum');
-            } else {
-                $safe_sum = Safe::sum('sum');
-            }
+            // if (auth()->user()->hasRole('admin') ||
+            //  auth()->user()->hasRole('developer')
+            // ) {
+            // $safe_sum = Safe::sum('sum');
+            // }
+            //  else {
+                // $safe_sum = Safe::sum('sum');
+            // }
             return view('Safe.safe.index', compact('safe','safe_sum'));
 
             // return view('Safe.safe.index', compact('safe'));
@@ -130,19 +132,23 @@ class SafeController extends Controller
 			// 'employee_complete_name' => 'required',
 			// 'sum' => 'required',
 			// 'ty_of_transaction' => 'required',
-			'date' => 'required'
+			// 'date' => 'required'
 		]);
             $requestData = $request->all();
             // return $request;
             // Safe::create($requestData);
+        // $safe_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('sum') ;
+        $safe_payment_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('payment') ;
+        $safe_paycheck_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('paycheck') ;
+        $safe_sum = $safe_payment_sum -  $safe_paycheck_sum;
             $safe = new Safe;
             $safe->employee_complete_name =    auth()->user()->name;
             $safe->restaurant_id =    $restaurant_id;
-            $safe->sum =    $request->payment - $request->paycheck  ;
             $safe->ty_of_transaction =    $request->ty_of_transaction;
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
+            $safe->sum =    $safe_sum + $request->deposite;
             $safe->save();
             // return redirect('safe/deposit/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
             return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
@@ -160,15 +166,19 @@ class SafeController extends Controller
 			// 'employee_complete_name' => 'required',
 			// 'sum' => 'required',
 			// 'ty_of_transaction' => 'required',
-			'date' => 'required'
+			// 'date' => 'required'
 		]);
+        // $safe_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('sum') ;
+        $safe_payment_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('payment') ;
+        $safe_paycheck_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('paycheck') ;
+        $safe_sum = $safe_payment_sum -  $safe_paycheck_sum;
             $requestData = $request->all();
             // return $request;
             // Safe::create($requestData);
             $safe = new Safe;
             $safe->employee_complete_name =    auth()->user()->name;
             $safe->restaurant_id =    $restaurant_id;
-            $safe->sum =    $request->payment - $request->paycheck  ;
+            $safe->sum =    $safe_sum - $request->payout;
             $safe->ty_of_transaction =    $request->ty_of_transaction;
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;

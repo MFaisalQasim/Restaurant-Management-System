@@ -86,7 +86,7 @@ $year = date('Y');
 $today = $year . '-' . $month . '-' . $day;
 ?>
 
-<body class="@if (session()->get('theme-layout')) {{ session()->get('theme-layout') }} @endif">
+<body class="@if (session()->get('theme-layout')) {{ session()->get('theme-layout') }} @endif" >
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
         <div class="preloader">

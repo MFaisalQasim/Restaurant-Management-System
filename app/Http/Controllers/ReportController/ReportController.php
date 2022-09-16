@@ -63,6 +63,7 @@ class ReportController extends Controller
      */
     public function create($id)
     {
+        // return "here";
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $supplier = Supplier::get();
@@ -72,9 +73,9 @@ class ReportController extends Controller
              $expense_today = Expense::whereRaw('Date(created_at) = CURDATE()')->sum('sum');
 
              $employee_salary_paid_today = EmployeeSalary::whereRaw('Date(created_at) = CURDATE()')->where('type', '=' ,"Paid in cash")->sum('sum');
-            //   return sum($employee_salary_paid_today);
-             
             
+            // return [$expense_today, $employee_salary_paid_today];
+             
             return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today', 'restaurant'));
         }
         return response(view('403'), 403);
@@ -90,11 +91,22 @@ class ReportController extends Controller
     public function store(Request $request,$id)
     {
         // return $request;
+        $ErrorMsg = "";
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
-			// 'restaurant_id' => 'required'
+			'date' => 'required',
+			'total_income' => 'required',
+			'card_transactions' => 'required',
+			'sales_volume_supplier' => 'required',
+			'total_bank_note_sum' => 'required',
+			'cash' => 'required',
+			// 'date' => 'required',
+			// 'date' => 'required',
+			// 'date' => 'required',
+			// 'date' => 'required',
 		]);
+        try {
             $requestData = $request->all();
             
             // Report::create($requestData);
@@ -102,25 +114,40 @@ class ReportController extends Controller
             $report->total_income =  $request->total_income;
             $report->card_transactions =  $request->card_transactions;
             $report->canceled_sale =  $request->canceled_sale;
-            $report->supplier_cash =  $request->supplier_cash;
+            $report->supplier_cash =  $request->sales_volume_supplier;
             $report->bank_cash_total =  $request->total_bank_note_sum;
+            $report->expense_today =  $request->expense_today;
+            $report->employee_salary_paid_today =  $request->employee_salary_paid_today;
             $report->cash =  $request->cash;
+            $report->date =  $request->date;
             $report->UBER =  $request->UBER;
             $report->BOLT =  $request->BOLT;
             $report->WOLT =  $request->WOLT;
             $report->PYSZNE =  $request->PYSZNE;
             $report->GLOVO =  $request->GLOVO;
-            $report->status =  $request->cash - $request->total_bank_note_sum;
+            $report->status =  $request->total_bank_note_sum - $request->cash ;
+            // $report->status =  0;
             $report->restaurant_id =  $id;
             $report->report_handler =  Auth::User()->name;
-            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-                $report->restaurant_id =     $request->restaurant_id ;
-            } else {
-                $report->restaurant_id =     auth()->user()->restaurant_id;
-            }
+            // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+            //     $report->restaurant_id =     $request->restaurant_id ;
+            // } else {
+            //     $report->restaurant_id =     auth()->user()->restaurant_id;
+            // }
+            
+            
+           if ($ErrorMsg == "") {
             $report->save();
-            // return redirect('report/create/'. $id)->with('flash_message', 'Report added!');
+            }
             return redirect('report/'. $id)->with('flash_message', 'Report added!');
+        } catch (\Throwable $th) {
+            // alert($th);
+            // die;
+            // return redirect('report/create/'. $id)->with('flash_message', 'Report error!');
+            return redirect('report/create/'. $id)->with('alert', 'You have enter some wrong or  in complete data!');
+        }
+        
+        // return redirect('report/'. $id)->with('flash_message', 'Report added!');
         }
         return response(view('403'), 403);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Profile;
 use App\Role;
 use App\User;
+use App\Restaurant;
 use Carbon\Carbon;
 use Illuminate\Cache\RetrievesMultipleKeys;
 use Illuminate\Http\Request;
@@ -20,16 +21,25 @@ class UsersController extends Controller
 
     public function create(){
         $roles = Role::all();
-        return view('users.create',compact('roles'));
+        $restaurant = Restaurant::get();
+        return view('users.create',compact('roles','restaurant'));
     }
 
     public function save(Request $request){
-// return $request;
+        // return $request;
+        // $user = User::where('email' , '=', $request->email)->first();
         $this->validate($request,[
             'name' => 'required',
-            'email' => 'required',
-            'restaurant_id' => 'required',
+            'email'                => "required|email|unique:users,email,{$request->id}",
             'password' => 'required|min:6|confirmed',
+            'status' => 'required',
+            'surname' => 'required',
+            'date_of_employment' => 'required',
+            'hourly_salary' => 'required',
+            'telephone_number' => 'required',
+            'restaurant_id' => 'required',
+            'restaurant_id' => 'required',
+            'restaurant_id' => 'required',
 //            'dob' => 'required',
 //            'pic_file' => 'required',
 //            'bio' => 'required',
@@ -47,19 +57,26 @@ class UsersController extends Controller
         ]);
 //        $user->assignRole($role->name);
 
-        $user           = User::firstOrCreate(['name'=>$request->name,
-        'email'=> $request->email
+        $user           = User::firstOrCreate([
+            'name'=>$request->name,
+        'email'=> $request->email,
+        'status'  => $request->status ,
+        'surname' => $request->surname,
     ]);
-        $user->status   = 1;
+        // $user->status   = 1;
 
         // return $user;
+        $user->date_of_joining = $request->date_of_employment;
+        $user->date_of_leaving = $request->end_of_work_date;
+        $user->salary = $request->hourly_salary;
+        $user->telephone = $request->telephone_number;
+        $user->restaurant_id = $request->restaurant_id;
         $user->password = bcrypt($request->password);
         $user->restaurant_id = $request->restaurant_id;
-        $user->save();
+        // $user->restaurant_id = $request->restaurant_id;
 
-        // return $user;
-        // return $user->restaurant_id;
-        // return $user->restaurant_id;
+
+        $user->save();
 
         if ($file = $request->file('pic_file')) {
             $extension = $file->extension()?: 'png';
@@ -83,7 +100,19 @@ class UsersController extends Controller
         $profile->bio = $request->bio;
         $profile->gender = $request->gender;
         $profile->dob = $date;
-        $profile->country = $request->country;
+        $profile->place_of_birth = $request->place_of_birth;
+        $profile->PESEL = $request->PESEL;
+        $profile->id_number = $request->id_number;
+        $profile->passport_number = $request->passport_number;
+        $profile->country_of_issue = $request->country_of_issue;
+        $profile->mother_name = $request->mother_name;
+        $profile->father_name = $request->father_name;
+        $profile->citizenship = $request->citizenship;
+        $profile->bank_account_number = $request->bank_account_number;
+        $profile->student = $request->student;
+        $profile->name_of_the_university = $request->name_of_the_university;
+        $profile->until_when_the_student = $request->until_when_the_student;
+        
         $profile->state = $request->state;
         $profile->city = $request->city;
         $profile->address = $request->address;
@@ -229,7 +258,6 @@ class UsersController extends Controller
             $date = $request->dob;
         }
 
-
         if ($file = $request->file('pic_file')) {
             $extension = $file->extension()?: 'png';
             $destinationPath = storage_path('/app/public/uploads/users/');
@@ -239,10 +267,8 @@ class UsersController extends Controller
             if (File::exists($destinationPath . $user->pic)) {
                 File::delete($destinationPath . $user->pic);
             }
-            //save new file path into db
             $profile->pic = $safeName;
         }
-
 
         $profile->user_id = $user->id;
         $profile->bio = $request->bio;
@@ -254,9 +280,12 @@ class UsersController extends Controller
         $profile->address = $request->address;
         $profile->postal = $request->postal;
         $profile->save();
-
         Session::flash('message','Account has been updated');
         return redirect()->back();
+    }
+    public function callAction($method, $parameters)
+    {
+        return parent::callAction($method, array_values($parameters));
     }
 
 }

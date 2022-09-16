@@ -76,6 +76,7 @@ class EmployeeSalaryController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // return $request;
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -95,7 +96,7 @@ class EmployeeSalaryController extends Controller
             $bonus_for_what = "Good Will Bonus";
             $bonus_sum = "not paid in cash";
             $employeesalary = new EmployeeSalary;
-            $employeesalary->name =   Auth::User()->name;
+            $employeesalary->name =  $request->employee_name;
             $employeesalary->restaurant_id =    $id;
             $employeesalary->rate =    $request->rate;
             $employeesalary->number_of_hours =    $request->number_of_hours;
@@ -112,6 +113,7 @@ class EmployeeSalaryController extends Controller
             $employeesalary->save();
             // return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
             return redirect('employee-salary/'. $id)->with('flash_message', 'EmployeeSalary added!');
+            // return view('EmployeeSalary.employee-salary.create', compact('employeesalary'));
         }
         return response(view('403'), 403);
     }

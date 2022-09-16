@@ -14,22 +14,19 @@ $year = date('Y');
 
 $today = $year . '-' . $month . '-' . $day;
 ?>
+
+@push('css')
+    <link href="{{ asset('plugins/components/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
+@endpush
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" onload="report_default_fetch();">
         <!-- .row -->
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    {{-- <h3 class="box-title pull-left">Report {{ $report->id }}</h3> --}}
-                    {{-- @can('view-' . str_slug('Report'))
-                        <a class="btn btn-success pull-right" href="{{ url('/report') }}">
-                            <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
-                    @endcan --}}
-                    @can('add-' . str_slug('Report'))
-                        <a class="btn btn-success pull-right" href="{{ url('report/create/' . $url_restaurant_id) }}"><i
-                                class="icon-plus"></i> Add
-                            Report</a>
-                    @endcan
+                    <h3 class="box-title pull-left">Report
+                    </h3>
                     <div class="clearfix"></div>
                     <hr>
 
@@ -37,8 +34,6 @@ $today = $year . '-' . $month . '-' . $day;
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-12 mx-auto p-2">
-                                    {{-- <form action="{{ url('safe/generate') . '/' . $url_restaurant_id }}" method="post" --}}
-                                    {{-- @csrf --}}
                                     <div class=" d-flex " style="justify-content: space-around;">
                                         <div class="form-group d-flex">
                                             <label class="form-control" for="">From</label>
@@ -62,117 +57,32 @@ $today = $year . '-' . $month . '-' . $day;
                                                 </option>
                                             </select>
                                         </div>
-                                        {{-- </form> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    {{-- @isset($total) --}}
-                    {{-- <h4 class="text-primary mt-4 mb-2 font-weight-bold"> Report from {{ $startDate }} to
-                            {{ $endDate }}
-
-                        </h4> --}}
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                             <tr>
-                                {{-- <th>Id</th> --}}
-                                {{-- <th>Menus</th> --}}
                                 <th>Date</th>
                                 <th>Total income</th>
                                 <th>Card Transactions</th>
                                 <th>Canceled Sale</th>
-
                                 @foreach ($supplier as $item)
                                     <th>
                                         {{ $item->name }}
                                     </th>
                                 @endforeach
                                 <th>Supplier Cash</th>
+                                <th>Cash</th>
                                 <th>Bank Cash Total</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @foreach ($report as $report)
-                                    <tr>
-                                        <td>
-                                            {{ $report->created_at->format('Y-m-d') }}
-                                        </td>
-                                        <td>
-                                            {{ $report->total_income }}
-                                        </td>
-                                        <td>
-                                            {{ $report->card_transactions }}
-                                        </td>
-                                        <td>
-                                            {{ $report->canceled_sale }}
-                                        </td>
-                                        <td>
-                                            {{ $report->supplier_cash }}
-                                        </td>
-                                        @foreach ($supplier as $item)
-                                            <td>
-                                                {{ $item->sum }}
-                                            </td>
-                                        @endforeach
-                                        <td>
-                                            {{ $report->bank_cash_total }}
-                                        </td>
-                                        <td>
-                                            {{ $report->bank_cash_total - $report->cash >= -5
-                                                ? 'Compliant =' . ($report->bank_cash_total - $report->cash)
-                                                : 'Incosistent =' . ($report->bank_cash_total - $report->cash) }}
-                                        </td>
-                                        @if (auth()->user()->hasRole('admin') ||
-    auth()->user()->hasRole('developer'))
-                                            <td>
-                                                {{ $report->restaurant_id }}
-                                            </td>
-                                        @endif
-                                    </tr>
-                                @endforeach --}}
                         </tbody>
                     </table>
-                    <ul>
-
-                    </ul>
-                    {{-- <p class="text-danger text-center font-weight-bold">
-                            <span class="border border-danger p-2">
-                                Total : {{ $total }} DH
-                                Total : {{ $report->bank_cash_total }} DH
-                            </span>
-                        </p> --}}
-                    {{-- <form action="{{ route('report.export') }}" method="post">
-                            @csrf
-
-                            @if (auth()->user()->hasRole('admin') ||
-    auth()->user()->hasRole('developer'))
-                                <div class="form-group">
-                                    <input type="hidden" name="from" value="{{ $startDate }}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" name="to" value="{{ $endDate }}" class="form-control">
-                                </div>
-                            @endif --}}
-                    {{-- <div class="form-group">
-                                <button class="btn btn-danger">
-                                    Generate the Excel Report
-                                </button>
-                            </div> --}}
-                    {{-- </form> --}}
-                    {{-- @endisset --}}
-                    {{-- <div class="table-responsive">
-                        <table class="table table">
-                            <tbody>
-                            <tr>
-                                <th>ID</th>
-                                <td>{{ $report->id }}</td>
-                            </tr>
-                            <tr><th> Total Income </th><td> {{ $report->total_income }} </td></tr><tr><th> Card Transactions </th><td> {{ $report->card_transactions }} </td></tr><tr><th> Canceled Sale </th><td> {{ $report->canceled_sale }} </td></tr>
-                            </tbody>
-                        </table>
-                    </div> --}}
                 </div>
             </div>
         </div>
@@ -180,7 +90,28 @@ $today = $year . '-' . $month . '-' . $day;
 @endsection
 
 @push('js')
-    <script>
+    <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
+
+    <!-- start - This is for export functionality only -->
+    <!-- end - This is for export functionality only -->
+    <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            @if (\Session::has('message'))
+                $.toast({
+                    heading: 'Success!',
+                    position: 'top-center',
+                    text: '{{ session()->get('message') }}',
+                    loaderBg: '#ff6849',
+                    icon: 'success',
+                    hideAfter: 3000,
+                    stack: 6
+                });
+            @endif
+            report_status_fetch();
+        });
+
         function report_fetch() {
             $from_date = $('#from').val();
             $to_date = $('#to').val();
@@ -207,25 +138,28 @@ $today = $year . '-' . $month . '-' . $day;
                             if (item.date >= $from_date & item.date <= $to_date) {
                                 console.log(arr.length + ' if if');
                                 status = item.cash - item.bank_cash_total
-                                Compliant_status = (status >= -5) ?  "Compliant = " + status : "InCompliant = " + status;
-                                // Compliant_status = (item.status <= -5) ?  "Compliant = "item.status :"InCompliant = " item.status
+                                Compliant_status = (status <= -5 || status >= 5) ? "InCompliant = " +
+                                    item.status :
+                                    "Compliant = " + item.status;
+                                item_created_at = item.created_at.slice(0, 9)
                                 console.log(Compliant_status + 'Compliant_status');
 
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                    <td>' + item.date + '</td>\
-                                                        <td>' + item.total_income + '</td>\
-                                                        <td>' + item.card_transactions + '</td>\
-                                                        <td>' + item.canceled_sale + '</td>\
-                                                        <td>' + item.UBER + '</td>\
-                                                        <td>' + item.BOLT + '</td>\
-                                                        <td>' + item.WOLT + '</td>\
-                                                        <td>' + item.PYSZNE + '</td>\
-                                                        <td>' + item.GLOVO + '</td>\
-                                                        <td>' + item.supplier_cash + '</td>\
-                                                        <td>' + item.bank_cash_total + '</td>\
-                                                        <td>' + Compliant_status + '</td>\
-                                                    </tr>'
+                                                                                <td>' + item_created_at + '</td>\
+                                                                                    <td>' + item.total_income + '</td>\
+                                                                                    <td>' + item.card_transactions + '</td>\
+                                                                                    <td>' + item.canceled_sale + '</td>\
+                                                                                    <td>' + item.UBER + '</td>\
+                                                                                    <td>' + item.BOLT + '</td>\
+                                                                                    <td>' + item.WOLT + '</td>\
+                                                                                    <td>' + item.PYSZNE + '</td>\
+                                                                                    <td>' + item.GLOVO + '</td>\
+                                                                                    <td>' + item.supplier_cash + '</td>\
+                                                                                    <td>' + item.cash + '</td>\
+                                                                                    <td>' + item.bank_cash_total + '</td>\
+                                                                                    <td>' + Compliant_status + '</td>\
+                                                                                </tr>'
                                 )
                             }
 
@@ -255,23 +189,26 @@ $today = $year . '-' . $month . '-' . $day;
                             if (item.date.slice(0, 7) == $this_previous_month) {
                                 console.log(arr.length + ' else if');
                                 status = item.cash - item.bank_cash_total
-                                Compliant_status = (status >= -5) ?  "Compliant = " + item.status : "InCompliant = " + item.status;
-                                // Compliant_status = (item.st
+                                Compliant_status = (status <= -5 || status >= 5) ? "InCompliant = " +
+                                    item.status :
+                                    "Compliant = " + item.status;
+                                item_created_at = item.created_at.slice(0, 10)
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                    <td>' + item.date + '</td>\
-                                                        <td>' + item.total_income + '</td>\
-                                                        <td>' + item.card_transactions + '</td>\
-                                                        <td>' + item.canceled_sale + '</td>\
-                                                        <td>' + item.UBER + '</td>\
-                                                        <td>' + item.BOLT + '</td>\
-                                                        <td>' + item.WOLT + '</td>\
-                                                        <td>' + item.PYSZNE + '</td>\
-                                                        <td>' + item.GLOVO + '</td>\
-                                                        <td>' + item.supplier_cash + '</td>\
-                                                        <td>' + item.bank_cash_total + '</td>\
-                                                        <td>' + Compliant_status + '</td>\
-                                                    </tr>'
+                                                                                <td>' + item_created_at + '</td>\
+                                                                                    <td>' + item.total_income + '</td>\
+                                                                                    <td>' + item.card_transactions + '</td>\
+                                                                                    <td>' + item.canceled_sale + '</td>\
+                                                                                    <td>' + item.UBER + '</td>\
+                                                                                    <td>' + item.BOLT + '</td>\
+                                                                                    <td>' + item.WOLT + '</td>\
+                                                                                    <td>' + item.PYSZNE + '</td>\
+                                                                                    <td>' + item.GLOVO + '</td>\
+                                                                                    <td>' + item.supplier_cash + '</td>\
+                                                                                    <td>' + item.cash + '</td>\
+                                                                                    <td>' + item.bank_cash_total + '</td>\
+                                                                                    <td>' + Compliant_status + '</td>\
+                                                                                </tr>'
                                 )
                             }
                         }

@@ -12,7 +12,7 @@
 @if (auth()->user()->hasRole('admin') ||
     auth()->user()->hasRole('developer'))
     <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
-        {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
+        {!! Form::label('restaurant_id', 'Restaurant Name', ['class' => 'col-md-4 control-label']) !!}
         <div class="col-md-6">
 
             <input type="text" class="form-control" value="{{$restaurant->name}}" readonly>
@@ -20,17 +20,6 @@
         </div>
     </div>
 @endif
-
-<div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
-    {!! Form::label('date', 'Date of Transaction', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-        
-        <input type="date" name="date" placeholder="Date" id="date"
-            onload="getDate()" value="<?php echo $today; ?>"
-            class="form-control">
-        {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
-    </div>
-</div>
 
 <div class="form-group {{ $errors->has('payout') ? 'has-error' : '' }}">
     {!! Form::label('payout', 'Enter Payout', ['class' => 'col-md-4 control-label']) !!}
@@ -43,6 +32,17 @@
         {!! $errors->first('payout', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+{{-- <div class="form-group {{ $errors->has('date') ? 'has-error' : '' }}">
+    {!! Form::label('date', 'Date of Transaction', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        
+        <input type="date" name="date" placeholder="Date" id="date"
+            onload="getDate()" value="<?php echo $today; ?>"
+            class="form-control">
+        {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
+    </div>
+</div> --}}
+
 {{-- <div class="form-group {{ $errors->has('ty_of_transaction') ? 'has-error' : '' }}">
     {!! Form::label('ty_of_transaction', 'Type of Transaction', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">

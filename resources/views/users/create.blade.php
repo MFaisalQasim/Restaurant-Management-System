@@ -84,22 +84,36 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab1">
                                     <h2 class="hidden">&nbsp;</h2>
+                                    <div class="form-group {{ $errors->first('status', 'has-error') }}">
+                                        <label for="status" class="col-sm-2 control-label">Status *</label>
+                                        <div class="col-sm-10">
+                                            {{-- <input id="status" name="status" type="date"
+                                                placeholder="Date of Employment" class="form-control required"
+                                                value="{!! old('status') !!}" />
+
+                                            {!! $errors->first('status', '<span class="help-block">:message</span>') !!} --}}
+                                            <select id="status" name="status" required>
+                                                <option value="1">Active</option>
+                                                <option value="2">InActive</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group {{ $errors->first('name', 'has-error') }}">
                                         <label for="name" class="col-sm-2 control-label">Name *</label>
                                         <div class="col-sm-10">
-                                            <input id="name" name="name" type="text" placeholder="Name"
+                                            <input id="name" name="name" type="text" placeholder="Name" required
                                                 class="form-control required" value="{!! old('name') !!}" />
 
                                             {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-
-                                    <div class="form-group {{ $errors->first('email', 'has-error') }}">
-                                        <label for="email" class="col-sm-2 control-label">Email *</label>
+                                    <div class="form-group {{ $errors->first('surname', 'has-error') }}">
+                                        <label for="surname" class="col-sm-2 control-label">Surname *</label>
                                         <div class="col-sm-10">
-                                            <input id="email" name="email" placeholder="E-mail" type="text"
-                                                class="form-control required email" value="{!! old('email') !!}" />
-                                            {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                                            <input id="surname" name="surname" type="text" placeholder="Surname" required
+                                                class="form-control required" value="{!! old('surname') !!}" />
+
+                                            {!! $errors->first('surname', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
@@ -109,13 +123,67 @@
                                             <select class="form-select" aria-label="Default select example"
                                                 name="restaurant_id" class="form-control required restaurant_id"
                                                 value="{!! old('restaurant_id') !!}">
-                                                <option value="1">One</option>
+                                                @foreach ($restaurant as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                                {{-- <option value="1">One</option>
                                                 <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                                <option value="3">Three</option> --}}
                                             </select>
                                             {!! $errors->first('restaurant_id', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
+                                    <div class="form-group {{ $errors->first('date_of_employment', 'has-error') }}">
+                                        <label for="date_of_employment" class="col-sm-2 control-label">Date of Employment
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="date_of_employment" name="date_of_employment" type="date"required
+                                                placeholder="Date of Employment" class="form-control required"
+                                                value="{!! old('date_of_employment') !!}" />
+
+                                            {!! $errors->first('date_of_employment', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('end_of_work_date', 'has-error') }}">
+                                        <label for="end_of_work_date" class="col-sm-2 control-label">End of Work Date
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="end_of_work_date" name="end_of_work_date" type="date"
+                                                placeholder="Date of Employment" class="form-control required"
+                                                value="{!! old('end_of_work_date') !!}" />
+
+                                            {!! $errors->first('end_of_work_date', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('hourly_salary', 'has-error') }}">
+                                        <label for="password_confirm" class="col-sm-2 control-label">Hourly Salary
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="hourly_salary" name="hourly_salary" type="number" required
+                                                placeholder="Hourly Salary " class="form-control required" />
+                                            {!! $errors->first('hourly_salary', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('telephone_number', 'has-error') }}">
+                                        <label for="telephone_number" class="col-sm-2 control-label">Telephone number
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="telephone_number" name="telephone_number" type="text" required
+                                                placeholder="Telephone number" class="form-control required"
+                                                value="{!! old('telephone_number') !!}" />
+
+                                            {!! $errors->first('telephone_number', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('email', 'has-error') }}">
+                                        <label for="email" class="col-sm-2 control-label">Email *</label>
+                                        <div class="col-sm-10">
+                                            <input id="email" name="email" placeholder="E-mail" type="text"
+                                                class="form-control required email" value="{!! old('email') !!}" />
+                                            {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+
 
                                     <div class="form-group {{ $errors->first('password', 'has-error') }}">
                                         <label for="password" class="col-sm-2 control-label">Password *</label>
@@ -130,8 +198,9 @@
                                         <label for="password_confirm" class="col-sm-2 control-label">Confirm Password
                                             *</label>
                                         <div class="col-sm-10">
-                                            <input id="password_confirmation" name="password_confirmation" type="password"
-                                                placeholder="Confirm Password " class="form-control required" />
+                                            <input id="password_confirmation" name="password_confirmation"
+                                                type="password" placeholder="Confirm Password "
+                                                class="form-control required" />
                                             {!! $errors->first('password_confirmation', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -141,16 +210,138 @@
                                     <div class="form-group  {{ $errors->first('dob', 'has-error') }}">
                                         <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
                                         <div class="col-sm-10">
-                                            <input value="{{ old('dob') }}" autocomplete="off" id="dob"
-                                                name="dob" type="text" class="form-control"
+                                            <input value="{{ old('dob') }}" autocomplete="off" id="dob" required
+                                                name="dob" type="date" class="form-control"
                                                 data-date-format="YYYY-MM-DD" placeholder="yyyy-mm-dd" />
                                             <span class="help-block">{{ $errors->first('dob', ':message') }}</span>
 
                                         </div>
                                     </div>
+                                    <div class="form-group {{ $errors->first('place_of_birth', 'has-error') }}">
+                                        <label for="place_of_birth" class="col-sm-2 control-label">Place of birth
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="place_of_birth" name="place_of_birth" type="text" required
+                                                placeholder="place_of_birth" class="form-control required"
+                                                value="{!! old('place_of_birth') !!}" />
 
+                                            {!! $errors->first('place_of_birth', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('PESEL ', 'has-error') }}">
+                                        <label for="PESEL " class="col-sm-2 control-label">PESEL *</label>
+                                        <div class="col-sm-10">
+                                            <input id="PESEL " name="PESEL " type="text" placeholder="PESEL "required
+                                                class="form-control required" value="{!! old('PESEL ') !!}" />
 
-                                    <div class="form-group {{ $errors->first('pic_file', 'has-error') }}">
+                                            {!! $errors->first('PESEL ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('id_number', 'has-error') }}">
+                                        <label for="id_number" class="col-sm-2 control-label">ID number *</label>
+                                        <div class="col-sm-10">
+                                            <input id="id_number" name="id_number" type="text"
+                                                placeholder="id_number" class="form-control required"required
+                                                value="{!! old('id_number') !!}" />
+
+                                            {!! $errors->first('id_number', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('passport_number', 'has-error') }}">
+                                        <label for="passport_number" class="col-sm-2 control-label">Passport number
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="passport_number" name="passport_number" type="text"
+                                                placeholder="passport_number" class="form-control required"required
+                                                value="{!! old('passport_number') !!}" />
+
+                                            {!! $errors->first('passport_number', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('country_of_issue', 'has-error') }}">
+                                        <label for="country_of_issue" class="col-sm-2 control-label">Country of issue
+                                            *</label>
+                                        <div class="col-sm-10">
+                                            <input id="country_of_issue" name="country_of_issue" type="country"required
+                                                placeholder="country_of_issue" class="form-control required"
+                                                value="{!! old('country_of_issue') !!}" />
+
+                                            {!! $errors->first('country_of_issue', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('mother_name', 'has-error') }}">
+                                        <label for="mother_name" class="col-sm-2 control-label">Mother's name *</label>
+                                        <div class="col-sm-10">
+                                            <input id="mother_name" name="mother_name" type="country"required
+                                                placeholder="mother_name" class="form-control required"
+                                                value="{!! old('mother_name') !!}" />
+
+                                            {!! $errors->first('mother_name', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('father_name', 'has-error') }}">
+                                        <label for="father_name" class="col-sm-2 control-label">Father's name *</label>
+                                        <div class="col-sm-10">
+                                            <input id="father_name" name="father_name" type="country"required
+                                                placeholder="father_name" class="form-control required"
+                                                value="{!! old('father_name') !!}" />
+
+                                            {!! $errors->first('father_name', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('citizenship ', 'has-error') }}">
+                                        <label for="citizenship " class="col-sm-2 control-label">citizenship*</label>
+                                        <div class="col-sm-10">
+                                            <input id="citizenship " name="citizenship " type="country"required
+                                                placeholder="citizenship " class="form-control required"
+                                                value="{!! old('citizenship ') !!}" />
+
+                                            {!! $errors->first('citizenship ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('bank_account_number  ', 'has-error') }}">
+                                        <label for="bank_account_number  " class="col-sm-2 control-label">Bank account
+                                            number *</label>
+                                        <div class="col-sm-10">
+                                            <input id="bank_account_number  " name="bank_account_number  " required type="country"
+                                                placeholder="bank_account_number  " class="form-control required"
+                                                value="{!! old('bank_account_number  ') !!}" />
+
+                                            {!! $errors->first('bank_account_number  ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('student   ', 'has-error') }}">
+                                        <label for="student   " class="col-sm-2 control-label">Student *</label>
+                                        <div class="col-sm-10">
+                                            <input id="student   " name="student   " type="country"required
+                                                placeholder="student   " class="form-control required"
+                                                value="{!! old('student   ') !!}" />
+
+                                            {!! $errors->first('student   ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('name_of_the_university    ', 'has-error') }}">
+                                        <label for="name_of_the_university   " class="col-sm-2 control-label">Name of the
+                                            University *</label>
+                                        <div class="col-sm-10">
+                                            <input id="name_of_the_university   " name="name_of_the_university   "
+                                                type="country" placeholder="name_of_the_university   "required
+                                                class="form-control required" value="{!! old('name_of_the_university   ') !!}" />
+
+                                            {!! $errors->first('name_of_the_university   ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    <div class="form-group {{ $errors->first('until_when_the_student     ', 'has-error') }}">
+                                        <label for="until_when_the_student   " class="col-sm-2 control-label">until when the student  *</label>
+                                        <div class="col-sm-10">
+                                            <input id="until_when_the_student   " name="until_when_the_student   "required
+                                                type="date" placeholder="until_when_the_student   "
+                                                class="form-control required" value="{!! old('until_when_the_student   ') !!}" />
+
+                                            {!! $errors->first('until_when_the_student   ', '<span class="help-block">:message</span>') !!}
+                                        </div>
+                                    </div>
+                                    {{-- <div class="form-group {{ $errors->first('pic_file', 'has-error') }}">
                                         <label for="pic" class="col-sm-2 control-label">Profile picture</label>
                                         <div class="col-sm-10">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
@@ -172,10 +363,8 @@
                                             </div>
                                             <span class="help-block">{{ $errors->first('pic_file', ':message') }}</span>
                                         </div>
-                                    </div>
-
-
-                                    <div class="form-group">
+                                    </div> 
+                                     <div class="form-group">
                                         <label for="bio" class="col-sm-2 control-label">Bio
                                             <small>(brief intro) *</small>
                                         </label>
@@ -183,9 +372,10 @@
                                             <textarea name="bio" id="bio" class="form-control resize_vertical" rows="4">{!! old('bio') !!}</textarea>
                                         </div>
                                         {!! $errors->first('bio', '<span class="help-block">:message</span>') !!}
-                                    </div>
+                                    </div> --}}
+
                                 </div>
-                                <div class="tab-pane" id="tab3" disabled="disabled">
+                                {{-- <div class="tab-pane" id="tab3" disabled="disabled">
                                     <div class="form-group {{ $errors->first('gender', 'has-error') }}">
                                         <label for="email" class="col-sm-2 control-label">Gender *</label>
                                         <div class="col-sm-10">
@@ -255,7 +445,7 @@
 
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="tab-pane" id="tab4" disabled="disabled">
                                     <p class="text-danger"><strong>Be careful with role selection, if you give admin
                                             access.. they can access admin section</strong></p>
@@ -275,6 +465,7 @@
                                             <span class="help-block">{{ $errors->first('role', ':message') }}</span>
                                         </div>
                                     </div>
+
                                     {{-- <div class="form-group"> --}}
                                     {{-- <label for="activate" class="col-sm-2 control-label"> Activate User *</label> --}}
                                     {{-- <div class="col-sm-10"> --}}
