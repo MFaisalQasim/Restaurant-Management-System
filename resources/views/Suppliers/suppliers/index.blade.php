@@ -23,7 +23,7 @@
                         <table class="table table-borderless" id="myTable">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                {{-- <th>#</th> --}}
                                 <th>Name</th><th>Sum</th><th>Date Of Order</th>
                                 <th>Actions</th>
                             </tr>
@@ -31,7 +31,7 @@
                             <tbody>
                             @foreach($suppliers as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration or $item->id }}</td>
+                                    {{-- <td>{{ $loop->iteration or $item->id }}</td> --}}
                                     <td>{{ $item->name }}</td><td>{{ $item->sum }}</td><td>{{ $item->date_of_order }}</td>
                                     <td>
                                         @can('view-'.str_slug('Suppliers'))

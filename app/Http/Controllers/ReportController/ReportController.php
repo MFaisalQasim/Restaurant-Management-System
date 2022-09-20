@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Expense;
 use App\EmployeeSalary;
 use App\Restaurant;
+use App\User;
 use Carbon;
 
 class ReportController extends Controller
@@ -69,6 +70,7 @@ class ReportController extends Controller
             $supplier = Supplier::get();
             $total_cash = TotalCash::get();
             $restaurant = Restaurant::findOrFail($id);
+            $user = User::get();
 
              $expense_today = Expense::whereRaw('Date(created_at) = CURDATE()')->sum('sum');
 
@@ -76,7 +78,7 @@ class ReportController extends Controller
             
             // return [$expense_today, $employee_salary_paid_today];
              
-            return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today', 'restaurant'));
+            return view('Report.report.create', compact('supplier','total_cash', 'expense_today', 'employee_salary_paid_today', 'restaurant','user'));
         }
         return response(view('403'), 403);
     }
@@ -101,15 +103,9 @@ class ReportController extends Controller
 			'sales_volume_supplier' => 'required',
 			'total_bank_note_sum' => 'required',
 			'cash' => 'required',
-			// 'date' => 'required',
-			// 'date' => 'required',
-			// 'date' => 'required',
-			// 'date' => 'required',
 		]);
         try {
             $requestData = $request->all();
-            
-            // Report::create($requestData);
             $report= new Report;
             $report->total_income =  $request->total_income;
             $report->card_transactions =  $request->card_transactions;
@@ -120,34 +116,22 @@ class ReportController extends Controller
             $report->employee_salary_paid_today =  $request->employee_salary_paid_today;
             $report->cash =  $request->cash;
             $report->date =  $request->date;
-            $report->UBER =  $request->UBER;
-            $report->BOLT =  $request->BOLT;
-            $report->WOLT =  $request->WOLT;
-            $report->PYSZNE =  $request->PYSZNE;
-            $report->GLOVO =  $request->GLOVO;
             $report->status =  $request->total_bank_note_sum - $request->cash ;
-            // $report->status =  0;
             $report->restaurant_id =  $id;
-            $report->report_handler =  Auth::User()->name;
+            $report->report_handler =   $request->name;
             // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
             //     $report->restaurant_id =     $request->restaurant_id ;
             // } else {
             //     $report->restaurant_id =     auth()->user()->restaurant_id;
             // }
-            
-            
            if ($ErrorMsg == "") {
             $report->save();
             }
             return redirect('report/'. $id)->with('flash_message', 'Report added!');
         } catch (\Throwable $th) {
-            // alert($th);
-            // die;
-            // return redirect('report/create/'. $id)->with('flash_message', 'Report error!');
             return redirect('report/create/'. $id)->with('alert', 'You have enter some wrong or  in complete data!');
         }
-        
-        // return redirect('report/'. $id)->with('flash_message', 'Report added!');
+        return redirect('report/'. $id)->with('flash_message', 'Report added!');
         }
         return response(view('403'), 403);
     }

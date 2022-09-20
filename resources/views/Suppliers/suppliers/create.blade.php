@@ -1,4 +1,9 @@
 @extends('layouts.master')
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+?>
 
 @section('content')
     <div class="container-fluid">
@@ -20,7 +25,7 @@
                         </ul>
                     @endif
 
-                    {!! Form::open(['url' => '/suppliers', 'class' => 'form-horizontal', 'files' => true]) !!}
+                    {!! Form::open(['url' => '/suppliers/create/'.$url_restaurant_id, 'class' => 'form-horizontal', 'files' => true]) !!}
 
                     @include ('Suppliers.suppliers.form')
 

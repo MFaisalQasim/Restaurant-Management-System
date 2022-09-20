@@ -7,8 +7,6 @@ $url_restaurant_id = intval(end($tmp));
 $sum = 0;
 
 $month = date('m');
-// $this_previous_month = date('Y-m');
-// $this_previous_month = date('Y-m', strtotime(' -1 month'));
 $day = date('d');
 $year = date('Y');
 
@@ -69,15 +67,15 @@ $today = $year . '-' . $month . '-' . $day;
                                 <th>Total income</th>
                                 <th>Card Transactions</th>
                                 <th>Canceled Sale</th>
-                                @foreach ($supplier as $item)
-                                    <th>
-                                        {{ $item->name }}
-                                    </th>
-                                @endforeach
                                 <th>Supplier Cash</th>
                                 <th>Cash</th>
                                 <th>Bank Cash Total</th>
                                 <th>Status</th>
+                                {{-- @foreach ($supplier as $item)
+                                    <th>
+                                        {{ $item->name }}
+                                    </th>
+                                @endforeach --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -90,12 +88,14 @@ $today = $year . '-' . $month . '-' . $day;
 @endsection
 
 @push('js')
-    <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <!-- start - This is for export functionality only -->
-    <!-- end - This is for export functionality only -->
+    <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
     <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
     <script type="text/javascript">
+        i = 0;
+        j = 0;
+        supplier_arr = [];
         $(document).ready(function() {
 
             @if (\Session::has('message'))
@@ -129,38 +129,45 @@ $today = $year . '-' . $month . '-' . $day;
                     console.log(arr + ' arr');
                     $('tbody').find('tr').remove()
                     response.report.forEach(item => {
+
+                        response.supplier.forEach(sup => {
+                            console.log(sup + "sup here");
+                        })
+
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
                             console.log(item.date + 'item.date');
                             console.log($to_date + 'to_date');
                             console.log($from_date + 'from_date');
 
-                            if (item.date >= $from_date & item.date <= $to_date) {
+                            if (item.created_at.slice(0, 10) >= $from_date & item.created_at.slice(0,
+                                    10) <= $to_date) {
                                 console.log(arr.length + ' if if');
                                 status = item.cash - item.bank_cash_total
                                 Compliant_status = (status <= -5 || status >= 5) ? "InCompliant = " +
                                     item.status :
                                     "Compliant = " + item.status;
-                                item_created_at = item.created_at.slice(0, 9)
+                                item_created_at = item.created_at.slice(0, 10)
                                 console.log(Compliant_status + 'Compliant_status');
+
+                                see_cash_reports_days = response.restaurant_find.see_cash_reports_days;
+
+                                console.log(response.restaurant_find.see_cash_reports_days +
+                                    'response.restaurant.see_cash_reports_days');
 
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                <td>' + item_created_at + '</td>\
-                                                                                    <td>' + item.total_income + '</td>\
-                                                                                    <td>' + item.card_transactions + '</td>\
-                                                                                    <td>' + item.canceled_sale + '</td>\
-                                                                                    <td>' + item.UBER + '</td>\
-                                                                                    <td>' + item.BOLT + '</td>\
-                                                                                    <td>' + item.WOLT + '</td>\
-                                                                                    <td>' + item.PYSZNE + '</td>\
-                                                                                    <td>' + item.GLOVO + '</td>\
-                                                                                    <td>' + item.supplier_cash + '</td>\
-                                                                                    <td>' + item.cash + '</td>\
-                                                                                    <td>' + item.bank_cash_total + '</td>\
-                                                                                    <td>' + Compliant_status + '</td>\
-                                                                                </tr>'
+                                                            <td>' + item_created_at + '</td>\
+                                                            <td>' + item.total_income + '</td>\
+                                                            <td>' + item.card_transactions + '</td>\
+                                                            <td>' + item.canceled_sale + '</td>\
+                                                            <td>' + item.supplier_cash + '</td>\
+                                                            <td>' + item.cash + '</td>\
+                                                            <td>' + item.bank_cash_total + '</td>\
+                                                            <td>' + Compliant_status + '</td>\
+                                                        </tr>'
                                 )
+                                // }
                             }
 
                         }
@@ -185,30 +192,27 @@ $today = $year . '-' . $month . '-' . $day;
                     response.report.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log($this_previous_month + 'this_previous_month');
-                            console.log(item.date.slice(0, 7) + 'item.date.slice(0, 7');
-                            if (item.date.slice(0, 7) == $this_previous_month) {
+                            console.log(item.created_at.slice(0, 7) + 'item.date.slice(0, 7');
+                            if (item.created_at.slice(0, 7) == $this_previous_month) {
                                 console.log(arr.length + ' else if');
                                 status = item.cash - item.bank_cash_total
                                 Compliant_status = (status <= -5 || status >= 5) ? "InCompliant = " +
                                     item.status :
                                     "Compliant = " + item.status;
                                 item_created_at = item.created_at.slice(0, 10)
+
+
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                <td>' + item_created_at + '</td>\
-                                                                                    <td>' + item.total_income + '</td>\
-                                                                                    <td>' + item.card_transactions + '</td>\
-                                                                                    <td>' + item.canceled_sale + '</td>\
-                                                                                    <td>' + item.UBER + '</td>\
-                                                                                    <td>' + item.BOLT + '</td>\
-                                                                                    <td>' + item.WOLT + '</td>\
-                                                                                    <td>' + item.PYSZNE + '</td>\
-                                                                                    <td>' + item.GLOVO + '</td>\
-                                                                                    <td>' + item.supplier_cash + '</td>\
-                                                                                    <td>' + item.cash + '</td>\
-                                                                                    <td>' + item.bank_cash_total + '</td>\
-                                                                                    <td>' + Compliant_status + '</td>\
-                                                                                </tr>'
+                                        <td>' + item_created_at + '</td>\
+                                        <td>' + item.total_income + '</td>\
+                                        <td>' + item.card_transactions + '</td>\
+                                        <td>' + item.canceled_sale + '</td>\
+                                        <td>' + item.supplier_cash + '</td>\
+                                        <td>' + item.cash + '</td>\
+                                        <td>' + item.bank_cash_total + '</td>\
+                                        <td>' + Compliant_status + '</td>\
+                                    </tr>'
                                 )
                             }
                         }
@@ -218,5 +222,24 @@ $today = $year . '-' . $month . '-' . $day;
                 }
             });
         }
+
+        $(function() {
+            var dtToday = new Date();
+
+            var month = dtToday.getMonth() + 1;
+            var day = dtToday.getDate();
+            var year = dtToday.getFullYear();
+            if (month < 10)
+                month = '0' + month.toString();
+            if (day < 10)
+                day = '0' + day.toString();
+            var maxDate = year + '-' + month + '-' + day;
+
+            // or instead:
+            // var maxDate = dtToday.toISOString().substr(0, 10);
+
+            // alert(maxDate);
+            $('#to').attr('max', maxDate);
+        });
     </script>
 @endpush

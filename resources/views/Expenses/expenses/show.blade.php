@@ -90,7 +90,7 @@ $today = $year . '-' . $month . '-' . $day;
                                 <th> Sum </th>
                                 <th> Expense Name </th>
                                 <th> File </th>
-                                {{-- <th> Download </th> --}}
+                                <th> Download </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -157,7 +157,6 @@ $today = $year . '-' . $month . '-' . $day;
 
             var item_file
             let item_expenses_id;
-            // let item_file = "12312ad";
             $from_date = $('#from').val();
             $to_date = $('#to').val();
             $this_previous_month = $('#month').val();
@@ -204,39 +203,31 @@ $today = $year . '-' . $month . '-' . $day;
                                 //  '+ (item_file == null) ? '<td>' + "nul"  + '</td>' : '<td>' + item.name + '</td>\
                                 // <td> <a class="download_file" href="' +
                                 // item_file + '" download >  '+ (item_file == null) ? "Download File" : '</a></td>\
+
                                 if (item_file != null) {
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
-                                                                                                        <td>' + item
-                                        .date_of_expense + '</td>\
-                                                                                                        <td>' + item
-                                        .for_whom + '</td>\
-                                                                                                        <td>' + item.sum +
-                                        '</td>\
-                                                                                                        <td>' + item.name +
-                                        '</td>\
-                                                                                                        <td> <a class="download_file" href="' +
-                                        item_file + '" download >   Download File  </a></td>\
-                                                                                                        </tr>'
+                                                    <td>' + item.date_of_expense + '</td>\
+                                                    <td>' + item.for_whom + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.name + '</td>\
+                                                    <td> <a class="download_file" href="' + item_file + '" download >   Download File  </a></td>\
+                                                    <td><a class="download_file" href="' + '/expenses/update/' + item.id +
+                                        '" > ||  Check  ||</a></td>\
+                                                </tr>'
                                     )
-                                }
-                                    else {
+                                } else {
                                     $('tbody').append(
                                         '<tr class="tr_remove" >\
-                                                                                                        <td>' + item
-                                        .date_of_expense + '</td>\
-                                                                                                        <td>' + item
-                                        .for_whom + '</td>\
-                                                                                                        <td>' + item.sum +
-                                        '</td>\
-                                                                                                        <td>' + item.name +
-                                        '</td>\
-                                                                                                        <td>' + "No file" +
-                                        '</td>\
-                                                                                                        </tr>'
+                                                    <td>' + item.date_of_expense + '</td>\
+                                                    <td>' + item.for_whom + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.name + '</td>\
+                                                    <td>' + "No file" + '</td>\
+                                                    <td>' + "Disabled" + '</td>\
+                                                </tr>'
                                     )
-
-                                    }
+                                }
                                 item_file = null;
 
                             }
@@ -260,85 +251,71 @@ $today = $year . '-' . $month . '-' . $day;
                 url: '{{ url('expenses/fetch/' . $url_restaurant_id) }}',
                 dataType: "json",
                 success: function(response) {
-                    // console.log(response.expenses);
                     arr = response.expenses;
                     $('tbody').find('tr').remove()
                     response.expenses.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
-                            console.log($this_previous_month + 'not this_previous_month');
-
-                            {
+                            console.log($this_previous_month + 'not this_previous_month'); {
                                 console.log($this_previous_month + 'this_previous_month');
                                 console.log(item.date_of_expense + 'item.date_of_expense');
                                 item_date = item.date_of_expense;
                                 console.log(item_date + 'item_date');
 
-                                response.expenseFile.forEach(values => {
-
-                                    item_id = item.id;
-                                    expenses_item_id = values.expenses_id;
-
-                                    console.log(expenses_item_id + 'expenses_item_id' +
-                                        item_id + 'item_id');
-
-                                    if (expenses_item_id == item_id) {
-                                        console.log(expenses_item_id + 'expenses_item_id' +
-                                            item_id + 'item_id');
-                                        if (expenses_item_id != undefined & expenses_item_id !=
-                                            "undefined") {
-                                            item_file = values.file;
-                                            console.log(item_file + "item_file");
-                                        } else {
-                                            item_file = null;
-                                            console.log("is null");
-                                        }
-                                    }
-                                });
-                                console.log(item_file + 'item_file');
-
                                 if (item_date.slice(0, 7) == $this_previous_month) {
                                     console.log($this_previous_month + 'date match');
                                     console.log(arr.length + ' if if');
-                                    if (item_file != null) {
-                                    $('tbody').append(
-                                        '<tr class="tr_remove" >\
-                                                                                                        <td>' + item
-                                        .date_of_expense + '</td>\
-                                                                                                        <td>' + item
-                                        .for_whom + '</td>\
-                                                                                                        <td>' + item.sum +
-                                        '</td>\
-                                                                                                        <td>' + item.name +
-                                        '</td>\
-                                                                                                        <td> <a class="download_file" href="' +
-                                        item_file + '" download >   Download File  </a></td>\
-                                                                                                        </tr>'
-                                    )
-                                }
-                                    else {
-                                    $('tbody').append(
-                                        '<tr class="tr_remove" >\
-                                                                                                        <td>' + item
-                                        .date_of_expense + '</td>\
-                                                                                                        <td>' + item
-                                        .for_whom + '</td>\
-                                                                                                        <td>' + item.sum +
-                                        '</td>\
-                                                                                                        <td>' + item.name +
-                                        '</td>\
-                                                                                                        <td>' + "No file" +
-                                        '</td>\
-                                                                                                        </tr>'
-                                    )
 
+                                    response.expenseFile.forEach(values => {
+
+                                        item_id = item.id;
+                                        expenses_item_id = values.expenses_id;
+
+                                        console.log(expenses_item_id + 'expenses_item_id' +
+                                            item_id + 'item_id');
+
+                                        if (expenses_item_id == item_id) {
+                                            console.log(expenses_item_id + 'expenses_item_id' +
+                                                item_id + 'item_id');
+                                            if (expenses_item_id != undefined &
+                                                expenses_item_id !="undefined") {
+                                                item_file = values.file;
+                                                console.log(item_file + "item_file");
+                                            } else {
+                                                item_file = null;
+                                                console.log("is null");
+                                            }
+                                        }
+                                    });
+                                    console.log(item_file + 'item_file');
+                                    if (item_file != null) {
+                                        $('tbody').append(
+                                            '<tr class="tr_remove" >\
+                                                    <td>' + item.date_of_expense + '</td>\
+                                                    <td>' + item.for_whom + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.name + '</td>\
+                                                    <td> <a class="download_file" href="' + item_file + '" download >   Download File  </a></td>\
+                                                    <td><a class="download_file" href="' + '/expenses/update/' + item.id +
+                                            '" > ||  Check  ||</a></td>\
+                                                </tr>'
+                                        )
+                                    } else {
+                                        $('tbody').append(
+                                            '<tr class="tr_remove" >\
+                                                    <td>' + item.date_of_expense + '</td>\
+                                                    <td>' + item.for_whom + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.name + '</td>\
+                                                    <td>' + "No file" + '</td>\
+                                                    <td>' + "Disabled" + '</td>\
+                                                </tr>'
+                                        )
                                     }
-                                item_file = null;
+                                    item_file = null;
                                 }
                             }
-
                         }
-
                     });
                 }
             });

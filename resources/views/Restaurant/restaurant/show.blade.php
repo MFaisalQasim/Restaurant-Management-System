@@ -3,15 +3,6 @@
 $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $tmp = explode('/', $url);
 $url_restaurant_id = intval(end($tmp));
-$sum = 0;
-
-$month = date('m');
-$day = date('d');
-$year = date('Y');
-
-$today = $year . '-' . $month . '-' . $day;
-$month = $month;
-$year_month = $year . '-' . $month;
 ?>
 
 
@@ -25,9 +16,13 @@ $year_month = $year . '-' . $month;
                         {{-- {{ auth()->user()->restaurant_id }} --}}
                     </h3>
                     @can('view-' . str_slug('Restaurant'))
-                        <a class="btn btn-success pull-right" href="{{ url('/restaurant') }}">
+                        <a class="btn btn-success pull-right ml-4" href="{{ url('/restaurant') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan
+                    @can('add-' . str_slug('Restaurant'))
+                    <a class="btn btn-success  m-3" href="{{ asset('user/create/'. $url_restaurant_id) }}">
+                         Add New User</a>
+                         @endcan
                     <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{ $url_restaurant_id }}">
                     <div class="clearfix"></div>
                     <hr>
@@ -44,10 +39,10 @@ $year_month = $year . '-' . $month;
                                             value="{{ $url_restaurant_id }}">
                                         <div class="form-group d-flex">
 
-                                            <select class="emp_status form-control input_border" name="emp_status" id="emp_status"
-                                                onchange="restaurant_fetch()">
-                                                <option value="2">InActive</option>
+                                            <select class="emp_status form-control input_border" name="emp_status"
+                                                id="emp_status" onchange="restaurant_fetch()">
                                                 <option value="1">Active</option>
+                                                <option value="2">InActive</option>
                                             </select>
                                         </div>
                                     </div>
@@ -84,19 +79,84 @@ $year_month = $year . '-' . $month;
                             </tbody>
                         </table>
                         <div class="col-md-6">
-                            {{-- <ul class="input_border" style="padding:0px">
+                            <div class="row input_border
+                            ">
+                                <div class="col">
+                                    <ul class="" style="padding:0px">
+                                        @foreach ($user as $key => $item)
+                                            <li style="display: flex ; list-style:none ">
+                                                <input class="" type="text" name="" id=""
+                                                    {{-- style="border: none;" --}} value="{{ $item->salary }}" readonly>
+                                                {{-- &nbsp;
+                                            &nbsp;
+                                            <input class="" type="text" name="" id=""
+                                                value="{{ $item->name }}" readonly> --}}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <div class="row">
 
-                                @foreach ($supplier as $key => $item)
-                                    <li style="display: flex ; list-style:none ; ">
-                                        <input class="" type="text" name="" id=""
-                                            value="{{ $item->name }}" readonly>
-                                        &nbsp;
-                                        &nbsp;
-                                        <input class="" type="text" name="" id=""
-                                            value="{{ $item->sum }}" readonly>
-                                    </li>
-                                @endforeach
-                            </ul> --}}
+                                        @can('add-' . str_slug('Suppliers'))
+                                            <a class=" btn-success pull-right"
+                                                href="{{ url('/suppliers/create/' . $url_restaurant_id) }}"><i
+                                                    class="icon-plus"></i>
+                                                     Add Suppliers
+                                                    </a>
+                                        @endcan
+                                    </div>
+                                    <div class="row">
+                                        <ul class="" style="padding:0px">
+                                            @foreach ($supplier as $key => $item)
+                                                <li style="display: flex ; list-style:none ; ">
+                                                    <input class="" type="text" name="" id=""
+                                                        value="{{ $item->name }}" readonly>
+                                                    {{-- &nbsp;
+                                                &nbsp;
+                                                <input class="" type="text" name="" id=""
+                                                    value="{{ $item->sum }}" readonly> --}}
+
+                                                    {{-- @can('view-' . str_slug('Suppliers'))
+                                                        <a href="{{ url('/suppliers/' . $item->id) }}" title="View Supplier">
+                                                            <button class="btn btn-info btn-sm">
+                                                                <i class="fa fa-eye" aria-hidden="true"></i> View
+                                                            </button>
+                                                        </a>
+                                                    @endcan --}}
+
+                                                    @can('edit-' . str_slug('Suppliers'))
+                                                        <a href="{{ url('/suppliers/edit/' . $item->id) }}"
+                                                            title="Edit Supplier">
+                                                            <button class=" btn-primary btn-sm">
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> 
+                                                            </button>
+                                                        </a>
+                                                    @endcan
+                                                    @can('delete-' . str_slug('Suppliers'))
+                                                        {!! Form::open([
+                                                            'method' => 'DELETE',
+                                                            'url' => ['/suppliers/delete', $item->id],
+                                                            'style' => 'display:inline',
+                                                        ]) !!}
+                                                        {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                         
+                                                        ', [
+                                                            'type' => 'submit',
+                                                            'class' => ' btn-danger btn-sm',
+                                                            'title' => 'Delete Supplier',
+                                                            'onclick' => 'return confirm("Confirm delete?")',
+                                                        ]) !!}
+                                                        {!! Form::close() !!}
+                                                    @endcan
+                                                </li>
+                                            @endforeach
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             {!! Form::model($restaurant, [
@@ -123,7 +183,6 @@ $year_month = $year . '-' . $month;
                             <input type="text" name="see_cash_reports_days" id="see_cash_reports_days">
                             <div class="form-group">
                                 <div class="col-md-offset-4 col-md-4">
-                                    {{-- {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!} --}}
                                     <input type="submit" value="Save">
                                 </div>
                             </div>
@@ -139,9 +198,10 @@ $year_month = $year . '-' . $month;
 
 @push('js')
     <script>
-        // $(document).ready( function () {
-        // restaurant_fetch();
+        $(document).ready(function() {
+            restaurant_fetch();
 
+        })
 
         function restaurant_fetch() {
             $emp_status = $('#emp_status').val();
@@ -166,17 +226,15 @@ $year_month = $year . '-' . $month;
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                    <td>' + item.name + '</td>\
-                                                                    <td>' + item.date_of_joining + '</td>\
-                                                                    <td>' + item.date_of_leaving + '</td>\
-                                                                    <td>' + item.telephone + '</td>\
-                                            <td>' + item.status + '</td>\
-                                            <td>' + item.salary +'</td>\
-                                                                                                                                                                 </tr>'
+                                                                                <td>' + item.name + '</td>\
+                                                                                <td>' + item.date_of_joining + '</td>\
+                                                                                <td>' + item.date_of_leaving + '</td>\
+                                                                                <td>' + item.telephone + '</td>\
+                                                                                <td>' + item.status + '</td>\
+                                                                                <td>' + item.salary + '</td>\
+                                                                            </tr>'
                                 )
-
                             }
-
                         }
 
                     });
@@ -184,6 +242,5 @@ $year_month = $year . '-' . $month;
             });
 
         }
-        // })
     </script>
 @endpush

@@ -22,7 +22,7 @@
 
                     {!! Form::model($safe, [
                         'method' => 'PATCH',
-                        'url' => ['/safe', $safe->id],
+                        'url' => ['/safe/edit', $safe->id],
                         'class' => 'form-horizontal',
                         'files' => true
                     ]) !!}

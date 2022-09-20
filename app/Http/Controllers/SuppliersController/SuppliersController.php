@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 
 use App\Supplier;
+use App\Restaurant;
 use Illuminate\Http\Request;
 
 class SuppliersController extends Controller
@@ -51,11 +52,12 @@ class SuppliersController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create($restaurant_id)
     {
         $model = str_slug('suppliers','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            return view('Suppliers.suppliers.create');
+            $restaurant = Restaurant::where('id' , '=', $restaurant_id)->first();
+            return view('Suppliers.suppliers.create', compact('restaurant'));
         }
         return response(view('403'), 403);
     }
@@ -67,8 +69,9 @@ class SuppliersController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, $restaurant_id)
     {
+        // return $request;
         $model = str_slug('suppliers','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -90,7 +93,7 @@ class SuppliersController extends Controller
             $supplier->restaurant_id =     auth()->user()->restaurant_id;
         }
         $supplier->save();
-            return redirect('suppliers')->with('flash_message', 'Supplier added!');
+            return redirect('restaurant_setting/'. $restaurant_id)->with('flash_message', 'Supplier added!');
         }
         return response(view('403'), 403);
     }
@@ -139,6 +142,7 @@ class SuppliersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
         $model = str_slug('suppliers','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -155,8 +159,7 @@ class SuppliersController extends Controller
                 $supplier->restaurant_id =     auth()->user()->restaurant_id;
             }
              $supplier->update($requestData);
-
-             return redirect('suppliers')->with('flash_message', 'Supplier updated!');
+             return redirect('restaurant/')->with('flash_message', 'Supplier updated!');
         }
         return response(view('403'), 403);
 
@@ -175,7 +178,7 @@ class SuppliersController extends Controller
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
             Supplier::destroy($id);
 
-            return redirect('suppliers')->with('flash_message', 'Supplier deleted!');
+            return redirect('restaurant/')->with('flash_message', 'Supplier deleted!');
         }
         return response(view('403'), 403);
 

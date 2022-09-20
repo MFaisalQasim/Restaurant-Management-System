@@ -97,7 +97,7 @@ class ExpensesController extends Controller
            if ($ErrorMsg == "") {
                $expenses->save();
            }
-           if ($ErrorMsg == "" & $request->file) {
+           if ($request->file) {
                for ($i = 0; $i < count($request->file); $i++) {
                    $SavedTourAttachment = AppHelper::SaveFileAndGetPath($request->file[$i], $UploadTourImagesPath);
    
@@ -177,24 +177,33 @@ class ExpensesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request;
+        // return $id;
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'for_whom' => 'required',
+			// 'for_whom' => 'required',
 			// 'sum' => 'required'
 		]);
-            $requestData = $request->all();
-            
-            $expense = Expense::findOrFail($id);
-            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-                $expense->restaurant_id =     $request->restaurant_id ;
-            } else {
-                $expense->restaurant_id =     auth()->user()->restaurant_id;
-            }
-            $expense->date_of_expense =    $request->date;
-             $expense->update($requestData);
 
-             return redirect('expenses')->with('flash_message', 'Expense updated!');
+            $expense = Expense::findOrFail($id);
+            if ($expense->status == "not download") {
+                $expense->status =    "download";
+            } else {
+                $expense->status =    "not download";
+            }
+            $expense->save();
+            // $requestData = $request->all();
+            // $expense = Expense::findOrFail($id);
+            // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+            //     $expense->restaurant_id =     $request->restaurant_id ;
+            // } else {
+            //     $expense->restaurant_id =     auth()->user()->restaurant_id;
+            // }
+            // $expense->date_of_expense =    $request->date;
+            //  $expense->update($requestData);
+
+             return redirect('expenses/'. $expense->restaurant_id)->with('flash_message', 'Expense updated!');
         }
         return response(view('403'), 403);
 

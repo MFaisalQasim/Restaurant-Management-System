@@ -3,7 +3,7 @@
     <div class="col-md-6">
         <select class="form-control" name="for_whom" id="for_whom">
             @foreach ($user as $item)
-            @if (!$item->hasRole('developer') & !$item->hasRole('Customer'))
+            @if (!$item->hasRole('developer'))
                     <option value="{{ $item->name }}">{{ $item->name }}</option>
                 @endif
             @endforeach

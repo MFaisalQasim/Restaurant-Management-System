@@ -32,23 +32,22 @@
             @endif
             <nav class="sidebar-nav">
                 <ul id="side-menu">
-
-                    {{-- <li>
-                        <a class="active waves-effect" href="{{ url('dashboard') }}" aria-expanded="false"><i
-                                class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
-
-                    </li> --}}
                     <li>
                         <a class="active waves-effect" href="{{ url('restaurant') }}" aria-expanded="false"><i
                                 class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Restaurant </span></a>
 
+                    </li>
+                    @if (auth()->user()->isAdmin() == true
+                    || auth()->user()->hasRole('developer'))
+                    <li>
+                        <a class="active waves-effect" href="{{ url('dashboard') }}" aria-expanded="false"><i
+                                class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Dashboard </span></a>
                     </li>
                     {{-- <li>
                         <a class="active waves-effect" href="{{ url('employee') }}" aria-expanded="false"><i
                                 class="icon-screen-desktop fa-fw"></i> <span class="hide-menu"> Employee </span></a>
 
                     </li> --}}
-                    
                     {{-- <div class="dropdown show">
                         <a class="active waves-effect dropdown-toggle" role="button" id="dropdownMenuLink"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,13 +59,12 @@
                             <a class="dropdown-item" href="{{ url('employee') }}">Employee</a>
                         </div>
                     </div> --}}
-                    @if (auth()->user()->isAdmin() == true)
-                    <li><a href="{{ asset('users') }}">Manage Users</a></li>
-                        <li><a href="{{ asset('user/create') }}">Add New User</a></li>
-                        <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li>
-                    @endif
-                    @if (auth()->user()->hasRole('developer'))
 
+                    {{-- <li><a href="{{ asset('users') }}">Manage Users</a></li>
+                        <li><a href="{{ asset('user/create') }}">Add New User</a></li>
+                        <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li> --}}
+                    {{-- @endif --}}
+                    {{-- @if (auth()->user()->hasRole('developer')) --}}
                         <li><a class="waves-effect" href="{{ asset('role-management') }}">
                                 <i class=" icon-layers fa-fw"></i><span class="hide-menu"> Roles </span></a>
                         </li>
@@ -75,10 +73,8 @@
                                     class="icon-user fa-fw"></i> <span class="hide-menu"> Users</span></a>
                             {{-- <ul aria-expanded="false" class="collapse"> --}}
                                 <li><a href="{{ asset('users') }}">Manage Users</a></li>
-                                <li><a href="{{ asset('user/create') }}">Add New User</a></li>
+                                {{-- <li><a href="{{ asset('user/create') }}">Add New User</a></li> --}}
                                 <li><a href="{{ asset('user/deleted') }}">Deleted Users</a></li>
-
-
                             {{-- </ul> --}}
                         </li>
                         <li>
@@ -89,13 +85,14 @@
                         {{-- class="icon-list fa-fw"></i><span class="hide-menu"> Permissions</span></a></li> --}}
 
 
-
+                        @if (auth()->user()->hasRole('developer'))
                         <li>
                             <a class="waves-effect" href="{{ asset('crud-generator') }}">
                                 <i class="icon-drawar fa-fw"></i>
                                 <span class="hide-menu"> CRUD GENERATOR </span>
                             </a>
                         </li>
+                        @endif
                         {{-- @else 
                 <li>
                     <a class="waves-effect" href="{{asset('crud-generator')}}">

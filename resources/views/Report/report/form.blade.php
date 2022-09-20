@@ -1,31 +1,44 @@
 <script>
-    {{ $sum = 0 }}
-    {{ $bank_cash_total = 0 }}
+
 </script>
+
+<?php
+ $sum = 0 ;
+ $bank_cash_total = 0 ;
+ $sum_sum_arr = array();
+?>
 <div class="col-12">
-
     <div class="row">
-
         <div class="col">
             <div class="form-group {{ $errors->has('total_income') ? 'has-error' : '' }}">
                 <div class="col-md-12">
                     <div style="display: flex   ;  justify-content: space-between;">
-                        <div>
+                        <div class="col">
                             <input type="date" name="date" placeholder="Date" id="date" onload="getDate()"
                                 value="<?php echo $today; ?>" class="form-control">
                         </div>
-                        <div class="topnav search_icon_div " style="display: flex;
+                        {{-- <div class="topnav search_icon_div " style="display: flex;
                             ">
                             <button type="submit" class="search_button">
                                 <img src="{{ asset('assets/images/search_icon_bar.png') }}" alt="">
                             </button>
                             <input class="form-control  mr-sm-2 keywords_search" name="keywords_search" type="search"
                                 placeholder="Employee" aria-label="Search">
+                        </div> --}}
+                        <div class="col">
+                            <select class="form-control" name="name" id="name">
+                                @foreach ($user as $item)
+                                    @if (!$item->hasRole('developer'))
+                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                         </div>
-
                     </div>
-                    {!! $errors->first('total_income', '<p class="help-block">:message</p>') !!}
+
                 </div>
+                {!! $errors->first('total_income', '<p class="help-block">:message</p>') !!}
             </div>
             <div class="form-group {{ $errors->has('total_income') ? 'has-error' : '' }}">
                 <div class="col-md-6">
@@ -62,47 +75,60 @@
             <div class="form-group {{ $errors->has('supplier_cash') ? 'has-error' : '' }}">
                 <div class="col-md-6">
                     <ul style="padding:0px">
-                        <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="number" name="" id="" placeholder="UBER" 
-                                disabled>
-                            &nbsp;
-                            &nbsp;
-                            <input class="input_border" type="number" name="UBER" id="UBER"
-                                onkeyup="total_sales()" onchange="total_sales()"  required autofocus autocomplete={{0}}>
-                        </li>
-                        <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="number" name="" id="" placeholder="BOLT"
-                                disabled >
-                            &nbsp;
-                            &nbsp;
-                            <input class="input_border" type="number" name="BOLT" id="BOLT" required
-                                onkeyup="total_sales()" onchange="total_sales()">
-                        </li>
-                        <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="number" name="" id="" placeholder="WOLT"
-                                disabled>
-                            &nbsp;
-                            &nbsp;
-                            <input class="input_border" type="number" name="WOLT" id="WOLT"required
-                                onkeyup="total_sales()" onchange="total_sales()">
-                        </li>
-                        <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="number" name="" id=""
-                                placeholder="PYSZNE" disabled>
-                            &nbsp;
-                            &nbsp;
-                            <input class="input_border" type="number" name="PYSZNE" id="PYSZNE"required
-                                onkeyup="total_sales()" onchange="total_sales()">
-                        </li>
-                        <li style="display: flex ; list-style:none ; ">
-                            <input class="input_border" type="number" name="" id=""
-                                placeholder="GLOVO" disabled>
-                            &nbsp;
-                            &nbsp;
-                            <input class="input_border" type="number" name="GLOVO" id="GLOVO"required
-                                onkeyup="total_sales()" onchange="total_sales()">
-                        </li>
+                        @foreach ($supplier as $item)
+                            <li style="display: flex ; list-style:none ; ">
+                                <input class="input_border" type="number" name="" id=""
+                                    placeholder="{{ $item->name }}" disabled>
+                                &nbsp;
+                                &nbsp;
+                                {{-- <input class="input_border" type="number" name="{{ $item->name }}"
+                                    id="{{ $item->name }}" onkeyup="total_sales()" onchange="total_sales()" required
+                                    autofocus autocomplete={{ 0 }}> --}}
+                                    <input class="input_border" value="{{$sum_sum_arr[$item->id] = $item->sum}}">
+                            </li>
+                            @endforeach
+                            <input type="hidden" name="sales_volume_supplier" id="sales_volume_supplier" value="{{array_sum($sum_sum_arr)}}" readonly>
                     </ul>
+                    {{-- <li style="display: flex ; list-style:none ; ">
+                        <input class="input_border" type="number" name="" id="" placeholder="UBER" 
+                            disabled>
+                        &nbsp;
+                        &nbsp;
+                        <input class="input_border" type="number" name="UBER" id="UBER"
+                            onkeyup="total_sales()" onchange="total_sales()"  required autofocus autocomplete={{0}}>
+                    </li>
+                    <li style="display: flex ; list-style:none ; ">
+                        <input class="input_border" type="number" name="" id="" placeholder="BOLT"
+                            disabled >
+                        &nbsp;
+                        &nbsp;
+                        <input class="input_border" type="number" name="BOLT" id="BOLT" required
+                            onkeyup="total_sales()" onchange="total_sales()">
+                    </li>
+                    <li style="display: flex ; list-style:none ; ">
+                        <input class="input_border" type="number" name="" id="" placeholder="WOLT"
+                            disabled>
+                        &nbsp;
+                        &nbsp;
+                        <input class="input_border" type="number" name="WOLT" id="WOLT"required
+                            onkeyup="total_sales()" onchange="total_sales()">
+                    </li>
+                    <li style="display: flex ; list-style:none ; ">
+                        <input class="input_border" type="number" name="" id=""
+                            placeholder="PYSZNE" disabled>
+                        &nbsp;
+                        &nbsp;
+                        <input class="input_border" type="number" name="PYSZNE" id="PYSZNE"required
+                            onkeyup="total_sales()" onchange="total_sales()">
+                    </li>
+                    <li style="display: flex ; list-style:none ; ">
+                        <input class="input_border" type="number" name="" id=""
+                            placeholder="GLOVO" disabled>
+                        &nbsp;
+                        &nbsp;
+                        <input class="input_border" type="number" name="GLOVO" id="GLOVO"required
+                            onkeyup="total_sales()" onchange="total_sales()">
+                    </li> --}}
                     @if (auth()->user()->hasRole('admin') ||
                         auth()->user()->hasRole('developer'))
                         <input class="form-control input_border" id="Cash" name="cash" type="text"
@@ -111,16 +137,11 @@
                         <input class="form-control input_border" id="Cash" name="cash" type="text"
                             value="" readonly>
                     @endif
-
-                    <input id="sales_volume_supplier" type="hidden" value="" name="sales_volume_supplier"
-                        readonly>
                     <input id="expense_today" type="hidden" value="{{ $expense_today }}" name="expense_today">
                     <input id="employee_salary_paid_today" type="hidden" value="{{ $employee_salary_paid_today }}"
                         name="employee_salary_paid_today">
-                        
-                    <input class="form-control input_border" id="diff_salary_paid_today_and_expense_today" name="diff_salary_paid_today_and_expense_today" type="hidden"
-                    value="" readonly>
-
+                    <input class="form-control input_border" id="diff_salary_paid_today_and_expense_today"
+                        name="diff_salary_paid_today_and_expense_today" type="hidden" value="" readonly>
                     {!! $errors->first('supplier_cash', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
@@ -149,8 +170,7 @@
                             <td>
                                 <input name="total_bank_note" class="total_bank_note"
                                     id="total_bank_note{{ $key }}" type='text'
-                                    onchange="change(this.value,{{ $key }})" value=""
-                                    readonly />
+                                    onchange="change(this.value,{{ $key }})" value="" readonly />
                             </td>
                         </tr>
                     @endforeach
@@ -175,24 +195,23 @@
     <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
 
     <script>
-        
-        i=0;
-            arr = [];
+        i = 0;
+        arr = [];
 
-        $(document).ready(function() {
+        // $(document).ready(function() {
 
-            @if (\Session::has('message'))
-                $.toast({
-                    heading: 'Success!',
-                    position: 'top-center',
-                    text: '{{ session()->get('message') }}',
-                    loaderBg: '#ff6849',
-                    icon: 'success',
-                    hideAfter: 3000,
-                    stack: 6
-                });
-            @endif
-        })
+        //     @if (\Session::has('message'))
+        //         $.toast({
+        //             heading: 'Success!',
+        //             position: 'top-center',
+        //             text: '{{ session()->get('message') }}',
+        //             loaderBg: '#ff6849',
+        //             icon: 'success',
+        //             hideAfter: 3000,
+        //             stack: 6
+        //         });
+        //     @endif
+        // })
 
         var msg = '{{ Session::get('alert') }}';
         var exist = '{{ Session::has('alert') }}';
@@ -203,34 +222,35 @@
 
         function total_sales() {
             let sales_volume_supplier;
-            
-            $UBER = document.getElementById('UBER').value
-            console.log($UBER + "$UBER 2");
-            $BOLT = document.getElementById('BOLT').value
-            console.log($BOLT + "$BOLT 2");
-            $WOLT = document.getElementById('WOLT').value
-            console.log($WOLT + "$WOLT 2");
-            $PYSZNE = document.getElementById('PYSZNE').value
-            console.log($PYSZNE + "$PYSZNE 2");
-            $GLOVO = document.getElementById('GLOVO').value
-            console.log($GLOVO + "$GLOVO 2");
 
-            $UBER = ($UBER == null ||  $UBER == undefined ||  $UBER == 0 ? $UBER = 0 : parseInt($UBER))
-            $BOLT = ($BOLT == null ||  $BOLT == undefined ||  $BOLT == 0 ? $BOLT = 0 : parseInt($BOLT))
-            $WOLT = ($WOLT == null ||  $WOLT == undefined ||  $WOLT == 0 ? $WOLT = 0 : parseInt($WOLT))
-            $PYSZNE = ($PYSZNE == null ||  $PYSZNE == undefined ||  $PYSZNE == 0 ? $PYSZNE = 0 : parseInt($PYSZNE))
-            $GLOVO = ($GLOVO == null ||  $GLOVO == undefined ||  $GLOVO == 0 ? $GLOVO = 0 : parseInt($GLOVO))
-            console.log($UBER + "$UBER 3");
-            console.log($BOLT + "$BOLT 3");
-            console.log($WOLT + "$WOLT 3");
-            console.log($PYSZNE + "$PYSZNE 3");
-            console.log($GLOVO + "$GLOVO 3");
+            // $UBER = document.getElementById('UBER').value
+            // console.log($UBER + "$UBER 2");
+            // $BOLT = document.getElementById('BOLT').value
+            // console.log($BOLT + "$BOLT 2");
+            // $WOLT = document.getElementById('WOLT').value
+            // console.log($WOLT + "$WOLT 2");
+            // $PYSZNE = document.getElementById('PYSZNE').value
+            // console.log($PYSZNE + "$PYSZNE 2");
+            // $GLOVO = document.getElementById('GLOVO').value
+            // console.log($GLOVO + "$GLOVO 2");
 
-             sales_volume_supplier = parseInt($UBER) + parseInt($BOLT) + parseInt($WOLT) + parseInt($PYSZNE) + parseInt($GLOVO);
+            // $UBER = ($UBER == null || $UBER == undefined || $UBER == 0 ? $UBER = 0 : parseInt($UBER))
+            // $BOLT = ($BOLT == null || $BOLT == undefined || $BOLT == 0 ? $BOLT = 0 : parseInt($BOLT))
+            // $WOLT = ($WOLT == null || $WOLT == undefined || $WOLT == 0 ? $WOLT = 0 : parseInt($WOLT))
+            // $PYSZNE = ($PYSZNE == null || $PYSZNE == undefined || $PYSZNE == 0 ? $PYSZNE = 0 : parseInt($PYSZNE))
+            // $GLOVO = ($GLOVO == null || $GLOVO == undefined || $GLOVO == 0 ? $GLOVO = 0 : parseInt($GLOVO))
+            // console.log($UBER + "$UBER 3");
+            // console.log($BOLT + "$BOLT 3");
+            // console.log($WOLT + "$WOLT 3");
+            // console.log($PYSZNE + "$PYSZNE 3");
+            // console.log($GLOVO + "$GLOVO 3");
 
-            console.log(sales_volume_supplier + 'sales_volume_supplier');
-    
-            document.getElementById('sales_volume_supplier').value = Math.abs(sales_volume_supplier)
+            // sales_volume_supplier = parseInt($UBER) + parseInt($BOLT) + parseInt($WOLT) + parseInt($PYSZNE) + parseInt(
+            //     $GLOVO);
+
+            // console.log(sales_volume_supplier + 'sales_volume_supplier');
+
+            sales_volume_supplier = document.getElementById('sales_volume_supplier').value
             console.log(sales_volume_supplier + 'sales_volume_supplier');
 
             let canceled_sale = document.getElementById('canceled_sale').value
@@ -239,77 +259,80 @@
 
             let total_income = document.getElementById('total_income').value
 
-            canceled_sale = (canceled_sale == null ||  canceled_sale == undefined ||  canceled_sale == 0 ? canceled_sale = 0 : parseInt(canceled_sale))
-            card_transactions = (card_transactions == null ||  card_transactions == undefined ||  card_transactions == 0 ? card_transactions = 0 : parseInt(card_transactions))
-            total_income = (total_income == null ||  total_income == undefined ||  total_income == 0 ? total_income = 0 : parseInt(total_income))
+            canceled_sale = (canceled_sale == null || canceled_sale == undefined || canceled_sale == 0 ? canceled_sale = 0 :
+                parseInt(canceled_sale))
+            card_transactions = (card_transactions == null || card_transactions == undefined || card_transactions == 0 ?
+                card_transactions = 0 : parseInt(card_transactions))
+            total_income = (total_income == null || total_income == undefined || total_income == 0 ? total_income = 0 :
+                parseInt(total_income))
 
             let expense_today = document.getElementById('expense_today').value
             let employee_salary_paid_today = document.getElementById('employee_salary_paid_today').value
 
-            
+
             $diff_salary_paid_today_and_expense_today = expense_today - employee_salary_paid_today;
-            document.getElementById('diff_salary_paid_today_and_expense_today').value = ($diff_salary_paid_today_and_expense_today)
+            document.getElementById('diff_salary_paid_today_and_expense_today').value = (
+                $diff_salary_paid_today_and_expense_today)
 
             console.log(expense_today + "expense_today");
             console.log(employee_salary_paid_today + "employee_salary_paid_today");
 
 
-            let Cash = total_income - ( parseInt(card_transactions) + parseInt(canceled_sale) + parseInt(sales_volume_supplier) + parseInt(expense_today) + parseInt(employee_salary_paid_today));
+            let Cash = total_income - (parseInt(card_transactions) + parseInt(canceled_sale) + parseInt(
+                sales_volume_supplier) + parseInt(expense_today) + parseInt(employee_salary_paid_today));
 
             console.log(Cash + " Cash");
             document.getElementById('Cash').value = (Cash)
-
-
         }
 
         function show(value, num) {
 
             let bank_note = value
-            let key ;
+            let key;
             let total_bank_note;
-            check = document.getElementById('total_bank_note' + num).value 
+            check = document.getElementById('total_bank_note' + num).value
             console.log(check + "check ");
             if (check == "") {
-            key = document.getElementById('bank_note' + num).value
-            total_bank_note = bank_note * key
-            console.log(key + "key if");
+                key = document.getElementById('bank_note' + num).value
+                total_bank_note = bank_note * key
+                console.log(key + "key if");
 
-document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
+                document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
 
-total_bank_note_sum = document.getElementById('total_bank_note_sum').value
+                total_bank_note_sum = document.getElementById('total_bank_note_sum').value
 
-console.log(total_bank_note_sum + 'total_bank_note_sum 1');
+                console.log(total_bank_note_sum + 'total_bank_note_sum 1');
 
-console.log(total_bank_note + 'total_bank_note 1');
+                console.log(total_bank_note + 'total_bank_note 1');
 
 
-arr[i]= total_bank_note;
-i++;
-                
+                arr[i] = total_bank_note;
+                i++;
+
             } else {
                 // bank_note = null;
-            key = document.getElementById('bank_note' + num).value
-            total_bank_note = bank_note * key
-            console.log(value + "value else");
-            console.log(key + "key");
+                key = document.getElementById('bank_note' + num).value
+                total_bank_note = bank_note * key
+                console.log(value + "value else");
+                console.log(key + "key");
 
-document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
+                document.getElementById('total_bank_note' + num).value = Math.abs(total_bank_note)
 
-total_bank_note_sum = document.getElementById('total_bank_note_sum').value
+                total_bank_note_sum = document.getElementById('total_bank_note_sum').value
 
-console.log(total_bank_note_sum + 'total_bank_note_sum 1');
+                console.log(total_bank_note_sum + 'total_bank_note_sum 1');
 
-console.log(total_bank_note + 'total_bank_note 1');
+                console.log(total_bank_note + 'total_bank_note 1');
 
 
-arr[i]= total_bank_note;
-i++;
-                
+                arr[i] = total_bank_note;
+                i++;
+
             }
-        
+
 
             $total_bank_note_sum = arr.reduce((a, b) => a + b, 0);
-            console.log( $total_bank_note_sum + "total_bank_note_sum");
+            console.log($total_bank_note_sum + "total_bank_note_sum");
 
             document.getElementById('total_bank_note_sum').value = Math.abs($total_bank_note_sum)
 

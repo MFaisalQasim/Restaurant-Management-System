@@ -72,7 +72,6 @@
                         </table>
                         <div class="pagination-wrapper"> {!! $report->appends(['search' => Request::get('search')])->render() !!} </div>
                     </div>
-
                 </div>
             </div>
         </div>

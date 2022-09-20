@@ -270,14 +270,14 @@ Route::group(['middleware' => ['auth', 'roles'],'roles' => 'admin','roles'=>'dev
     Route::get('activity-log/data', 'LogViewerController@activityLogData')->name('activity-log.data');
 
     #User Management routes
-    Route::get('users', 'UsersController@getIndex');
-    Route::get('user/create', 'UsersController@create');
-    Route::post('user/create', 'UsersController@save');
-    Route::get('user/edit/{id}', 'UsersController@edit');
-    Route::post('user/edit/{id}', 'UsersController@update');
-    Route::get('user/delete/{id}', 'UsersController@delete');
-    Route::get('user/deleted/', 'UsersController@getDeletedUsers');
-    Route::get('user/restore/{id}', 'UsersController@restoreUser');
+    // Route::get('users', 'UsersController@getIndex');
+    // Route::get('user/create', 'UsersController@create');
+    // Route::post('user/create', 'UsersController@save');
+    // Route::get('user/edit/{id}', 'UsersController@edit');
+    // Route::post('user/edit/{id}', 'UsersController@update');
+    // Route::get('user/delete/{id}', 'UsersController@delete');
+    // Route::get('user/deleted/', 'UsersController@getDeletedUsers');
+    // Route::get('user/restore/{id}', 'UsersController@restoreUser');
 
 });
 
@@ -337,8 +337,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 #User Management routes
 Route::get('users', 'UsersController@getIndex');
-Route::get('user/create', 'UsersController@create');
-Route::post('user/create', 'UsersController@save');
+Route::get('user/create/{id}', 'UsersController@create');
+Route::post('user/create/', 'UsersController@save');
 Route::get('user/edit/{id}', 'UsersController@edit');
 Route::post('user/edit/{id}', 'UsersController@update');
 Route::get('user/delete/{id}', 'UsersController@delete');
@@ -366,13 +366,20 @@ Route::patch('restaurant_setting/{id}', 'RestaurantController\\RestaurantControl
 // Route::get('restaurant/setting/create', 'RestaurantController\\RestaurantController@create');
 // Route::post('restaurant/setting/create', 'RestaurantController\\RestaurantController@store');
 
-// Route::get('safe', 'SafeController\\SafeController@index');
+Route::get('safe', 'SafeController\\SafeController@index');
+// Route::get('safe', 'SafeController\\SafeController@show');
+// Route::get('safe', 'PagesController@safe');
+
 // Route::get('safe/{id}', 'PagesController@safe');
 // Route::get('safe/deposit/{id}', 'PagesController@safe');
 // Route::get('safe/payouts/{id}', 'PagesController@safe');
 Route::get('safe/deposit/{id}', 'PagesController@safe_deposit');
 Route::get('safe/payouts/{id}', 'PagesController@safe_payouts');
 // Route::get('safe/create', 'SafeController\\SafeController@create');
+Route::get('safe/edit/{id}', 'SafeController\\SafeController@edit');
+Route::patch('safe/edit/{id}', 'SafeController\\SafeController@update');
+Route::get('safe/delete/{id}', 'SafeController\\SafeController@destroy');
+Route::delete('safe/delete/{id}', 'SafeController\\SafeController@destroy');
 Route::get('safe/deposit_create/{id}', 'SafeController\\SafeController@create_deposit');
 Route::get('safe/payouts_create/{id}', 'SafeController\\SafeController@create_payouts');
 Route::get('safe/deposit/create/{id}', 'SafeController\\SafeController@create');
@@ -387,6 +394,8 @@ Route::post('total-cash/create/{id}', 'TotalCashController\\TotalCashController@
 Route::get('expenses/{id}', 'PagesController@expenses');
 Route::get('expenses/create/{id}', 'ExpensesController\\ExpensesController@create');
 Route::post('expenses/create/{id}', 'ExpensesController\\ExpensesController@store');
+Route::get('expenses/update/{id}', 'ExpensesController\\ExpensesController@update');
+Route::PATCH('expenses/update/{id}', 'ExpensesController\\ExpensesController@update');
 Route::get('expenses/fetch/{id}', 'PagesController@generate_expenses_fetch');
 Route::get('expensesFile/fetch/{id}', 'PagesController@generate_expensesFile_fetch');
 
@@ -398,8 +407,17 @@ Route::get('employee-salary-user/fetch/{id}', 'PagesController@generate_employee
 
 
 Route::get('suppliers/{id}', 'PagesController@suppliers');
-Route::get('suppliers/create', 'SuppliersController\\SuppliersController@create');
-Route::post('suppliers/create', 'SuppliersController\\SuppliersController@store');
+Route::get('suppliers/create/{id}', 'SuppliersController\\SuppliersController@create');
+Route::post('suppliers/create/{id}', 'SuppliersController\\SuppliersController@store');
+Route::get('suppliers/edit/{id}', 'SuppliersController\\SuppliersController@edit');
+Route::patch('suppliers/edit/{id}', 'SuppliersController\\SuppliersController@update');
+Route::delete('suppliers/delete/{id}', 'SuppliersController\\SuppliersController@destroy');
+// Route::get('permission-management', 'PermissionController@getIndex');
+// Route::get('permission/create', 'PermissionController@create');
+// Route::post('permission/create', 'PermissionController@save');
+// Route::get('permission/delete/{id}', 'PermissionController@delete');
+// Route::get('permission/edit/{id}', 'PermissionController@edit');
+// Route::post('permission/edit/{id}', 'PermissionController@update');
 
 Route::get('report/{id}', 'PagesController@report');
 Route::get('report/create/{id}', 'ReportController\\ReportController@create');

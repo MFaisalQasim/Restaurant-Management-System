@@ -7,37 +7,14 @@
         </div>
         <div class="topnav search_icon_div " style="display: flex;
                 ">
-            {{-- <button onclick="employee_fetch()" class="search_button">
-                <img src="{{ asset('assets/images/search_icon_bar.png') }}" alt="">
-            </button> --}}
-
-            {{-- <input class="form-control mr-sm-2 keywords_search" id="keywords_search" name="keywords_search"
-                type="search" onkeyup="employee_fetch()" value="" placeholder="Employee" aria-label="Search"> --}}
-
-            {{-- <div class="input-group">
-                <div id="search-autocomplete" class="form-outline">
-                    <input type="search" id="keywords_search" class="form-control" onkeyup="employee_fetch()" />
-                    <label class="form-label" for="keywords_search">Search</label>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="employee_fetch()">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div> --}}
             <label class="form-label mt-3" for="keywords_search">Employee : </label>
-
             <select class="select" data-mdb-filter="true" onchange="employee_fetch();" id="keywords_search"
                 name="keywords_search">
-                {{-- @foreach ($EmployeeSalary as $item)
-                    @if ($item->restaurant_id == $url_restaurant_id)
-                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                    @endif
-                @endforeach --}}
-
                 @foreach ($user as $item)
-                    {{-- @if ($item->hasRole('Employee')) --}}
                     @if (!$item->hasRole('developer') & !$item->hasRole('Customer'))
                         @if ($item->restaurant_id == $url_restaurant_id)
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <input type="hidden" name="employee_name" id="employee_name" value="{{ $item->name }}">
                         @endif
                     @endif
                 @endforeach

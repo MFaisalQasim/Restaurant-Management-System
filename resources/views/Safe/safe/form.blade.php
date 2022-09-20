@@ -1,38 +1,23 @@
-{{-- <div class="form-group {{ $errors->has('employee_complete_name') ? 'has-error' : '' }}">
-    {!! Form::label('employee_complete_name', 'Employee Complete Name', ['class' => 'col-md-4 control-label']) !!}
-    <div class="col-md-6">
-        {!! Form::text(
-            'employee_complete_name',
-            null,
-            'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
-        ) !!}
-        {!! $errors->first('employee_complete_name', '<p class="help-block">:message</p>') !!}
-    </div>
-</div> --}}
-@if (auth()->user()->hasRole('admin') ||
-    auth()->user()->hasRole('developer'))
-    <div class="form-group {{ $errors->has('restaurant_id') ? 'has-error' : '' }}">
-        {!! Form::label('restaurant_id', 'Restaurant Id', ['class' => 'col-md-4 control-label']) !!}
-        <div class="col-md-6">
-
-            <select class="form-select" aria-label="Default select example" name="restaurant_id">
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-            {!! $errors->first('restaurant_id', '<p class="help-block">:message</p>') !!}
-        </div>
-    </div>
-@endif
-<div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
-    {!! Form::label('sum', 'Amount', ['class' => 'col-md-4 control-label']) !!}
+<div class="form-group {{ $errors->has('deposite') ? 'has-error' : '' }}">
+    {!! Form::label('deposite', 'Enter Deposite', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::number(
-            'sum',
+            'deposite',
             null,
-            'required' == 'required' ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control'],
+            'required' == 'required' ? ['class' => 'form-control'] : ['class' => 'form-control'],
         ) !!}
-        {!! $errors->first('sum', '<p class="help-block">:message</p>') !!}
+        {!! $errors->first('deposite', '<p class="help-block">:message</p>') !!}
+    </div>
+</div>
+<div class="form-group {{ $errors->has('payout') ? 'has-error' : '' }}">
+    {!! Form::label('payout', 'Enter Payout', ['class' => 'col-md-4 control-label']) !!}
+    <div class="col-md-6">
+        {!! Form::number(
+            'payout',
+            null,
+            'required' == 'required' ? ['class' => 'form-control'] : ['class' => 'form-control'],
+        ) !!}
+        {!! $errors->first('payout', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
 

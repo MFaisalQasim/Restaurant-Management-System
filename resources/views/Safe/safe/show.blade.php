@@ -14,6 +14,7 @@ $year = date('Y');
 $today = $year . '-' . $month . '-' . $day;
 $month = $month;
 $year_month = $year . '-' . $month;
+$safe_payment_sum;
 ?>
 
 @push('css')
@@ -34,11 +35,11 @@ $year_month = $year . '-' . $month;
                         <a class="btn btn-success pull-right" href="{{ url('/safe') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan --}}
-                    {{-- @can('add-' . str_slug('Safe'))
-                        <a class="btn btn-success pull-right" href="{{ url('/safe/create') }}"><i class="icon-plus"></i> Add New
+                    @can('add-' . str_slug('Safe'))
+                        <a class="btn btn-success pull-right" href="{{ url('/safe') }}"><i class="icon-plus"></i> Add New
                             Safe
                         </a>
-                    @endcan --}}
+                    @endcan
                     <div class="clearfix"></div>
                     <hr>
 
@@ -106,6 +107,7 @@ $year_month = $year . '-' . $month;
                                 <th>Paycheck</th>
                                 <th>Sum after transaction
                                 </th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -191,29 +193,29 @@ $year_month = $year . '-' . $month;
                     response.safe.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(arr.length + ' if');
-                            if (item.date >= $from_date & item.date <= $to_date) {
+                            item_created_at = item.created_at.slice(0, 10)
+                            if (item_created_at >= $from_date & item_created_at <= $to_date) {
                                 console.log(arr.length + ' if if');
                                 item_payment = (item.payment == null) ? "-" : item.payment;
                                 console.log(item_payment + "item_payment");
                                 item_paycheck = (item.paycheck == null) ? "-" : "-" + item.paycheck;
                                 console.log(item_paycheck + "item_paycheck");
                                 let Sum_after = (parseInt(total_sum) + (item.payment - item.paycheck))
-                                item_created_at = item.created_at.slice(0, 9)
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                                                        <td>' +
-                                                                                                                            item_created_at +
+                                                                                                                                <td>' +
+                                    item_created_at +
                                     '</td>\
-                                                                                                                        <td>' +
+                                                                                      `                                          <td>' +
                                     item_payment +
                                     '</td>\
-                                                                                                                        <td>' +
+                                                                                                                                <td>' +
                                     item_paycheck +
                                     '</td>\
-                                                                                                                        <td>' +
+                                                                                                                                <td>' +
                                     item.sum +
                                     '</td>\
-                                                                                                                                                                 </tr>'
+                                                                                                                                                                         </tr>'
                                 )
 
                             }
@@ -245,30 +247,38 @@ $year_month = $year . '-' . $month;
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log(item.restaurant_id + 'item.restaurant_id 2');
                             console.log($url_restaurant_id + 'url_restaurant_id 2');
-                            item_date = item.date.slice(0,7);
-                            console.log(item_date + 'this_previous_month 2');
-                            console.log(item_date + 'date');
+                            // item_date = item.date.slice(0,7);
+                            // console.log(item_date + 'this_previous_month 2');
+                            // console.log(item_date + 'date');
 
-                            if (item.date.slice(0, 7) == $this_previous_month) {
+                            if (item.created_at.slice(0, 7) == $this_previous_month) {
                                 console.log(arr.length + ' else if');
                                 item_payment = (item.payment == null) ? "-" : item.payment;
                                 console.log(item_payment + "item_payment");
                                 item_paycheck = (item.paycheck == null) ? "-" : "-" + item.paycheck;
                                 console.log(item_paycheck + "item_paycheck");
                                 let Sum_after = (parseInt(total_sum) + (item.payment - item.paycheck))
-                                item_created_at = item.created_at.slice(0, 9)
+                                item_created_at = item.created_at.slice(0, 10)
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                                                    <td>' +
-                                                                                                                        item_created_at + '</td>\
-                                                                                                                    <td>' +
-                                    item_payment + '</td>\
-                                                                                                                    <td>' +
-                                    item_paycheck + '</td>\
-                                                                                                                    <td>' +
+                                                                                                                            <td>' +
+                                    item_created_at +
+                                    '</td>\
+                                                                                                                            <td>' +
+                                    item_payment +
+                                    '</td>\
+                                                                                                                            <td>' +
+                                    item_paycheck +
+                                    '</td>\
+                                                                                                                            <td>' +
                                     item.sum +
                                     '</td>\
-                                                                                                                                                             </tr>'
+                                        <td> <a class="download_file" href="' +
+                                    '/safe/edit/' + item.id +
+                                    '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                    '/safe/delete/' + item.id +
+                                    '" >  || Delete || </a></td>\
+                                                                                                                                                                     </tr>'
                                 )
 
                             }

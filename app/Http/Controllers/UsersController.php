@@ -19,15 +19,12 @@ class UsersController extends Controller
         return view('users.index',compact('users'));
     }
 
-    public function create(){
+    public function create($restaurant_id){
         $roles = Role::all();
         $restaurant = Restaurant::get();
-        return view('users.create',compact('roles','restaurant'));
+        return view('users.create',compact('roles','restaurant','restaurant_id'));
     }
-
     public function save(Request $request){
-        // return $request;
-        // $user = User::where('email' , '=', $request->email)->first();
         $this->validate($request,[
             'name' => 'required',
             'email'                => "required|email|unique:users,email,{$request->id}",
@@ -40,32 +37,19 @@ class UsersController extends Controller
             'restaurant_id' => 'required',
             'restaurant_id' => 'required',
             'restaurant_id' => 'required',
-//            'dob' => 'required',
-//            'pic_file' => 'required',
-//            'bio' => 'required',
-//            'gender' => 'required',
-//            'country' => 'required',
-//            'state' => 'required',
-//            'city' => 'required',
-//            'address' => 'required',
-//            'postal' => 'required',
             'role' => 'required',
 
         ],[
             'pic_file.required' => 'Profile picture required',
             'dob.required' => 'Date of Birth required'
         ]);
-//        $user->assignRole($role->name);
-
         $user           = User::firstOrCreate([
             'name'=>$request->name,
         'email'=> $request->email,
         'status'  => $request->status ,
         'surname' => $request->surname,
     ]);
-        // $user->status   = 1;
 
-        // return $user;
         $user->date_of_joining = $request->date_of_employment;
         $user->date_of_leaving = $request->end_of_work_date;
         $user->salary = $request->hourly_salary;
@@ -73,7 +57,6 @@ class UsersController extends Controller
         $user->restaurant_id = $request->restaurant_id;
         $user->password = bcrypt($request->password);
         $user->restaurant_id = $request->restaurant_id;
-        // $user->restaurant_id = $request->restaurant_id;
 
 
         $user->save();
@@ -125,6 +108,8 @@ class UsersController extends Controller
 
         Session::flash('message','User has been added');
         return redirect()->back();
+        // return redirect('user/create/'. $restaurant_id);
+        
     }
 
     public function edit(Request $request){
@@ -137,14 +122,6 @@ class UsersController extends Controller
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required',
-//            'dob' => 'required',
-//            'bio' => 'required',
-//            'gender' => 'required',
-//            'country' => 'required',
-//            'state' => 'required',
-//            'city' => 'required',
-//            'address' => 'required',
-//            'postal' => 'required',
             'role' => 'required',
 
         ],[

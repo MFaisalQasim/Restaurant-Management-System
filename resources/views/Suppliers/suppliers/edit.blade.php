@@ -22,7 +22,7 @@
 
                     {!! Form::model($supplier, [
                         'method' => 'PATCH',
-                        'url' => ['/suppliers', $supplier->id],
+                        'url' => ['/suppliers/edit', $supplier->id],
                         'class' => 'form-horizontal',
                         'files' => true
                     ]) !!}

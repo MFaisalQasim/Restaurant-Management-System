@@ -158,12 +158,9 @@ class RestaurantController extends Controller
             $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
 
             $restaurant->save();
-            //  $restaurant->update($requestData);
-
-             return redirect('restaurant')->with('flash_message', 'Restaurant updated!');
+             return redirect('restaurant_setting/'.  $id)->with('flash_message', 'Restaurant updated!');
         }
         return response(view('403'), 403);
-
     }
 
     /**

@@ -22,7 +22,6 @@
 
                     {!! Form::model($restaurant, [
                         'method' => 'PATCH',
-                        // 'url' => ['/restaurant', $restaurant->id],
                         'url' => ['/restaurant', $restaurant->id],
                         'class' => 'form-horizontal',
                         'files' => true

@@ -4,7 +4,8 @@
         {!! Form::text('name', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
-</div><div class="form-group {{ $errors->has('date_of_employment') ? 'has-error' : ''}}">
+</div>
+<div class="form-group {{ $errors->has('date_of_employment') ? 'has-error' : ''}}">
     {!! Form::label('date_of_employment', 'Date Of Employment', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         {!! Form::date('date_of_employment', null, ('required' == 'required') ? ['class' => 'form-control', 'required' => 'required'] : ['class' => 'form-control']) !!}

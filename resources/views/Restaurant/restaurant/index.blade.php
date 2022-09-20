@@ -102,7 +102,7 @@ $url_restaurant_id = intval(end($tmp));
                                             <td>{{ $item->location }}</td>
                                             <td>{{ $item->ranking }}</td>
                                             <td>
-                                                {{-- @can('edit-' . str_slug('Restaurant')) --}}
+                                                @can('edit-' . str_slug('Restaurant'))
                                                     <a class="" href="{{ url('/dashboard/' . $item->id) }}"
                                                         title="View Restaurant">
                                                         <button class="btn btn-info btn-sm m-2">
@@ -111,7 +111,7 @@ $url_restaurant_id = intval(end($tmp));
                                                             <i class="fa fa-eye" aria-hidden="true"></i> Go to Dashboard
                                                         </button>
                                                     </a>
-                                                {{-- @endcan --}}
+                                                @endcan
                                                 {{-- @can('edit-' . str_slug('Restaurant')) --}}
                                                     <a href="{{ url('/restaurant_setting/' . $item->id) }}"
                                                         title="View Restaurant">

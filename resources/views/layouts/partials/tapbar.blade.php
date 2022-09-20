@@ -69,21 +69,27 @@
                         <span class="hide-menu style_border">Add payouts from the safe</span>
                     </a>
                 </li>
-                <li>
-                    <a class="waves-effect" href="{{ url('expenses/create/' . $url_restaurant_id) }}">
-                        <span class="hide-menu style_border">Add Expense</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="waves-effect" href="{{ url('employee-salary/create/' . $url_restaurant_id) }}">
-                        <span class="hide-menu style_border">Add Salary</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="waves-effect" href="{{ url('report/create/' . $url_restaurant_id) }}">
-                        <span class="hide-menu style_border">Add Daily Report</span>
-                    </a>
-                </li>
+                @can('add-' . str_slug('expenses'))
+                    <li>
+                        <a class="waves-effect" href="{{ url('expenses/create/' . $url_restaurant_id) }}">
+                            <span class="hide-menu style_border">Add Expense</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('add-' . str_slug('EmployeeSalary'))
+                    <li>
+                        <a class="waves-effect" href="{{ url('employee-salary/create/' . $url_restaurant_id) }}">
+                            <span class="hide-menu style_border">Add Salary</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('add-' . str_slug('Report'))
+                    <li>
+                        <a class="waves-effect" href="{{ url('report/create/' . $url_restaurant_id) }}">
+                            <span class="hide-menu style_border">Add Daily Report</span>
+                        </a>
+                    </li>
+                @endcan
                 <li>
                     <a class="waves-effect" href="{{ url('safe/' . $url_restaurant_id) }}">
                         <span class="hide-menu style_border">View safe</span>

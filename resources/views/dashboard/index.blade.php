@@ -1,17 +1,28 @@
 @extends('layouts.master')
 
-@push('css')
-    <style>
-        .info-box .info-count {
-            margin-top: 0px !important;
-        }
-    </style>
-@endpush
-
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$a = 0;
+$i = 0;
+$j = 0;
+$k = 0;
+$l = 0;
+$m = 0;
+$n = 0;
+$TAX = 23.9;
+$gross_profit = 0;
+// $report_status_sum = 1
+// $arr_report_item = [];
+// $arr_salaries_item = [];
+// $report_status_sum = (if $report_status_sum = null) ? 1 : $report_status_sum;
+// $arr_report_total_income = [];
+?>
 @section('content')
 
-    {{-- @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) --}}
-
+    @if (auth()->user()->hasRole('admin') ||
+        auth()->user()->hasRole('developer'))
         {{-- <div class="row m-0">
             <div class="col-md-3 col-sm-6 info-box">
                 <div class="media">
@@ -77,9 +88,8 @@
                 </div>
             </div>
         </div> --}}
-        
         <div class="container-fluid">
-          {{--   <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-8 col-sm-12">
                     <div class="white-box stat-widget">
                         <div class="row">
@@ -150,7 +160,7 @@
                     </div>
                 </div>
             </div> --}}
-           {{--  <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-4 col-sm-12">
                     <div class="white-box bg-primary color-box">
                         <h1 class="text-white font-light">&#36;6547 <span class="font-14">Revenue</span></h1>
@@ -347,7 +357,7 @@
                     </div>
                 </div>
             </div> --}}
-           {{--  <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-8">
                     <div class="white-box">
                         <div class="task-widget2">
@@ -467,12 +477,12 @@
                     </div>
                 </div>
             </div> --}}
-            
+
             <!-- ===== Right-Sidebar ===== -->
-        @include('layouts.partials.right-sidebar')
-        <!-- ===== Right-Sidebar-End ===== -->
+            @include('layouts.partials.right-sidebar')
+            <!-- ===== Right-Sidebar-End ===== -->
         </div>
-    {{-- @else --}}
+        {{-- @else --}}
         <div class="container-fluid mt-5">
             <div class="row mt-5">
                 <div class="col-md-8 col-md-offset-2 col-sm-12">
@@ -480,11 +490,121 @@
                 </div>
             </div>
         </div>
-    {{-- @endif --}}
+
+        <div class="container-fluid">
+            <!-- .row -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="white-box">
+                        <h3 class="box-title pull-left">Dashbord</h3>
+                        {{-- @can('add-' . str_slug('Restaurant'))
+                            <a class="btn btn-success pull-right" href="{{ url('/restaurant/create') }}"><i
+                                    class="icon-plus"></i>
+                                Add Restaurant</a>
+                        @endcan --}}
+                        <div class="clearfix"></div>
+                        <hr>
+                        <div class="table-responsive">
+                            <table class="table table-borderless" id="myTable">
+                                <thead>
+                                    <tr>
+                                        {{-- <th>#</th> --}}
+                                        <th>Name</th>
+                                        {{-- <th>Location</th> --}}
+                                        <th>Ranking</th>
+                                        <th>Income</th>
+                                        <th>Salaries</th>
+                                        <th>Average</th>
+                                        <th>Gross profit</th>
+                                        <th>TAX 19% + TAX 4.9%</th>
+                                        <th>Net profit</th>
+                                        {{-- <th>Actions</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (!$errors->any())
+                                        @foreach ($restaurant as $item)
+                                            @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('developer'))
+                                                <tr>
+
+                                                    <td>{{ $item->name }}</td>
+                                                    <td>{{ $item->ranking }}</td>
+                                                    <td>{{number_format(($total_income_sum = $report_total_income_sum[$i]), 2, ',', ' ')  }}</td>
+                                                    <input type="hidden" value="{{ ++$i }}">
+                                                    <td>{{ $report_avg_salaries = $report_avg_salaries_sum[$j], 1 }}</td>
+                                                    <input type="hidden" value="{{ ++$j }}">
+                                                    @foreach ($salaries_number_of_hours_sum_count as $val)
+                                                        @if ($item->id == $val->restaurant_id)
+                                                            {{ '', $counts = $loop->iteration }}
+                                                        @else
+                                                            {{ '', $counts = 1 }}
+                                                        @endif
+                                                    @endforeach
+                                                    <td>{{number_format(($salaries_number_of_hours_sum[$k] / $counts), 2, ',', ' ')  , 3 }}</td>
+                                                    <input type="hidden" value="{{ ++$k }}">
+
+                                                    @if ($total_income_sum != 0 || $total_income_sum != null  )
+                                                        <td>{{ ($gross_profit = $total_income_sum - ($cash_sum = $report_cash_sum[$m]) / $total_income_sum) ,3 }}
+                                                        </td>
+                                                        <input type="hidden" value="{{ ++$m }}">
+                                                        <td> {{ ($cash_sum / $total_income_sum) * $TAX }}</td>
+                                                        @else
+                                                        <td>"pleaase add daily with  total income"</td>
+                                                        <td>"pleaase enter  daily with  total income"</td>
+                                                    @endif
+                                                    <td>{{$net_profilt = $total_income_sum - $report_expense_today_sum[$n] - $report_avg_salaries }}
+                                                    </td>
+                                                    <input type="hidden" value="{{ ++$n }}">
+                                                </tr>
+                                            @endif
+                                            {{ '', $arr_gross_profit[$a] = $gross_profit }}
+                                            {{ '', $arr_net_profilt[$a] = $net_profilt, $a++ }}
+                                        @endforeach
+                                        <tr>
+                                            <td> <b>Total</b> </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td> <b>{{number_format(array_sum($arr_gross_profit), 2, ',', ' ') }}</b></td>
+                                            <td></td>
+                                            <td> <b>{{number_format(array_sum($arr_net_profilt), 2, ',', ' ')  }}</b></td>
+                                        </tr>
+                                    @else
+                                        <H1>Fill Data in restayrant to have look on dashbord </H1>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
 @endsection
 
 @push('js')
-    <script src="{{asset('js/db1.js')}}"></script>
+    <script src="{{ asset('js/db1.js') }}"></script>
 
+    <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
+    <script src="{{ asset('plugins/components/datatables/jquery.dataTables.min.js') }}"></script>
+    <!-- start - This is for export functionality only -->
+    <!-- end - This is for export functionality only -->
+    <script>
+        $(document).ready(function() {
+
+            @if (\Session::has('message'))
+                $.toast({
+                    heading: 'Success!',
+                    position: 'top-center',
+                    text: '{{ session()->get('message') }}',
+                    loaderBg: '#ff6849',
+                    icon: 'success',
+                    hideAfter: 3000,
+                    stack: 6
+                });
+            @endif
+        })
+    </script>
 @endpush

@@ -92,7 +92,7 @@
                                                 value="{!! old('status') !!}" />
 
                                             {!! $errors->first('status', '<span class="help-block">:message</span>') !!} --}}
-                                            <select id="status" name="status" required>
+                                            <select class="form-control" id="status" name="status" required>
                                                 <option value="1">Active</option>
                                                 <option value="2">InActive</option>
                                             </select>
@@ -103,20 +103,20 @@
                                         <div class="col-sm-10">
                                             <input id="name" name="name" type="text" placeholder="Name" required
                                                 class="form-control required" value="{!! old('name') !!}" />
-
                                             {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="form-group {{ $errors->first('surname', 'has-error') }}">
                                         <label for="surname" class="col-sm-2 control-label">Surname *</label>
                                         <div class="col-sm-10">
-                                            <input id="surname" name="surname" type="text" placeholder="Surname" required
-                                                class="form-control required" value="{!! old('surname') !!}" />
+                                            <input id="surname" name="surname" type="text" placeholder="Surname"
+                                                required class="form-control required" value="{!! old('surname') !!}" />
 
                                             {!! $errors->first('surname', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
+                                    <input type="hidden" value="{{$restaurant_id}}" name="restaurant_id">
+                                    {{-- <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
                                         <label for="restaurant_id" class="col-sm-2 control-label">Restaurant Linked
                                             To</label>
                                         <div class="col-sm-10">
@@ -126,13 +126,10 @@
                                                 @foreach ($restaurant as $item)
                                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
                                                 @endforeach
-                                                {{-- <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option> --}}
                                             </select>
                                             {!! $errors->first('restaurant_id', '<span class="help-block">:message</span>') !!}
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="form-group {{ $errors->first('date_of_employment', 'has-error') }}">
                                         <label for="date_of_employment" class="col-sm-2 control-label">Date of Employment
                                             *</label>
@@ -210,11 +207,10 @@
                                     <div class="form-group  {{ $errors->first('dob', 'has-error') }}">
                                         <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
                                         <div class="col-sm-10">
-                                            <input value="{{ old('dob') }}" autocomplete="off" id="dob" required
-                                                name="dob" type="date" class="form-control"
+                                            <input value="{{ old('dob') }}" autocomplete="off" 
+                                                required name="dob" type="date" class="form-control"
                                                 data-date-format="YYYY-MM-DD" placeholder="yyyy-mm-dd" />
                                             <span class="help-block">{{ $errors->first('dob', ':message') }}</span>
-
                                         </div>
                                     </div>
                                     <div class="form-group {{ $errors->first('place_of_birth', 'has-error') }}">
@@ -231,8 +227,9 @@
                                     <div class="form-group {{ $errors->first('PESEL ', 'has-error') }}">
                                         <label for="PESEL " class="col-sm-2 control-label">PESEL *</label>
                                         <div class="col-sm-10">
-                                            <input id="PESEL " name="PESEL " type="text" placeholder="PESEL "required
-                                                class="form-control required" value="{!! old('PESEL ') !!}" />
+                                            <input id="PESEL " name="PESEL " type="text"
+                                                placeholder="PESEL "required class="form-control required"
+                                                value="{!! old('PESEL ') !!}" />
 
                                             {!! $errors->first('PESEL ', '<span class="help-block">:message</span>') !!}
                                         </div>
@@ -303,9 +300,9 @@
                                         <label for="bank_account_number  " class="col-sm-2 control-label">Bank account
                                             number *</label>
                                         <div class="col-sm-10">
-                                            <input id="bank_account_number  " name="bank_account_number  " required type="country"
-                                                placeholder="bank_account_number  " class="form-control required"
-                                                value="{!! old('bank_account_number  ') !!}" />
+                                            <input id="bank_account_number  " name="bank_account_number  " required
+                                                type="country" placeholder="bank_account_number  "
+                                                class="form-control required" value="{!! old('bank_account_number  ') !!}" />
 
                                             {!! $errors->first('bank_account_number  ', '<span class="help-block">:message</span>') !!}
                                         </div>
@@ -320,7 +317,8 @@
                                             {!! $errors->first('student   ', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->first('name_of_the_university    ', 'has-error') }}">
+                                    <div
+                                        class="form-group {{ $errors->first('name_of_the_university    ', 'has-error') }}">
                                         <label for="name_of_the_university   " class="col-sm-2 control-label">Name of the
                                             University *</label>
                                         <div class="col-sm-10">
@@ -331,8 +329,10 @@
                                             {!! $errors->first('name_of_the_university   ', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->first('until_when_the_student     ', 'has-error') }}">
-                                        <label for="until_when_the_student   " class="col-sm-2 control-label">until when the student  *</label>
+                                    <div
+                                        class="form-group {{ $errors->first('until_when_the_student     ', 'has-error') }}">
+                                        <label for="until_when_the_student   " class="col-sm-2 control-label">until when
+                                            the student *</label>
                                         <div class="col-sm-10">
                                             <input id="until_when_the_student   " name="until_when_the_student   "required
                                                 type="date" placeholder="until_when_the_student   "
@@ -457,9 +457,11 @@
                                                 id="role">
                                                 <option value="">Select</option>
                                                 @foreach ($roles as $role)
-                                                    <option value="{{ $role->id }}"
-                                                        @if ($role->id == old('role')) selected="selected" @endif>
-                                                        {{ $role->name }}</option>
+                                                    @if ($role->name != 'developer')
+                                                        <option value="{{ $role->id }}"
+                                                            @if ($role->id == old('role')) selected="selected" @endif>
+                                                            {{ $role->name }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                             <span class="help-block">{{ $errors->first('role', ':message') }}</span>
