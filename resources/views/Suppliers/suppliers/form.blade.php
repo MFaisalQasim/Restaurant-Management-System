@@ -9,6 +9,7 @@
         {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
+<input type="hidden" name="url_restaurant_id" id="url_restaurant_id"value="{{ $url_restaurant_id }}">
 <div class="form-group {{ $errors->has('sum') ? 'has-error' : '' }}">
     {!! Form::label('sum', 'Sum', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">

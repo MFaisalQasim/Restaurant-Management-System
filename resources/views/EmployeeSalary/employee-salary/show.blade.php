@@ -144,7 +144,6 @@ $today = $year . '-' . $month . '-' . $day;
         j = 0;
         arr = [];
         arr_j = [];
-
         $(document).ready(function() {
             salary_status_fetch();
         });
@@ -171,13 +170,13 @@ $today = $year . '-' . $month . '-' . $day;
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                <td>' + item.name + '</td>\
-                                                <td>' + item.sum + '</td>\
-                                                <td>' + item.number_of_hours + '</td>\
-                                                <td>' + item.bonus_sum + '</td>\
-                                                <td>' + item.total_sum + '</td>\
-                                                <td>' + item.rate + '</td>\
-                                            </tr>'
+                                                    <td>' + item.name + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.number_of_hours + '</td>\
+                                                    <td>' + item.bonus_sum + '</td>\
+                                                    <td>' + item.total_sum + '</td>\
+                                                    <td>' + item.rate + '</td>\
+                                                </tr>'
                                 )
                                 arr_j[j] = item.total_sum
                                 console.log(arr_j[j] + 'arr[j] 2');
@@ -190,6 +189,8 @@ $today = $year . '-' . $month . '-' . $day;
                     console.log($selected_period_sum.toFixed(3) + 'selected_period_sum 2');
                     $('#selected_period_sum').html($selected_period_sum.toFixed(3));
                     console.log($selected_period_sum.toFixed(3) + 'selected_period_sum 3');
+                    
+        arr_j = [];
                 }
             });
 
@@ -210,30 +211,32 @@ $today = $year . '-' . $month . '-' . $day;
                     $('tbody').find('tr').remove()
                     response.employee_salary.forEach(item => {
                         if (item.restaurant_id == $url_restaurant_id) {
-                            item_date = item.date.slice(0, 7)
-                            if (item.date.slice(0, 7) == $this_previous_month) {
-                                console.log(arr.length + ' else if');
+                            console.log(arr.length + ' if');
+                            if (item.date.slice(0, 7) == $this_previous_month)  {
+                                console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                <td>' + item.name + '</td>\
-                                                <td>' + item.sum + '</td>\
-                                                <td>' + item.number_of_hours + '</td>\
-                                                <td>' + item.bonus_sum + '</td>\
-                                                <td>' + item.total_sum + '</td>\
-                                                <td>' + item.rate + '</td>\
-                                            </tr>'
+                                                    <td>' + item.name + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                    <td>' + item.number_of_hours + '</td>\
+                                                    <td>' + item.bonus_sum + '</td>\
+                                                    <td>' + item.total_sum + '</td>\
+                                                    <td>' + item.rate + '</td>\
+                                        </tr>'
                                 )
+                                arr_j[j] = item.total_sum
+                                console.log(arr_j[j] + 'arr[j] 2');
+                                j++;
                             }
-                        arr[i] = item.total_sum
-                        console.log(arr[i] + 'arr[i] 2');
-                        i++;
                         }
                     });
-                    console.log(arr.reduce((a, b) => a + b, 0) + ' arr.reduce((a, b) => a + b, 0)');
-                    $selected_period_sum = arr.reduce((a, b) => a + b, 0);
+                    console.log(arr_j.reduce((a, b) => a + b, 0) + ' arr.reduce((a, b) => a + b, 0)');
+                    $selected_period_sum = arr_j.reduce((a, b) => a + b, 0);
                     console.log($selected_period_sum.toFixed(3) + 'selected_period_sum 2');
                     $('#selected_period_sum').html($selected_period_sum.toFixed(3));
                     console.log($selected_period_sum.toFixed(3) + 'selected_period_sum 3');
+                    
+        arr_j = [];
                 }
             });
         }

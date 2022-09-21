@@ -84,26 +84,7 @@ $day = date('d');
 $year = date('Y');
 
 $today = $year . '-' . $month . '-' . $day;
-
-$url_user = explode('/', $url);
-// $url_restaurant_id = intval(end($tmp));
-$a = 0;
-$i = 0;
-$j = 0;
-$k = 0;
-$l = 0;
-$m = 0;
-$n = 0;
-$TAX = 23.9;
-$gross_profit = 0;
-// print $url_restaurant_id;
-// print $url_user[1];
-// print $url_any[2];
 ?>
-{{-- <script>
-    console.log($url_any[1]);
-    console.log($url_any[2]);
-</script> --}}
 <body class="@if (session()->get('theme-layout')) {{ session()->get('theme-layout') }} @endif" >
     <!-- ===== Main-Wrapper ===== -->
     <div id="wrapper">
@@ -139,12 +120,8 @@ $gross_profit = 0;
                     background: none
                 }
             </style>
-            {{-- || $url_user[1] == "user" || $url_any[2] != 0--}}
-            
-            @if ($url_restaurant_id != 0  )
-                @include('layouts.partials.tapbar')
-            @endif
         </div>
+
         {{-- <div class="container-fluid">
             @if (// auth()->user()->hasRole('admin') ||
     auth()->user()->hasRole('developer'))

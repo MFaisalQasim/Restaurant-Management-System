@@ -59,7 +59,7 @@ class EmployeeSalaryController extends Controller
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $restaurant = Restaurant::findOrFail($id);
-            $user = User::get();
+            $user = User::where('restaurant_id', '=' , $id)->get();
             $EmployeeSalary = EmployeeSalary::where('restaurant_id', '=' , $id)->get();
             return view('EmployeeSalary.employee-salary.create', compact('restaurant','user', 'EmployeeSalary'));
         }
@@ -76,7 +76,7 @@ class EmployeeSalaryController extends Controller
      */
     public function store(Request $request, $id)
     {
-        // return $request;
+        return $request;
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [

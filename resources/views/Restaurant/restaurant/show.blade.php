@@ -20,9 +20,9 @@ $url_restaurant_id = intval(end($tmp));
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan
                     @can('add-' . str_slug('Restaurant'))
-                    <a class="btn btn-success  m-3" href="{{ asset('user/create/'. $url_restaurant_id) }}">
-                         Add New User</a>
-                         @endcan
+                        <a class="btn btn-success  m-3" href="{{ asset('user/create/' . $url_restaurant_id) }}">
+                            Add New User</a>
+                    @endcan
                     <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{ $url_restaurant_id }}">
                     <div class="clearfix"></div>
                     <hr>
@@ -96,20 +96,20 @@ $url_restaurant_id = intval(end($tmp));
                                     </ul>
                                 </div>
                                 <div class="col">
-                                    <div class="row">
+                                    <div class="row p-2">
 
                                         @can('add-' . str_slug('Suppliers'))
-                                            <a class=" btn-success pull-right"
+                                            <a class=" btn-success pull-right m-1"
                                                 href="{{ url('/suppliers/create/' . $url_restaurant_id) }}"><i
                                                     class="icon-plus"></i>
-                                                     Add Suppliers
-                                                    </a>
+                                                Add Suppliers
+                                            </a>
                                         @endcan
-                                    </div>
-                                    <div class="row">
+                                    {{-- </div>
+                                    <div class="row"> --}}
                                         <ul class="" style="padding:0px">
                                             @foreach ($supplier as $key => $item)
-                                                <li style="display: flex ; list-style:none ; ">
+                                                <li class="m-1" style="display: flex ; list-style:none ; ">
                                                     <input class="" type="text" name="" id=""
                                                         value="{{ $item->name }}" readonly>
                                                     {{-- &nbsp;
@@ -126,10 +126,10 @@ $url_restaurant_id = intval(end($tmp));
                                                     @endcan --}}
 
                                                     @can('edit-' . str_slug('Suppliers'))
-                                                        <a href="{{ url('/suppliers/edit/' . $item->id) }}"
+                                                        <a class="m-1" href="{{ url('/suppliers/edit/' . $item->id) }}"
                                                             title="Edit Supplier">
                                                             <button class=" btn-primary btn-sm">
-                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> 
+                                                                <i class="fa fa-pencil-square-o" aria-hidden="true"> </i>
                                                             </button>
                                                         </a>
                                                     @endcan
@@ -139,14 +139,15 @@ $url_restaurant_id = intval(end($tmp));
                                                             'url' => ['/suppliers/delete', $item->id],
                                                             'style' => 'display:inline',
                                                         ]) !!}
-                                                        {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                         
-                                                        ', [
-                                                            'type' => 'submit',
-                                                            'class' => ' btn-danger btn-sm',
-                                                            'title' => 'Delete Supplier',
-                                                            'onclick' => 'return confirm("Confirm delete?")',
-                                                        ]) !!}
+                                                        {!! Form::button(
+                                                            '<i class="fa fa-trash-o" aria-hidden="true"></i>',
+                                                            [
+                                                                'type' => 'submit',
+                                                                'class' => ' btn-danger btn-sm m-1',
+                                                                'title' => 'Delete Supplier',
+                                                                'onclick' => 'return confirm("Confirm delete?")',
+                                                            ],
+                                                        ) !!}
                                                         {!! Form::close() !!}
                                                     @endcan
                                                 </li>
@@ -159,34 +160,37 @@ $url_restaurant_id = intval(end($tmp));
                             </div>
                         </div>
                         <div class="col-md-6">
-                            {!! Form::model($restaurant, [
-                                'method' => 'PATCH',
-                                'url' => ['/restaurant_setting', $restaurant->id],
-                                'class' => 'form-horizontal',
-                                'files' => true,
-                            ]) !!}
-                            <p>Is Active for this restaurant (Sales volume by
-                                suppliers) ?</p>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="active_for_this_restaurant"
-                                    id="active_for_this_restaurant1" value="option1">
-                                <label class="form-check-label" for="active_for_this_restaurant1">Yes</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="active_for_this_restaurant"
-                                    id="active_for_this_restaurant2" value="option2">
-                                <label class="form-check-label" for="active_for_this_restaurant2">No</label>
-                            </div>
-                            <p>
-                                How many last days do employees see cash
-                                reports?</p>
-                            <input type="text" name="see_cash_reports_days" id="see_cash_reports_days">
-                            <div class="form-group">
-                                <div class="col-md-offset-4 col-md-4">
-                                    <input type="submit" value="Save">
+                            @if (auth()->user()->hasRole('admin') ||
+                                auth()->user()->hasRole('developer'))
+                                {!! Form::model($restaurant, [
+                                    'method' => 'PATCH',
+                                    'url' => ['/restaurant_setting', $restaurant->id],
+                                    'class' => 'form-horizontal',
+                                    'files' => true,
+                                ]) !!}
+                                <p>Is Active for this restaurant (Sales volume by
+                                    suppliers) ?</p>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="active_for_this_restaurant"
+                                        id="active_for_this_restaurant1" value="yes">
+                                    <label class="form-check-label" for="active_for_this_restaurant1">Yes</label>
                                 </div>
-                            </div>
-                            {!! Form::close() !!}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="active_for_this_restaurant"
+                                        id="active_for_this_restaurant2" value="no">
+                                    <label class="form-check-label" for="active_for_this_restaurant2">No</label>
+                                </div>
+                                <p>
+                                    How many last days do employees see cash
+                                    reports?</p>
+                                <input type="text" name="see_cash_reports_days" id="see_cash_reports_days"  placeholder="none">
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-4">
+                                        <input type="submit" value="Save">
+                                    </div>
+                                </div>
+                                {!! Form::close() !!}
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -226,13 +230,13 @@ $url_restaurant_id = intval(end($tmp));
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                <td>' + item.name + '</td>\
-                                                                                <td>' + item.date_of_joining + '</td>\
-                                                                                <td>' + item.date_of_leaving + '</td>\
-                                                                                <td>' + item.telephone + '</td>\
-                                                                                <td>' + item.status + '</td>\
-                                                                                <td>' + item.salary + '</td>\
-                                                                            </tr>'
+                                                                                    <td>' + item.name + '</td>\
+                                                                                    <td>' + item.date_of_joining + '</td>\
+                                                                                    <td>' + item.date_of_leaving + '</td>\
+                                                                                    <td>' + item.telephone + '</td>\
+                                                                                    <td>' + item.status + '</td>\
+                                                                                    <td>' + item.salary + '</td>\
+                                                                                </tr>'
                                 )
                             }
                         }

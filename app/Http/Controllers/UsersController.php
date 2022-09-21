@@ -56,7 +56,6 @@ class UsersController extends Controller
         $user->telephone = $request->telephone_number;
         $user->restaurant_id = $request->restaurant_id;
         $user->password = bcrypt($request->password);
-        $user->restaurant_id = $request->restaurant_id;
 
 
         $user->save();
@@ -136,6 +135,7 @@ class UsersController extends Controller
         }
         $user->email = $request->email;
         $user->name = $request->name;
+        $user->restaurant_id = $request->restaurant_id;
         $user->save();
 
         $profile = $user->profile;

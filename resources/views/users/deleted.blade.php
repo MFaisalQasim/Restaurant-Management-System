@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master2')
 
 @push('css')
     <link href="{{asset('plugins/components/datatables/jquery.dataTables.min.css')}}" rel="stylesheet" type="text/css" />

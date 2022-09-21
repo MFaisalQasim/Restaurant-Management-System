@@ -70,7 +70,7 @@ class ReportController extends Controller
             $supplier = Supplier::get();
             $total_cash = TotalCash::get();
             $restaurant = Restaurant::findOrFail($id);
-            $user = User::get();
+            $user = User::where('restaurant_id', '=' , $id)->get();
 
              $expense_today = Expense::whereRaw('Date(created_at) = CURDATE()')->sum('sum');
 

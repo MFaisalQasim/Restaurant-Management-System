@@ -1,4 +1,4 @@
-@extends('layouts.master2')
+@extends('layouts.master')
 
 <?php
 $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
@@ -13,11 +13,81 @@ $m = 0;
 $n = 0;
 $TAX = 23.9;
 $gross_profit = 0;
+// $report_status_sum = 1
+// $arr_report_item = [];
+// $arr_salaries_item = [];
+// $report_status_sum = (if $report_status_sum = null) ? 1 : $report_status_sum;
+// $arr_report_total_income = [];
 ?>
 @section('content')
 
     @if (auth()->user()->hasRole('admin') ||
         auth()->user()->hasRole('developer'))
+        {{-- <div class="row m-0">
+            <div class="col-md-3 col-sm-6 info-box">
+                <div class="media">
+                    <div class="media-left">
+                        <span class="icoleaf bg-primary text-white" style="background-color:#676662 !important;">
+                            <i class="mdi mdi-checkbox-marked-circle-outline"></i></span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="info-count text-blue">154</h3>
+                        <p class="info-text font-12">Courses</p>
+                        <span class="hr-line"></span>
+                        <p class="info-ot font-15">Target<span class="label label-rounded label-success">300</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 info-box">
+                <div class="media">
+                    <div class="media-left">
+                        <span class="icoleaf bg-primary text-white" style="background-color:#676662 !important;">
+                            <i class="mdi mdi-comment-text-outline"></i>
+                        </span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="info-count text-blue">68</h3>
+                        <p class="info-text font-12">Students</p>
+                        <span class="hr-line"></span>
+                        <p class="info-ot font-15">Total Pending<span
+                                    class="label label-rounded label-danger">14</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 info-box">
+                <div class="media">
+                    <div class="media-left">
+                        <span class="icoleaf bg-primary text-white" style="background-color:#676662 !important;">
+                            <i class="mdi mdi-coin"></i>
+                        </span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="info-count text-blue">&#36;9475</h3>
+                        <p class="info-text font-12">Earning</p>
+                        <span class="hr-line"></span>
+                        <p class="info-ot font-15">March : <span class="text-blue font-semibold">&#36;514578</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 info-box b-r-0">
+                <div class="media">
+                    <div class="media-left p-r-5" >
+                        <div id="earning" class="e" data-percent="60">
+                            <div id="pending" class="p" data-percent="55"></div>
+                            <div id="booking" class="b" data-percent="50"></div>
+                        </div>
+                    </div>
+                    <div class="media-body">
+                        <h2 class="text-blue font-22 m-t-0">Report</h2>
+                        <ul class="p-0 m-b-20">
+                            <li><i class="fa fa-circle m-r-5 text-primary"></i>60% Earnings</li>
+                            <li><i class="fa fa-circle m-r-5 text-primary"></i>55% Pending</li>
+                            <li><i class="fa fa-circle m-r-5 text-info"></i>50% Bookings</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div> --}}
         <div class="container-fluid">
             {{-- <div class="row">
                 <div class="col-md-8 col-sm-12">
@@ -427,6 +497,11 @@ $gross_profit = 0;
                 <div class="col-sm-12">
                     <div class="white-box">
                         <h3 class="box-title pull-left">Dashbord</h3>
+                        {{-- @can('add-' . str_slug('Restaurant'))
+                            <a class="btn btn-success pull-right" href="{{ url('/restaurant/create') }}"><i
+                                    class="icon-plus"></i>
+                                Add Restaurant</a>
+                        @endcan --}}
                         <div class="clearfix"></div>
                         <hr>
                         <div class="table-responsive">

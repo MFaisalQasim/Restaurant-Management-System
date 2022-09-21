@@ -86,12 +86,14 @@ class SuppliersController extends Controller
             $supplier->sum =  $request->sum;
             $supplier->date_of_order =  $request->date_of_order;
             $supplier->date_of_delivery =  $request->date_of_delivery;
+            // $supplier->restaurant_id =     $request->url_restaurant_id ;
+            $supplier->restaurant_id =     $restaurant_id ;
             // $supplier->name =  $request->name;
-        if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-            $supplier->restaurant_id =     $request->restaurant_id ;
-        } else {
-            $supplier->restaurant_id =     auth()->user()->restaurant_id;
-        }
+        // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+        //     $supplier->restaurant_id =     $request->url_restaurant_id ;
+        // } else {
+        //     $supplier->restaurant_id =     auth()->user()->restaurant_id;
+        // }
         $supplier->save();
             return redirect('restaurant_setting/'. $restaurant_id)->with('flash_message', 'Supplier added!');
         }

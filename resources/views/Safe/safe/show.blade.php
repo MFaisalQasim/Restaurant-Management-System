@@ -35,11 +35,11 @@ $safe_payment_sum;
                         <a class="btn btn-success pull-right" href="{{ url('/safe') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan --}}
-                    @can('add-' . str_slug('Safe'))
+                    {{-- @can('add-' . str_slug('Safe'))
                         <a class="btn btn-success pull-right" href="{{ url('/safe') }}"><i class="icon-plus"></i> Add New
                             Safe
                         </a>
-                    @endcan
+                    @endcan --}}
                     <div class="clearfix"></div>
                     <hr>
 
@@ -201,21 +201,19 @@ $safe_payment_sum;
                                 item_paycheck = (item.paycheck == null) ? "-" : "-" + item.paycheck;
                                 console.log(item_paycheck + "item_paycheck");
                                 let Sum_after = (parseInt(total_sum) + (item.payment - item.paycheck))
+                                
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                                                                <td>' +
-                                    item_created_at +
-                                    '</td>\
-                                                                                      `                                          <td>' +
-                                    item_payment +
-                                    '</td>\
-                                                                                                                                <td>' +
-                                    item_paycheck +
-                                    '</td>\
-                                                                                                                                <td>' +
-                                    item.sum +
-                                    '</td>\
-                                                                                                                                                                         </tr>'
+                                        <td>' + item_created_at + '</td>\
+                                        <td>' + item_payment + '</td>\
+                                        <td>' + item_paycheck + '</td>\
+                                        <td>' + item.sum + '</td>\
+                                        <td> <a class="download_file" href="' +
+                                        '/safe/edit/' + item.id +
+                                        '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                        '/safe/delete/' + item.id +
+                                        '" >  || Delete || </a></td>\
+                                    </tr>'
                                 )
 
                             }
@@ -261,24 +259,16 @@ $safe_payment_sum;
                                 item_created_at = item.created_at.slice(0, 10)
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                                                            <td>' +
-                                    item_created_at +
-                                    '</td>\
-                                                                                                                            <td>' +
-                                    item_payment +
-                                    '</td>\
-                                                                                                                            <td>' +
-                                    item_paycheck +
-                                    '</td>\
-                                                                                                                            <td>' +
-                                    item.sum +
-                                    '</td>\
+                                        <td>' + item_created_at + '</td>\
+                                        <td>' + item_payment + '</td>\
+                                        <td>' + item_paycheck + '</td>\
+                                        <td>' + item.sum + '</td>\
                                         <td> <a class="download_file" href="' +
-                                    '/safe/edit/' + item.id +
-                                    '" > ||  Edit  ||</a><a class="download_file" href="' +
-                                    '/safe/delete/' + item.id +
-                                    '" >  || Delete || </a></td>\
-                                                                                                                                                                     </tr>'
+                                        '/safe/edit/' + item.id +
+                                        '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                        '/safe/delete/' + item.id +
+                                        '" >  || Delete || </a></td>\
+                                    </tr>'
                                 )
 
                             }

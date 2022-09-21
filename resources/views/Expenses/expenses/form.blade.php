@@ -1,13 +1,18 @@
 <div class="form-group {{ $errors->has('for_whom') ? 'has-error' : '' }}">
     {!! Form::label('for_whom', 'Employee Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        <select class="form-control" name="for_whom" id="for_whom">
-            @foreach ($user as $item)
-            @if (!$item->hasRole('developer'))
-                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                @endif
-            @endforeach
-        </select>
+        @if (count($user) != 0)
+            <select class="form-control" name="for_whom" id="for_whom">
+                @foreach ($user as $item)
+                    @if (!$item->hasRole('developer'))
+                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                    @endif
+                @endforeach
+            </select>
+        @else
+            <input class="form-control" name="for_whom" id="for_whom" type="text" value="{{ auth()->user()->name }}"
+                placeholder="Add Users to Restaurant to select one" readonly>
+        @endif
         {!! $errors->first('for_whom', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

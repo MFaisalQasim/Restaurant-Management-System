@@ -285,7 +285,8 @@ class SafeController extends Controller
             $save_restaurant_id = Safe::findOrFail($id)->first("restaurant_id");
             Safe::destroy($id);
 
-            return redirect('safe/'. $save_restaurant_id->restaurant_id)->with('flash_message', 'Safe deleted!');
+            // return redirect('safe/'. $save_restaurant_id->restaurant_id)->with('flash_message', 'Safe deleted!');
+            return redirect()->back()->with('flash_message', 'Safe deleted!');
         }
         return response(view('403'), 403);
 

@@ -59,7 +59,7 @@ class ExpensesController extends Controller
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $restaurant = Restaurant::findOrFail($id);
-            $user = User::get();
+            $user = User::where('restaurant_id', '=' , $id)->get();
             return view('Expenses.expenses.create', compact('restaurant', 'user'));
         }
         return response(view('403'), 403);

@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master2')
 
 @push('css')
     <link href="{{ asset('plugins/components/jasny-bootstrap/css/jasny-bootstrap.css') }}" rel="stylesheet">
@@ -496,7 +496,7 @@
             </div>
         </div>
 
-        @include('layouts.partials.right-sidebar')
+        {{-- @include('layouts.partials.right-sidebar') --}}
     </div>
 @endsection
 

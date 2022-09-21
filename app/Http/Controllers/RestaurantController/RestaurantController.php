@@ -156,7 +156,8 @@ class RestaurantController extends Controller
             
             $restaurant = Restaurant::findOrFail($id);
             $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
-
+            $restaurant->active_for_this_restaurant =  $request->active_for_this_restaurant;
+            
             $restaurant->save();
              return redirect('restaurant_setting/'.  $id)->with('flash_message', 'Restaurant updated!');
         }
