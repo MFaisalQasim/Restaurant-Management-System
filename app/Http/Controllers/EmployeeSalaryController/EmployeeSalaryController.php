@@ -76,7 +76,7 @@ class EmployeeSalaryController extends Controller
      */
     public function store(Request $request, $id)
     {
-        return $request;
+        // return $request;
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -88,7 +88,9 @@ class EmployeeSalaryController extends Controller
 			// 'date' => 'required',
 			// 'date' => 'required',
 			// 'sum' => 'required'
-		]);
+		    ]);
+            try{
+            // return $request;    
             $requestData = $request->all();
             
             // return $request;
@@ -105,15 +107,30 @@ class EmployeeSalaryController extends Controller
             $employeesalary->date =    $request->date;
             $employeesalary->type =    $request->type;
             $employeesalary->bonus_for_what =    $request->for_what or $bonus_for_what;
-            $employeesalary->bonus_sum =    $request->bonus_sum or $bonus_sum;
+            $employeesalary->bonus_sum =    $request->bonus_sum or $bonus_sum or 0;
             $employeesalary->sum =    $request->sum;
-            $employeesalary->total_sum =    $request->total_sum;
+            $employeesalary->total_sum =    $request->total_sum or $request->sum;
+            if ($request->bonus_sum == null || $request->total_sum) {
+                $employeesalary->bonus_sum =    $request->sum;
+                $employeesalary->total_sum =    $request->sum;
+            }
             
             // return $employeesalary;
-            $employeesalary->save();
-            // return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
-            return redirect('employee-salary/'. $id)->with('flash_message', 'EmployeeSalary added!');
-            // return view('EmployeeSalary.employee-salary.create', compact('employeesalary'));
+            // return "here";
+            
+            //    if ($ErrorMsg == "") {
+                $employeesalary->save();
+                // }
+
+
+                // return redirect('employee-salary/create/'. $id)->with('flash_message', 'EmployeeSalary added!');
+                return redirect('employee-salary/'. $id)->with('flash_message', 'EmployeeSalary added!');
+                // return view('EmployeeSalary.employee-salary.create', compact('employeesalary'));
+            } catch (\Throwable $th) {
+
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete    data!');
+
         }
         return response(view('403'), 403);
     }
@@ -147,7 +164,12 @@ class EmployeeSalaryController extends Controller
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $employeesalary = EmployeeSalary::findOrFail($id);
-            return view('EmployeeSalary.employee-salary.edit', compact('employeesalary'));
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $user = User::get();
+            } else {
+                $user = User::where('restaurant_id', '=' , auth()->user()->restaurant_id)->get();
+            }
+            return view('EmployeeSalary.employee-salary.edit', compact('employeesalary', 'user'));
         }
         return response(view('403'), 403);
     }
@@ -162,24 +184,58 @@ class EmployeeSalaryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // return $request; 
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
-			'name' => 'required',
+			// 'name' => 'required',
 			// 'number_of_hours' => 'required',
 			// 'sum' => 'required'
 		]);
+        
+        try{
             $requestData = $request->all();
             
             $employeesalary = EmployeeSalary::findOrFail($id);
-            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-                $employeesalary->restaurant_id =     $request->restaurant_id ;
-            } else {
-                $employeesalary->restaurant_id =     auth()->user()->restaurant_id;
+            
+            // return $request;
+            // EmployeeSalary::create($requestData);
+            $bonus_for_what = "Good Will Bonus";
+            $bonus_sum = "not paid in cash";
+            $employeesalary = new EmployeeSalary;
+            $employeesalary->name =  $request->employee_name;
+            $employeesalary->restaurant_id =    $id;
+            $employeesalary->rate =    $request->rate;
+            $employeesalary->number_of_hours =    $request->number_of_hours;
+            $employeesalary->start_hour =    $request->start_hour;
+            $employeesalary->finish_hour =    $request->finish_hour;
+            $employeesalary->date =    $request->date;
+            $employeesalary->type =    $request->type;
+            $employeesalary->bonus_for_what =    $request->for_what or $bonus_for_what;
+            $employeesalary->bonus_sum =    $request->bonus_sum or $bonus_sum or 0;
+            $employeesalary->sum =    $request->sum;
+            $employeesalary->total_sum =    $request->total_sum or $request->sum;
+            if ($request->bonus_sum == null || $request->total_sum) {
+                $employeesalary->bonus_sum =    $request->sum;
+                $employeesalary->total_sum =    $request->sum;
             }
-            $employeesalary->update($requestData);
+            
+            // return $employeesalary;
+            // return "here";
+            
+            //    if ($ErrorMsg == "") {
+                $employeesalary->save();
+                // }
 
-             return redirect('employee-salary')->with('flash_message', 'EmployeeSalary updated!');
+
+            // $employeesalary->update($requestData);
+            // return $employeesalary;
+            //  return redirect('employee-salary')->with('flash_message', 'EmployeeSalary updated!');
+             return redirect()->back()->with('flash_message', 'EmployeeSalary updated!');
+             
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete    data!');
         }
         return response(view('403'), 403);
 
@@ -197,8 +253,8 @@ class EmployeeSalaryController extends Controller
         $model = str_slug('employeesalary','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
             EmployeeSalary::destroy($id);
-
-            return redirect('employee-salary')->with('flash_message', 'EmployeeSalary deleted!');
+            // return redirect('employee-salary')->with('flash_message', 'EmployeeSalary deleted!');
+            return redirect()->back()->with('flash_message', 'EmployeeSalary deleted!');
         }
         return response(view('403'), 403);
 

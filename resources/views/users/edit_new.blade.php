@@ -69,8 +69,8 @@
                 <div class="white-box">
                     <h3 class="box-title pull-left">Create User</h3>
                     <div class="clearfix"></div>
-                    <form id="commentForm" action="{{ url('user/create') }}" method="POST" enctype="multipart/form-data"
-                        class="form-horizontal">
+                    <form id="commentForm" action="{{ url('user/edit/' . $user->id) }}" method="POST"
+                        enctype="multipart/form-data" class="form-horizontal">
                         <!-- CSRF Token -->
                         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
 
@@ -115,7 +115,7 @@
                                             {!! $errors->first('surname', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <input type="hidden" value="{{$restaurant_id}}" name="restaurant_id">
+                                    {{-- <input type="hidden" value="{{$$user->restaurant_id}}" name="restaurant_id"> --}}
                                     {{-- <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
                                         <label for="restaurant_id" class="col-sm-2 control-label">Restaurant Linked
                                             To</label>

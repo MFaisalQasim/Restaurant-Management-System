@@ -22,6 +22,11 @@ $url_restaurant_id = intval(end($tmp));
                     @can('add-' . str_slug('Restaurant'))
                         <a class="btn btn-success  m-3" href="{{ asset('user/create/' . $url_restaurant_id) }}">
                             Add New User</a>
+                            
+                    @endcan
+                    @can('edit-' . str_slug('Restaurant'))
+                        <a class="btn btn-success  m-3" href="{{ asset('users/' . $url_restaurant_id) }}">
+                            Manage User</a>
                     @endcan
                     <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{ $url_restaurant_id }}">
                     <div class="clearfix"></div>
@@ -55,7 +60,7 @@ $url_restaurant_id = intval(end($tmp));
 
                             <thead>
                                 <tr>
-                                    <th> Name </th>
+                                    <th> Full Name </th>
                                     <th>Date of Employment </th>
                                     <th> End of Work Date </th>
                                     <th> Telephone </th>
@@ -83,7 +88,7 @@ $url_restaurant_id = intval(end($tmp));
                             ">
                                 <div class="col">
                                     <ul class="" style="padding:0px">
-                                        @foreach ($user as $key => $item)
+                                        @foreach ($users as $key => $item)
                                             <li style="display: flex ; list-style:none ">
                                                 <input class="" type="text" name="" id=""
                                                     {{-- style="border: none;" --}} value="{{ $item->salary }}" readonly>
@@ -172,7 +177,11 @@ $url_restaurant_id = intval(end($tmp));
                                     suppliers) ?</p>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="active_for_this_restaurant"
-                                        id="active_for_this_restaurant1" value="yes">
+                                        id="active_for_this_restaurant1" value="yes"
+                                        @if ($restaurant->active_for_this_restaurant == "yes")
+                                            checked
+                                        @endif
+                                        >
                                     <label class="form-check-label" for="active_for_this_restaurant1">Yes</label>
                                 </div>
                                 <div class="form-check form-check-inline">

@@ -13,14 +13,23 @@ $month = date('m');
 $day = date('d');
 $year = date('Y');
 
+$item_file = null;
 $today = $year . '-' . $month . '-' . $day;
+    $records = "download";
 ?>
 @section('content')
     <style>
-        .download_file:focus,
-        .download_file:hover,
-        .download_file:visited {
+        /* .download_file:focus,
+        .download_file:hover, */
+        .download_file:visited 
+        {
             color: red !important;
+        }
+        /* .not_download_file:focus,
+        .download_file:hover, */
+        .download_file:visited
+         {
+            color: green !important;
         }
     </style>
     <div class="container-fluid">
@@ -86,11 +95,12 @@ $today = $year . '-' . $month . '-' . $day;
                         <thead>
                             <tr>
                                 <th> Date </th>
-                                <th> Name </th>
+                                <th> Full Name </th>
                                 <th> Sum </th>
                                 <th> Expense Name </th>
                                 <th> File </th>
                                 <th> Download </th>
+                                <th> Action </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -147,9 +157,13 @@ $today = $year . '-' . $month . '-' . $day;
 @endsection
 
 @push('js')
-    <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+    {{-- <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script> --}}
     <script type="text/javascript">
+        let records = "download";
+        $item_file = null;
+                                    item_file = null;
         $(document).ready(function() {
+            
             expenses_status_fetch();
         });
 
@@ -197,12 +211,8 @@ $today = $year . '-' . $month . '-' . $day;
                                     }
                                 });
                                 console.log(item_file + 'item_file');
-                                // '+ (item_file == null) ? '<td>' + item.name +
-                                //     '</td>' : '<td>' + item.name +
-                                //     '</td>'+'\
-                                //  '+ (item_file == null) ? '<td>' + "nul"  + '</td>' : '<td>' + item.name + '</td>\
-                                // <td> <a class="download_file" href="' +
-                                // item_file + '" download >  '+ (item_file == null) ? "Download File" : '</a></td>\
+                                        //             <td><a class="download_file" href="' + '/expenses/update/' + item.id +
+                                        // '" > ||  Check  ||</a></td>\
 
                                 if (item_file != null) {
                                     $('tbody').append(
@@ -212,8 +222,12 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.sum + '</td>\
                                                     <td>' + item.name + '</td>\
                                                     <td> <a class="download_file" href="' + item_file + '" download >   Download File  </a></td>\
-                                                    <td><a class="download_file" href="' + '/expenses/update/' + item.id +
-                                        '" > ||  Check  ||</a></td>\
+                                                   <td><form action="' + '/expenses/update/' + item.id +'"><button> <input type="checkbox" class="btn" '+(records == item.status ? 'not_checked'  : 'checked' ) +' > click to ' +item.status+'  </button></td>\
+                                                <td> <a class="download_file" href="' +
+                                                '/expenses/edit/' + item.id +
+                                                '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                                '/expenses/delete/' + item.id +
+                                                '" >  || Delete || </a></td>\
                                                 </tr>'
                                     )
                                 } else {
@@ -225,6 +239,11 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.name + '</td>\
                                                     <td>' + "No file" + '</td>\
                                                     <td>' + "Disabled" + '</td>\
+                                                <td> <a class="download_file" href="' +
+                                                '/expenses/edit/' + item.id +
+                                                '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                                '/expenses/delete/' + item.id +
+                                                '" >  || Delete || </a></td>\
                                                 </tr>'
                                     )
                                 }
@@ -288,7 +307,13 @@ $today = $year . '-' . $month . '-' . $day;
                                         }
                                     });
                                     console.log(item_file + 'item_file');
+                                    console.log(records + '$records');
+                                    console.log(item.status + 'item.status');
                                     if (item_file != null) {
+                                        
+                                        $item_file = item_file;
+                                        console.log(item_file + "item_file");
+                                        console.log($item_file + "$item_file");
                                         $('tbody').append(
                                             '<tr class="tr_remove" >\
                                                     <td>' + item.date_of_expense + '</td>\
@@ -296,10 +321,15 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.sum + '</td>\
                                                     <td>' + item.name + '</td>\
                                                     <td> <a class="download_file" href="' + item_file + '" download >   Download File  </a></td>\
-                                                    <td><a class="download_file" href="' + '/expenses/update/' + item.id +
-                                            '" > ||  Check  ||</a></td>\
+                                                   <td><form action="' + '/expenses/update/' + item.id +'"><button> <input type="checkbox" class="btn" '+(records == item.status ? 'not_checked'  : 'checked' ) +' > click to ' +item.status+'  </button></td>\
+                                                <td> <a class="download_file" href="' +
+                                                '/expenses/edit/' + item.id +
+                                                '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                                '/expenses/delete/' + item.id +
+                                                '" >  || Delete || </a></td>\
                                                 </tr>'
                                         )
+                                        // ../../../../MainContent/public/
                                     } else {
                                         $('tbody').append(
                                             '<tr class="tr_remove" >\
@@ -309,6 +339,11 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.name + '</td>\
                                                     <td>' + "No file" + '</td>\
                                                     <td>' + "Disabled" + '</td>\
+                                                <td> <a class="download_file" href="' +
+                                                '/expenses/edit/' + item.id +
+                                                '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                                '/expenses/delete/' + item.id +
+                                                '" >  || Delete || </a></td>\
                                                 </tr>'
                                         )
                                     }

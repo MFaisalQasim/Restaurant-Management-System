@@ -1,25 +1,14 @@
-@extends('layouts.master2')
-<?php
-$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-$tmp = explode('/', $url);
-$url_restaurant_id = intval(end($tmp));
-$sum = 0;
-
-$month = date('m');
-$day = date('d');
-$year = date('Y');
-$today = $year . '-' . $month . '-' . $day;
-?>
+@extends('layouts.master')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Edit EmployeeSalary #{{ $employeesalary->id }}</h3>
-                    {{-- @can('view-'.str_slug('EmployeeSalary'))
-                        <a class="btn btn-success pull-right" href="{{ url('/employee-salary') }}">
+                    <h3 class="box-title pull-left">Edit Restaurant #{{ $restaurant->id }}</h3>
+                    @can('view-'.str_slug('Restaurant'))
+                        <a class="btn btn-success pull-right" href="{{ url('/restaurant') }}">
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
-                    @endcan --}}
+                    @endcan
                     <div class="clearfix"></div>
                     <hr>
 
@@ -31,14 +20,14 @@ $today = $year . '-' . $month . '-' . $day;
                         </ul>
                     @endif
 
-                    {!! Form::model($employeesalary, [
+                    {!! Form::model($restaurant, [
                         'method' => 'PATCH',
-                        'url' => ['/employee-salary/update', $employeesalary->id],
+                        'url' => ['/restaurant/update', $restaurant->id],
                         'class' => 'form-horizontal',
                         'files' => true
                     ]) !!}
 
-                    @include ('EmployeeSalary.employee-salary.update', ['submitButtonText' => 'Update'])
+                    @include ('Restaurant.restaurant.form', ['submitButtonText' => 'Update'])
 
                     {!! Form::close() !!}
 

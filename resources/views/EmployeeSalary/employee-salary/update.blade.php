@@ -14,7 +14,7 @@
                         name="keywords_search">
                         @foreach ($user as $item)
                             @if (!$item->hasRole('developer'))
-                                @if ($item->restaurant_id == $url_restaurant_id)
+                                @if ($item->restaurant_id == $item->restaurant_id)
                                     <option value="{{ $item->id }}">{{ $item->name." " . $item->surname }}</option>
                                 @endif
                             @endif

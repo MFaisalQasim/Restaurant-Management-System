@@ -266,8 +266,10 @@
                                             <div class="col-sm-10">
                                                 {{-- <input id="name" name="name" type="text" placeholder="Name"
                                                 class="form-control required" value="{{ $user->name }}" /> --}}
+                                                {{-- <input class="form-control required" type="text"
+                                                value="{{ $user->name }}"> --}}
                                                 <input class="form-control required" type="text"
-                                                    value="{{ $user->restaurant_id }}" name="restaurant_id">
+                                                    value="{{ $user->restaurant_id }}" name="restaurant_id" readonly>
                                                 {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                                             </div>
                                         </div>
@@ -320,6 +322,12 @@
     <script src="{{ asset('js/edituser.js') }}"></script>
 
     <script>
+        
+    var msg = '{{ Session::get('alert') }}';
+        var exist = '{{ Session::has('alert') }}';
+        if (exist) {
+            alert(msg);
+        }
         @if (\Session::has('message'))
             $.toast({
                 heading: 'Success!',

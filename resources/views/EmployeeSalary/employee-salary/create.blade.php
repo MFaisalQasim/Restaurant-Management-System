@@ -1,6 +1,5 @@
 @extends('layouts.master')
 <?php
-
 $url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 $tmp = explode('/', $url);
 $url_restaurant_id = intval(end($tmp));
@@ -9,12 +8,7 @@ $sum = 0;
 $month = date('m');
 $day = date('d');
 $year = date('Y');
-
 $today = $year . '-' . $month . '-' . $day;
-
-
-// $url_restaurant_id = 0;
-// {$today = date('Y-m-d');}
 ?>
 
 @section('content')

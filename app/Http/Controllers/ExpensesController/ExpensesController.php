@@ -84,15 +84,15 @@ class ExpensesController extends Controller
 			'for_whom' => 'required',
 			// 'file' => 'required'
 		]);
+        try {
             $requestData = $request->all();
-           $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
+            $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
             $expenses = new Expense;
             $expenses->for_whom =    $request->for_whom;
             $expenses->restaurant_id =    $id;
             $expenses->date_of_expense =    $request->date;
             $expenses->sum =    $request->sum;
             $expenses->name =    $request->name;
-            
 
            if ($ErrorMsg == "") {
                $expenses->save();
@@ -109,6 +109,7 @@ class ExpensesController extends Controller
                     //    $expensesFile->date_of_issue =    $request->date;
                     //    $expensesFile->save();
 
+                    if ($ErrorMsg == "") {
                        ExpenseFile::create([
                         "expenses_id" => $expenses->id,
                         "expense_name" => $request->name,
@@ -116,6 +117,7 @@ class ExpensesController extends Controller
                            "file" => $itemAttachment[$i],
                            // "user_id" =>  Auth::User()->id
                        ]);
+                    }
 
                    } else {
                        $ErrorMsg = $SavedTourAttachment["msg"];
@@ -126,7 +128,10 @@ class ExpensesController extends Controller
         //     return redirect('expenses/' . $id)->with('flash_message', 'We found some error!');
         //    }
             // return redirect('expenses/create/' . $id)->with('flash_message', 'Expense added!');
-            return redirect('expenses/' . $id)->with('flash_message', 'Expense added!');
+            return redirect('expenses/' . $id)->with('flash_message', 'Expense added!');} catch (\Throwable $th) {
+                return redirect('expenses/create/'. $id)->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect('expenses/create/'. $id)->with('alert', 'You have enter some wrong or  in complete data!');
+    
         }
         return response(view('403'), 403);
     }
@@ -159,10 +164,17 @@ class ExpensesController extends Controller
      */
     public function edit($id)
     {
+        // return "here";
         $model = str_slug('expenses','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $expense = Expense::findOrFail($id);
-            return view('Expenses.expenses.edit', compact('expense'));
+            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+                $user = User::get();
+            } else {
+                $user = User::where('restaurant_id', '=' , auth()->user()->restaurant_id)->get();
+            }
+          
+            return view('Expenses.expenses.edit', compact('expense', 'user'));
         }
         return response(view('403'), 403);
     }
@@ -175,7 +187,8 @@ class ExpensesController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    
+    public function edit_file(Request $request, $id)
     {
         // return $request;
         // return $id;
@@ -184,7 +197,7 @@ class ExpensesController extends Controller
             $this->validate($request, [
 			// 'for_whom' => 'required',
 			// 'sum' => 'required'
-		]);
+		    ]);
 
             $expense = Expense::findOrFail($id);
             if ($expense->status == "not download") {
@@ -193,14 +206,71 @@ class ExpensesController extends Controller
                 $expense->status =    "not download";
             }
             $expense->save();
-            // $requestData = $request->all();
-            // $expense = Expense::findOrFail($id);
-            // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-            //     $expense->restaurant_id =     $request->restaurant_id ;
-            // } else {
-            //     $expense->restaurant_id =     auth()->user()->restaurant_id;
-            // }
-            // $expense->date_of_expense =    $request->date;
+            // return  $expense;
+            
+            //  $expense->update($requestData);
+
+             return redirect('expenses/'. $expense->restaurant_id)->with('flash_message', 'Expense updated!');
+        }
+        return response(view('403'), 403);
+
+    }
+    public function update(Request $request, $id)
+    {
+        // return $request;
+        // return $id;
+        $ErrorMsg = "";
+        $itemAttachment = [];
+        $model = str_slug('expenses','-');
+        if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
+            $this->validate($request, [
+			// 'for_whom' => 'required',
+			// 'sum' => 'required'
+		    ]);
+
+            $expense = Expense::findOrFail($id);
+            $requestData = $request->all();
+            $UploadTourImagesPath = Config::get("Constants.attachment_paths.ExpenseFile");
+            $expense->for_whom =    $request->for_whom;
+            $expense->sum =    $request->sum;
+            $expense->date_of_expense =    $request->date;
+            $expense->name =    $request->name;
+            $expense->save();
+            // return  $expense;
+            
+           if ($request->file) {
+            for ($i = 0; $i < count($request->file); $i++) {
+                $SavedTourAttachment = AppHelper::SaveFileAndGetPath($request->file[$i], $UploadTourImagesPath);
+
+                if ($SavedTourAttachment["reply"] == 1) {
+                    $itemAttachment[$i] = $SavedTourAttachment["path"];
+                 //    $expensesFile = new ExpenseFile();
+                 //    $expensesFile->expenses_id =    $expenses->id;
+                 //    $expensesFile->expense_name =    $request->name;
+                 //    $expensesFile->date_of_issue =    $request->date;
+                 //    $expensesFile->save();
+
+                 if ($ErrorMsg == "") {
+                    // $expenseFile = ExpenseFile::findOrFail($id);
+                    // $expenseFile->expenses_id =    $expenses->id;
+                    // $expenseFile->name =    $request->name;
+                    // $expenseFile->date_of_issue =    $request->date;
+                    // $expenseFile->file =    $itemAttachment[$i];
+                    ExpenseFile::create([
+                     "expenses_id" => $expense->id,
+                     "expense_name" => $request->name,
+                        "date_of_issue" =>   $request->date,
+                        "file" => $itemAttachment[$i],
+                        // "user_id" =>  Auth::User()->id
+                    ]);
+                    // return $request;
+                 }
+
+                } else {
+                    $ErrorMsg = $SavedTourAttachment["msg"];
+                }
+            }
+            }
             //  $expense->update($requestData);
 
              return redirect('expenses/'. $expense->restaurant_id)->with('flash_message', 'Expense updated!');
@@ -222,7 +292,8 @@ class ExpensesController extends Controller
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
             Expense::destroy($id);
 
-            return redirect('expenses')->with('flash_message', 'Expense deleted!');
+            // return redirect('expenses')->with('flash_message', 'Expense deleted!');
+            return redirect()->back()->with('flash_message', 'Expense deleted!');
         }
         return response(view('403'), 403);
 

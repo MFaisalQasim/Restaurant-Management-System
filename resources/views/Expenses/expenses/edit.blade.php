@@ -1,4 +1,16 @@
-@extends('layouts.master')
+@extends('layouts.master2')
+<?php
+$url = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$tmp = explode('/', $url);
+$url_restaurant_id = intval(end($tmp));
+$sum = 0;
+
+$month = date('m');
+$day = date('d');
+$year = date('Y');
+
+$today = $year . '-' . $month . '-' . $day;
+?>
 @section('content')
     <div class="container-fluid">
         <div class="row">
@@ -22,7 +34,7 @@
 
                     {!! Form::model($expense, [
                         'method' => 'PATCH',
-                        'url' => ['/expenses', $expense->id],
+                        'url' => ['/expenses/update', $expense->id],
                         'class' => 'form-horizontal',
                         'files' => true
                     ]) !!}

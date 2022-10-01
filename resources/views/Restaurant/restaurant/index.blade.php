@@ -23,7 +23,7 @@ $url_restaurant_id = intval(end($tmp));
                             <thead>
                                 <tr>
                                     {{-- <th>#</th> --}}
-                                    <th>Name</th>
+                                    <th>Full Name</th>
                                     <th>Location</th>
                                     <th>Ranking</th>
                                     <th>Actions</th>
@@ -67,16 +67,16 @@ $url_restaurant_id = intval(end($tmp));
                                                             <i class="fa fa-eye" aria-hidden="true"></i> View
                                                         </button>
                                                     </a>
-                                                @endcan
+                                                @endcan --}}
 
                                                 @can('edit-' . str_slug('Restaurant'))
-                                                    <a href="{{ url('/restaurant/' . $item->id . '/edit') }}"
+                                                    <a href="{{ url('/restaurant/edit/'.$item->id) }}"
                                                         title="Edit Restaurant">
                                                         <button class="btn btn-primary btn-sm">
                                                             <i class="fa fa-pencil-square-o" aria-hidden="true"> </i> Edit
                                                         </button>
                                                     </a>
-                                                @endcan --}}
+                                                @endcan
 
                                                 @can('delete-' . str_slug('Restaurant'))
                                                     {!! Form::open([

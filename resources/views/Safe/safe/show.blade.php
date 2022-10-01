@@ -103,10 +103,11 @@ $safe_payment_sum;
                         <thead>
                             <tr>
                                 <th>Date</th>
+                                <th>Employee Complete Name</th>
                                 <th>Payment</th>
                                 <th>Paycheck</th>
-                                <th>Sum after transaction
-                                </th>
+                                {{-- <th>Sum after transaction
+                                </th> --}}
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -205,9 +206,9 @@ $safe_payment_sum;
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                         <td>' + item_created_at + '</td>\
+                                        <td>' + item.employee_complete_name + '</td>\
                                         <td>' + item_payment + '</td>\
                                         <td>' + item_paycheck + '</td>\
-                                        <td>' + item.sum + '</td>\
                                         <td> <a class="download_file" href="' +
                                         '/safe/edit/' + item.id +
                                         '" > ||  Edit  ||</a><a class="download_file" href="' +
@@ -260,9 +261,9 @@ $safe_payment_sum;
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                         <td>' + item_created_at + '</td>\
+                                        <td>' + item.employee_complete_name + '</td>\
                                         <td>' + item_payment + '</td>\
                                         <td>' + item_paycheck + '</td>\
-                                        <td>' + item.sum + '</td>\
                                         <td> <a class="download_file" href="' +
                                         '/safe/edit/' + item.id +
                                         '" > ||  Edit  ||</a><a class="download_file" href="' +

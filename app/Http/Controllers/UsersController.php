@@ -14,8 +14,14 @@ use File;
 
 class UsersController extends Controller
 {
-    public function getIndex(){
-        $users = User::get();
+    public function getIndex($id){
+        // return "here";
+        if (auth()->user()->hasRole('developer')) {
+            $users = User::get();
+        }
+        else {
+            $users = User::where('restaurant_id', '=', $id)->get();
+        }
         return view('users.index',compact('users'));
     }
 
@@ -31,18 +37,17 @@ class UsersController extends Controller
             'password' => 'required|min:6|confirmed',
             'status' => 'required',
             'surname' => 'required',
-            'date_of_employment' => 'required',
-            'hourly_salary' => 'required',
-            'telephone_number' => 'required',
+            // 'date_of_employment' => 'required',
+            // 'hourly_salary' => 'required',
+            // 'telephone_number' => 'required',
             'restaurant_id' => 'required',
-            'restaurant_id' => 'required',
-            'restaurant_id' => 'required',
-            'role' => 'required',
+            // 'role' => 'required',
 
         ],[
-            'pic_file.required' => 'Profile picture required',
-            'dob.required' => 'Date of Birth required'
+            // 'pic_file.required' => 'Profile picture required',
+            // 'dob.required' => 'Date of Birth required'
         ]);
+        try {
         $user           = User::firstOrCreate([
             'name'=>$request->name,
         'email'=> $request->email,
@@ -108,6 +113,9 @@ class UsersController extends Controller
         Session::flash('message','User has been added');
         return redirect()->back();
         // return redirect('user/create/'. $restaurant_id);
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete    data!');
         
     }
 
@@ -124,8 +132,8 @@ class UsersController extends Controller
             'role' => 'required',
 
         ],[
-            'pic_file.required' => 'Profile picture required',
-            'dob.required' => 'Date of Birth required'
+            // 'pic_file.required' => 'Profile picture required',
+            // 'dob.required' => 'Date of Birth required'
         ]);
 
         $user =  User::findOrfail($request->id);

@@ -336,7 +336,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('blogcategory', 'BlogCategoryController');
 
 #User Management routes
-Route::get('users', 'UsersController@getIndex');
+Route::get('users/{id}', 'UsersController@getIndex');
 Route::get('user/create/{id}', 'UsersController@create');
 Route::post('user/create/', 'UsersController@save');
 Route::get('user/edit/{id}', 'UsersController@edit');
@@ -359,6 +359,8 @@ Route::get('restaurant/fetch/{id}', 'PagesController@generate_restaurant_fetch')
 // Route::get('restaurant/{id}', 'PagesController@restaurant');
 Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
 Route::post('restaurant', 'RestaurantController\\RestaurantController@store');
+Route::get('restaurant/edit/{id}', 'RestaurantController\\RestaurantController@edit_res');
+Route::patch('restaurant/update/{id}', 'RestaurantController\\RestaurantController@update');
 Route::delete('restaurant/{id}', 'RestaurantController\\RestaurantController@destroy');
 
 Route::get('restaurant_setting/{id}', 'PagesController@restaurant_setting');
@@ -394,14 +396,19 @@ Route::post('total-cash/create/{id}', 'TotalCashController\\TotalCashController@
 Route::get('expenses/{id}', 'PagesController@expenses');
 Route::get('expenses/create/{id}', 'ExpensesController\\ExpensesController@create');
 Route::post('expenses/create/{id}', 'ExpensesController\\ExpensesController@store');
-Route::get('expenses/update/{id}', 'ExpensesController\\ExpensesController@update');
+Route::get('expenses/update/{id}', 'ExpensesController\\ExpensesController@edit_file');
+Route::get('expenses/edit/{id}', 'ExpensesController\\ExpensesController@edit');
 Route::PATCH('expenses/update/{id}', 'ExpensesController\\ExpensesController@update');
 Route::get('expenses/fetch/{id}', 'PagesController@generate_expenses_fetch');
+Route::get('expenses/delete/{id}', 'ExpensesController\\ExpensesController@destroy');
 Route::get('expensesFile/fetch/{id}', 'PagesController@generate_expensesFile_fetch');
 
 Route::get('employee-salary/{id}', 'PagesController@employee_salary');
 Route::get('employee-salary/create/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@create');
 Route::post('employee-salary/create/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@store');
+Route::get('employee-salary/edit/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@edit');
+Route::patch('employee-salary/update/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@update');
+Route::get('employee-salary/delete/{id}', 'EmployeeSalaryController\\EmployeeSalaryController@destroy');
 Route::get('employee-salary/fetch/{id}', 'PagesController@generate_employee_salary_fetch');
 Route::get('employee-salary-user/fetch/{id}', 'PagesController@generate_employee_user_salary_fetch');
 

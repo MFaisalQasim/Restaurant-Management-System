@@ -96,6 +96,7 @@ class PagesController extends Controller
     }
     public function generate_report(Request $request)
     {
+        // return "here";
         if (Auth::user()->hasRole('admin') ||
             Auth::user()->hasRole('developer')){
             
@@ -126,7 +127,6 @@ class PagesController extends Controller
                     
                     $total = $report;
                     return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate','supplier' ));
-                    
                 }
             }
         }
@@ -135,11 +135,8 @@ class PagesController extends Controller
             $restaurant = Restaurant::where('id', '=' , Auth::User()->restaurant_id)->first();
             $report = Report::where( 'created_at', '>=', Carbon::now()->subDays($restaurant->see_cash_reports_days))
             ->get();
-
-
                 $supplier = Supplier::get();
                 $total = $report;
-
                 return view("Report.report.show", compact('report', 'total','supplier' ));
         }
         return response(view('403'), 403);
@@ -220,7 +217,7 @@ class PagesController extends Controller
         $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
         $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
         $expenses = Expense::whereBetween("created_at", [$startDate, $endDate])
-        ->get();
+        ->orderBy('date_of_expense', 'DESC')->get();
         $total = $expenses;
         $expensesFile = ExpenseFile::get();
         // $expensesFile = ExpenseFile::where('expenses_id', '=', $id)->get();
@@ -264,7 +261,7 @@ class PagesController extends Controller
         $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
         $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
          $safe = Safe::whereBetween("created_at", [$startDate, $endDate])
-        ->get();
+        ->orderBy('created_at', 'DESC')->get();
         $total = $safe;
             
         $safe_sum = Safe::where('restaurant_id', '=', $id)->sum('sum') ;
@@ -301,7 +298,7 @@ class PagesController extends Controller
     }
     public function generate_expenses_fetch(Request $request)
     {
-        $expenses = Expense::get();
+        $expenses = Expense::orderBy('created_at', 'DESC')->get();
         $expenseFile = ExpenseFile::get();
         return response()->json([
             'expenses'=>  $expenses,
@@ -318,7 +315,6 @@ class PagesController extends Controller
     
     public function generate_report_fetch(Request $request ,$id)
     {
-      
             $restaurant_find = Restaurant::where('id', '=', $id)->first();
             $see_cash_reports_days = $restaurant_find->see_cash_reports_days;
 
@@ -327,6 +323,7 @@ class PagesController extends Controller
             $supplier = Supplier::get();
         } else{        
             $startDate = date("Y-m-d");
+            $startDate = date('Y-m-d', strtotime($startDate. '+ 1 days'));
             $endDate = date('Y-m-d', strtotime($startDate. ' - '.$see_cash_reports_days.' days'));
             $supplier = Supplier::where('restaurant_id', '=', $id)->get();
 
@@ -411,13 +408,14 @@ class PagesController extends Controller
         if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
                 $restaurant_find = Restaurant::get();
                     $restaurant = Restaurant::findOrFail($id);
-                    if (Auth::user()->hasRole('admin') ||
-                    Auth::user()->hasRole('developer')){
-                    $supplier = Supplier::get();
-                    }
-                    else {
-                        $supplier = Supplier::where('restaurant_id' , '=', Auth::User()->restaurant_id)->get();
-                    }
+                    // if (Auth::user()->hasRole('admin') ||
+                    // Auth::user()->hasRole('developer')){
+                    // $supplier = Supplier::get();
+                    // }
+                    // else {
+                    //     $supplier = Supplier::where('restaurant_id' , '=', Auth::User()->restaurant_id)->get();
+                    // }
+                    $supplier = Supplier::where('restaurant_id' , '=', $id)->get();
                     $employee = Employee::get();
                     $user = User::get();
                    $users = User::where('restaurant_id' ,'=', $id)->get();
@@ -550,7 +548,6 @@ class PagesController extends Controller
         if(Auth::user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
             $keyword = $request->get('search');
             $perPage = 25;
-
             if (!empty($keyword)) {
                 $employeesalary = EmployeeSalary::where('name', 'LIKE', "%$keyword%")
                 ->orWhere('number_of_hours', 'LIKE', "%$keyword%")
@@ -560,7 +557,6 @@ class PagesController extends Controller
             } else {
                 $employeesalary = EmployeeSalary::paginate($perPage);
             }
-
             return view('EmployeeSalary.employee-salary.show', compact('employeesalary'));
         }
         return response(view('403'), 403);
@@ -586,12 +582,11 @@ class PagesController extends Controller
             } else {
                 $report = Report::paginate($perPage);
             }
+                $report = Report::paginate($perPage);
             $supplier = Supplier::get();
-
             return view('Report.report.show', compact('report', 'supplier'));
         }
         return response(view('403'), 403);
-
     }
 
     public function employee(Request $request)

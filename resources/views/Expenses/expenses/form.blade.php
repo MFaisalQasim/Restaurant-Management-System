@@ -1,11 +1,11 @@
 <div class="form-group {{ $errors->has('for_whom') ? 'has-error' : '' }}">
-    {!! Form::label('for_whom', 'Employee Name', ['class' => 'col-md-4 control-label']) !!}
+    {!! Form::label('for_whom', 'Employee Full Name', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
         @if (count($user) != 0)
             <select class="form-control" name="for_whom" id="for_whom">
                 @foreach ($user as $item)
                     @if (!$item->hasRole('developer'))
-                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                        <option value="{{ $item->name." " . $item->surname }}">{{ $item->name." " . $item->surname }}</option>
                     @endif
                 @endforeach
             </select>
@@ -51,7 +51,8 @@
 <div class="form-group {{ $errors->has('file') ? 'has-error' : '' }}">
     {!! Form::label('file', 'File', ['class' => 'col-md-4 control-label', 'enctype' => 'multipart/form-data']) !!}
     <div class="col-md-6">
-        <input type="file" id="file" name="file[]" multiple accept=".xlsx, .pdf, .docx">
+        <input type="file" id="file" name="file[]" multiple >
+        {{-- accept=".xlsx, .pdf, .docx" --}}
         {!! $errors->first('file', '<p class="help-block">:message</p>') !!}
     </div>
 </div>
@@ -60,3 +61,11 @@
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
     </div>
 </div>
+
+<script>
+    var msg = '{{ Session::get('alert') }}';
+        var exist = '{{ Session::has('alert') }}';
+        if (exist) {
+            alert(msg);
+        }
+</script>

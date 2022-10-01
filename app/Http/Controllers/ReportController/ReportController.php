@@ -67,7 +67,8 @@ class ReportController extends Controller
         // return "here";
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
-            $supplier = Supplier::get();
+            // $supplier = Supplier::get();
+            $supplier = Supplier::where('restaurant_id','=',$id)->get();
             $total_cash = TotalCash::get();
             $restaurant = Restaurant::findOrFail($id);
             $user = User::where('restaurant_id', '=' , $id)->get();
@@ -129,9 +130,9 @@ class ReportController extends Controller
             }
             return redirect('report/'. $id)->with('flash_message', 'Report added!');
         } catch (\Throwable $th) {
-            return redirect('report/create/'. $id)->with('alert', 'You have enter some wrong or  in complete data!');
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
-        return redirect('report/'. $id)->with('flash_message', 'Report added!');
+        return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
     }
@@ -185,12 +186,19 @@ class ReportController extends Controller
             $this->validate($request, [
 			// 'restaurant_id' => 'required'
 		]);
+        try {
             $requestData = $request->all();
             
             $report = Report::findOrFail($id);
-             $report->update($requestData);
 
-             return redirect('report')->with('flash_message', 'Report updated!');
+             if ($ErrorMsg == "") {
+                $report->update($requestData);
+              }
+              return redirect('report/'. $id)->with('flash_message', 'Report updated!');
+          } catch (\Throwable $th) {
+              return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+          }
+          return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
 

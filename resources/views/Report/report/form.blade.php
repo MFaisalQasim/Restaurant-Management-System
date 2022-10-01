@@ -22,7 +22,7 @@
                             <select class="form-control" name="name" id="name">
                                 @foreach ($user as $item)
                                     @if (!$item->hasRole('developer'))
-                                        <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                        <option value="{{ $item->name ." " . $item->surname }}">{{ $item->name ." " . $item->surname }}</option>
                                     @endif
                                 @endforeach
                             </select>
@@ -134,9 +134,9 @@
                         auth()->user()->hasRole('developer') )
                         <input class="form-control input_border" id="Cash" name="cash" type="text" 
                             value="" readonly>
-                    {{-- @else
-                        <input class="form-control input_border" id="Cash" name="cash" type="text"
-                            value="" readonly> --}}
+                    @else
+                        <input class="form-control input_border" id="Cash" name="cash" type="hidden"
+                            value="" readonly>
                     @endif
                     <input id="expense_today" type="hidden" value="{{ $expense_today }}" name="expense_today">
                     <input id="employee_salary_paid_today" type="hidden" value="{{ $employee_salary_paid_today }}"
@@ -188,7 +188,6 @@
                     </tr>
                 </tbody>
             </table>
-            
         </div>
     </div>
 </div>
@@ -249,7 +248,6 @@
         if (exist) {
             alert(msg);
         }
-
 
         function total_sales() {
             let sales_volume_supplier;

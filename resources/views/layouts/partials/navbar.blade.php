@@ -8,14 +8,14 @@
             @if(auth()->check())
             <a class="logo" href="{{'/dashboard'}}">
                 <b>
-                    <img height="45px" width="" src="{{asset('assets/images/cushliving.png')}}" alt="home" />
+                    {{-- <img height="45px" width="" src="{{asset('assets/images/cushliving.png')}}" alt="home" /> --}}
                 </b>
                
             </a>
             @else
             <a class="logo" href="{{'/'}}">
                 <b>
-                    <img src="{{asset('assets/images/cushliving.png')}}" alt="home" />
+                    {{-- <img src="{{asset('assets/images/cushliving.png')}}" alt="home" /> --}}
                 </b>
                
             </a>

@@ -8,7 +8,9 @@
                 @foreach ($user as $item)
                     @if (!$item->hasRole('developer') & !$item->hasRole('Customer'))
                         @if ($item->restaurant_id == $url_restaurant_id)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            {{-- <input class="form-control" type="text" id="employee_complete_name"
+                            name="employee_complete_name" value="{{ $item->name }}" readonly> --}}
                         @endif
                     @endif
                 @endforeach
@@ -47,3 +49,10 @@
         {!! Form::submit(isset($submitButtonText) ? $submitButtonText : 'Create', ['class' => 'btn btn-primary']) !!}
     </div>
 </div>
+<script>
+    var msg = '{{ Session::get('alert') }}';
+        var exist = '{{ Session::has('alert') }}';
+        if (exist) {
+            alert(msg);
+        }
+</script>

@@ -61,7 +61,6 @@ class EmployeeController extends Controller
             return view('Employee.employee.create');
         }
         return response(view('403'), 403);
-
     }
 
     /**

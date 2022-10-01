@@ -190,6 +190,7 @@ $today = $year . '-' . $month . '-' . $day;
                     arr = response.report;
                     $('tbody').find('tr').remove()
                     response.report.forEach(item => {
+                        console.log(item.total_income + 'item.total_income');
                         if (item.restaurant_id == $url_restaurant_id) {
                             console.log($this_previous_month + 'this_previous_month');
                             console.log(item.created_at.slice(0, 7) + 'item.date.slice(0, 7');
@@ -200,8 +201,6 @@ $today = $year . '-' . $month . '-' . $day;
                                     item.status :
                                     "Compliant = " + item.status;
                                 item_created_at = item.created_at.slice(0, 10)
-
-
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
                                         <td>' + item_created_at + '</td>\
@@ -216,8 +215,6 @@ $today = $year . '-' . $month . '-' . $day;
                                 )
                             }
                         }
-
-
                     });
                 }
             });

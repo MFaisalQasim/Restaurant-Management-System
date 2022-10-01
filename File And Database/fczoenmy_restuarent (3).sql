@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 31, 2022 at 11:50 AM
+-- Generation Time: Sep 21, 2022 at 08:00 AM
 -- Server version: 5.7.23-23
 -- PHP Version: 7.4.30
 
@@ -191,14 +191,97 @@ INSERT INTO `activity_log` (`id`, `log_name`, `description`, `subject_id`, `subj
 (117, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-26 23:01:03', '2022-08-26 23:01:03'),
 (118, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-27 14:25:38', '2022-08-27 14:25:38'),
 (119, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-29 15:45:10', '2022-08-29 15:45:10'),
-(120, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 00:01:20', '2022-08-30 00:01:20'),
-(121, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 00:02:01', '2022-08-30 00:02:01'),
-(122, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 21:31:32', '2022-08-30 21:31:32'),
-(123, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 21:31:39', '2022-08-30 21:31:39'),
-(124, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 22:52:04', '2022-08-30 22:52:04'),
-(125, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:05:52', '2022-08-31 14:05:52'),
-(126, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:06:01', '2022-08-31 14:06:01'),
-(127, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:06:04', '2022-08-31 14:06:04');
+(120, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 15:43:50', '2022-08-30 15:43:50'),
+(121, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-08-30 19:23:02', '2022-08-30 19:23:02'),
+(122, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-08-30 19:23:16', '2022-08-30 19:23:16'),
+(123, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-08-30 23:27:09', '2022-08-30 23:27:09'),
+(124, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 23:27:39', '2022-08-30 23:27:39'),
+(125, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-30 23:27:45', '2022-08-30 23:27:45'),
+(126, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-08-30 23:28:19', '2022-08-30 23:28:19'),
+(127, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:45:27', '2022-08-31 14:45:27'),
+(128, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:55:08', '2022-08-31 14:55:08'),
+(129, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:56:08', '2022-08-31 14:56:08'),
+(130, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:58:44', '2022-08-31 14:58:44'),
+(131, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 14:58:49', '2022-08-31 14:58:49'),
+(132, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-08-31 17:01:19', '2022-08-31 17:01:19'),
+(133, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-08-31 17:37:06', '2022-08-31 17:37:06'),
+(134, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-08-31 18:05:19', '2022-08-31 18:05:19'),
+(135, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-08-31 22:53:29', '2022-08-31 22:53:29'),
+(136, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-01 14:36:17', '2022-09-01 14:36:17'),
+(137, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-01 19:51:52', '2022-09-01 19:51:52'),
+(138, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-09-01 23:27:16', '2022-09-01 23:27:16'),
+(139, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-02 16:02:09', '2022-09-02 16:02:09'),
+(140, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-09-02 16:18:36', '2022-09-02 16:18:36'),
+(141, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-02 18:54:43', '2022-09-02 18:54:43'),
+(142, 'User', 'LoggedIn', 2, 'App\\User', 2, 'App\\User', '[]', '2022-09-02 22:44:55', '2022-09-02 22:44:55'),
+(143, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-03 14:36:51', '2022-09-03 14:36:51'),
+(144, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-03 14:49:49', '2022-09-03 14:49:49'),
+(145, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-03 14:49:58', '2022-09-03 14:49:58'),
+(146, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-03 19:46:24', '2022-09-03 19:46:24'),
+(147, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-03 21:25:07', '2022-09-03 21:25:07'),
+(148, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-05 15:24:44', '2022-09-05 15:24:44'),
+(149, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-05 22:48:11', '2022-09-05 22:48:11'),
+(150, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-06 00:24:57', '2022-09-06 00:24:57'),
+(151, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-06 01:00:50', '2022-09-06 01:00:50'),
+(152, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-06 15:02:56', '2022-09-06 15:02:56'),
+(153, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-07 15:20:02', '2022-09-07 15:20:02'),
+(154, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-07 17:43:12', '2022-09-07 17:43:12'),
+(155, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-07 17:43:20', '2022-09-07 17:43:20'),
+(156, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-08 00:43:11', '2022-09-08 00:43:11'),
+(157, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-08 15:35:02', '2022-09-08 15:35:02'),
+(158, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-08 16:04:13', '2022-09-08 16:04:13'),
+(159, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-09 00:05:37', '2022-09-09 00:05:37'),
+(160, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 14:49:56', '2022-09-09 14:49:56'),
+(161, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 14:51:50', '2022-09-09 14:51:50'),
+(162, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 14:55:15', '2022-09-09 14:55:15'),
+(163, 'Admin', 'LoggedOut', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 15:01:05', '2022-09-09 15:01:05'),
+(164, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 15:17:22', '2022-09-09 15:17:22'),
+(165, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-09 17:53:17', '2022-09-09 17:53:17'),
+(166, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-09 23:32:25', '2022-09-09 23:32:25'),
+(167, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-12 16:37:04', '2022-09-12 16:37:04'),
+(168, 'essa', 'LoggedIn', 12, 'App\\User', 12, 'App\\User', '[]', '2022-09-12 16:48:43', '2022-09-12 16:48:43'),
+(169, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-12 16:53:07', '2022-09-12 16:53:07'),
+(170, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-13 18:38:44', '2022-09-13 18:38:44'),
+(171, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-13 20:26:54', '2022-09-13 20:26:54'),
+(172, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-14 16:06:42', '2022-09-14 16:06:42'),
+(173, 'Muhammad Faisal Qasim', 'LoggedIn', 53, 'App\\User', 53, 'App\\User', '[]', '2022-09-15 14:44:03', '2022-09-15 14:44:03'),
+(174, 'Muhammad Faisal Qasim', 'LoggedOut', 53, 'App\\User', 53, 'App\\User', '[]', '2022-09-15 14:49:32', '2022-09-15 14:49:32'),
+(175, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-15 14:50:03', '2022-09-15 14:50:03'),
+(176, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-16 14:46:21', '2022-09-16 14:46:21'),
+(177, 'Muhammad Faisal Qasim', 'LoggedIn', 60, 'App\\User', 60, 'App\\User', '[]', '2022-09-16 17:00:32', '2022-09-16 17:00:32'),
+(178, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 17:04:15', '2022-09-16 17:04:15'),
+(179, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-16 17:17:04', '2022-09-16 17:17:04'),
+(180, 'Muhammad Faisal1', 'LoggedOut', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 17:39:33', '2022-09-16 17:39:33'),
+(181, 'Muhammad Faisal2', 'LoggedIn', 67, 'App\\User', 67, 'App\\User', '[]', '2022-09-16 17:39:42', '2022-09-16 17:39:42'),
+(182, 'Muhammad Faisal2', 'LoggedOut', 67, 'App\\User', 67, 'App\\User', '[]', '2022-09-16 17:40:02', '2022-09-16 17:40:02'),
+(183, 'Muhammad Faisal Qasim', 'LoggedIn', 68, 'App\\User', 68, 'App\\User', '[]', '2022-09-16 17:40:13', '2022-09-16 17:40:13'),
+(184, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 19:52:50', '2022-09-16 19:52:50'),
+(185, 'Muhammad Faisal1', 'LoggedOut', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 20:04:30', '2022-09-16 20:04:30'),
+(186, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-16 20:04:53', '2022-09-16 20:04:53'),
+(187, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 20:06:02', '2022-09-16 20:06:02'),
+(188, 'Muhammad Faisal1', 'LoggedOut', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 20:07:20', '2022-09-16 20:07:20'),
+(189, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 20:07:36', '2022-09-16 20:07:36'),
+(190, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-16 21:13:21', '2022-09-16 21:13:21'),
+(191, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-17 15:09:55', '2022-09-17 15:09:55'),
+(192, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-17 16:24:45', '2022-09-17 16:24:45'),
+(193, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-17 16:26:08', '2022-09-17 16:26:08'),
+(194, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-17 17:56:54', '2022-09-17 17:56:54'),
+(195, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-18 20:40:06', '2022-09-18 20:40:06'),
+(196, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-18 20:40:21', '2022-09-18 20:40:21'),
+(197, 'Muhammad Faisal Qasim', 'LoggedIn', 68, 'App\\User', 68, 'App\\User', '[]', '2022-09-19 17:25:19', '2022-09-19 17:25:19'),
+(198, 'Muhammad Faisal Qasim', 'LoggedOut', 68, 'App\\User', 68, 'App\\User', '[]', '2022-09-19 17:25:45', '2022-09-19 17:25:45'),
+(199, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-19 17:26:04', '2022-09-19 17:26:04'),
+(200, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-19 20:23:40', '2022-09-19 20:23:40'),
+(201, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-19 21:04:56', '2022-09-19 21:04:56'),
+(202, 'Developer', 'LoggedOut', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-19 21:48:42', '2022-09-19 21:48:42'),
+(203, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-19 22:32:26', '2022-09-19 22:32:26'),
+(204, 'Muhammad Faisal1', 'LoggedOut', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-19 22:32:29', '2022-09-19 22:32:29'),
+(205, 'Muhammad Faisal1', 'LoggedIn', 66, 'App\\User', 66, 'App\\User', '[]', '2022-09-19 22:32:36', '2022-09-19 22:32:36'),
+(206, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-20 15:24:11', '2022-09-20 15:24:11'),
+(207, 'Developer', 'LoggedIn', 3, 'App\\User', 3, 'App\\User', '[]', '2022-09-20 16:29:49', '2022-09-20 16:29:49'),
+(208, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-20 22:18:55', '2022-09-20 22:18:55'),
+(209, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-21 01:02:54', '2022-09-21 01:02:54'),
+(210, 'Admin', 'LoggedIn', 1, 'App\\User', 1, 'App\\User', '[]', '2022-09-21 16:36:59', '2022-09-21 16:36:59');
 
 -- --------------------------------------------------------
 
@@ -297,6 +380,34 @@ CREATE TABLE `blog_comments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `employees`
+--
+
+CREATE TABLE `employees` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_of_employment` date DEFAULT NULL,
+  `end_of_work_date` date DEFAULT NULL,
+  `telephone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `restaurant_id` int(11) DEFAULT NULL,
+  `salary` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `employees`
+--
+
+INSERT INTO `employees` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `date_of_employment`, `end_of_work_date`, `telephone`, `status`, `restaurant_id`, `salary`) VALUES
+(1, '2022-09-01 21:15:10', '2022-09-01 21:15:10', NULL, 'Muhammad Faisal Qasim', '2022-09-01', NULL, '234', 'active', 3, 23423),
+(2, '2022-09-01 21:15:38', '2022-09-01 21:15:38', NULL, 'Muhammad Faisal Qasim', '2022-09-06', NULL, '34234', 'active', 3, 234);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `employee_salaries`
 --
 
@@ -306,33 +417,31 @@ CREATE TABLE `employee_salaries` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `number_of_hours` int(11) DEFAULT NULL,
-  `sum` int(11) DEFAULT NULL,
-  `rate` int(11) DEFAULT NULL,
+  `number_of_hours` int(191) DEFAULT NULL,
+  `sum` int(191) DEFAULT NULL,
+  `rate` int(191) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `start_hour` time NOT NULL,
   `finish_hour` time NOT NULL,
-  `type` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'not paid in cash',
-  `for_what` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Good Will Bonus',
-  `bonus_sum` float NOT NULL
+  `bonus_sum` float NOT NULL,
+  `total_sum` double(65,2) DEFAULT NULL,
+  `bonus_for_what` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'Good Will Bonus',
+  `type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT 'not paid in cash'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employee_salaries`
 --
 
-INSERT INTO `employee_salaries` (`id`, `restaurant_id`, `created_at`, `updated_at`, `name`, `number_of_hours`, `sum`, `rate`, `date`, `start_hour`, `finish_hour`, `type`, `for_what`, `bonus_sum`) VALUES
-(1, 1, '2022-08-23 23:55:44', '2022-08-25 19:16:03', 'essa', 7, 12312, 123, '2022-08-27', '00:00:00', '00:00:00', 'not paid in cash', 'Good Will Bonus', 0),
-(2, 2, '2022-08-27 22:09:51', '2022-08-27 22:09:51', 'Muhammad Faisal Qasim', NULL, NULL, 123, '2022-08-27', '09:10:00', '01:14:00', 'Paid in cash', 'Good Will Bonus', 0),
-(3, 1, '2022-08-27 22:54:17', '2022-08-29 15:53:43', 'Muhammad Faisal Qasim', NULL, NULL, 43, '2022-08-27', '11:57:00', '01:00:00', 'Paid in cash', 'Good Will Bonus', 0),
-(4, 1, '2022-08-29 18:28:01', '2022-08-29 18:28:01', 'Muhammad Faisal Qasim', NULL, NULL, 3454, '2022-08-29', '06:29:00', '00:31:00', 'Paid in cash', 'Good Will Bonus', 0),
-(5, 1, '2022-08-29 19:38:26', '2022-08-29 19:38:26', 'Muhammad Faisal Qasim', NULL, NULL, 12, '2022-08-29', '06:38:00', '11:43:00', 'Paid in cash', 'tip', 12),
-(6, 2, '2022-08-30 22:09:51', '2022-08-30 22:09:51', 'Muhammad Faisal Qasim', 12313, 12, 123, '2022-08-30', '09:10:00', '01:14:00', 'Paid in cash', 'Good Will Bonus', 123),
-(7, 1, '2022-08-30 22:54:17', '2022-08-30 15:53:43', 'Muhammad Faisal Qasim', 2, 123121, 43, '2022-08-30', '11:57:00', '01:00:00', 'Paid in cash', 'Good Will Bonus', 534),
-(8, 1, '2022-08-30 18:28:01', '2022-08-30 18:28:01', 'Muhammad Faisal Qasim', 1, 123123, 3454, '2022-08-30', '06:29:00', '00:31:00', 'Paid in cash', 'Good Will Bonus', 64),
-(9, 1, '2022-08-30 19:38:26', '2022-08-30 19:38:26', 'Muhammad Faisal Qasim', 12, 12312, 12, '2022-08-30', '06:38:00', '11:43:00', 'Paid in cash', 'tip', 12),
-(10, 2, '2022-08-30 23:02:56', '2022-08-30 23:02:56', 'AMMAR ENGINEERING', NULL, NULL, 14, '2022-08-30', '11:59:00', '00:00:00', 'Paid in cash', 'tip', 12),
-(11, 1, '2022-08-30 23:04:34', '2022-08-30 23:04:34', 'AMMAR ENGINEERING', NULL, NULL, 12, '2022-08-30', '11:06:00', '04:10:00', 'Paid in cash', 'tip', 12);
+INSERT INTO `employee_salaries` (`id`, `restaurant_id`, `created_at`, `updated_at`, `name`, `number_of_hours`, `sum`, `rate`, `date`, `start_hour`, `finish_hour`, `bonus_sum`, `total_sum`, `bonus_for_what`, `type`) VALUES
+(39, 7, '2022-09-15 18:26:36', '2022-09-15 18:26:36', 'Muhammad Faisal Qasim', 1, 127, 123, '2022-09-15', '05:28:00', '06:30:00', 12, 139.10, 'tip', 'Paid in cash'),
+(40, 7, '2022-09-15 18:30:20', '2022-09-15 18:30:20', 'Muhammad Faisal Qasim', 3, 371, 123, '2022-09-15', '06:33:00', '09:34:00', 23, 394.05, 'tip', 'Paid in cash'),
+(41, 8, '2022-09-15 22:52:08', '2022-09-15 22:52:08', 'Muhammad Faisal Qasim', 10, 2, 123, '2022-09-15', '10:54:00', '10:55:00', 45, 47.05, 'tip', 'Paid in cash'),
+(42, 7, '2022-09-19 22:42:31', '2022-09-19 22:42:31', 'Muhammad Faisal4', 1, 125, 123, '2022-09-05', '10:45:00', '09:44:00', 23, 148.05, 'tip', 'Paid in cash'),
+(43, 7, '2022-09-20 15:27:36', '2022-09-20 15:27:36', 'Muhammad Faisal Qasim', 1, 133, 123, '2022-09-20', '03:27:00', '04:32:00', 23, 156.25, 'tip', 'Paid in cash'),
+(47, 10, '2022-09-20 23:00:39', '2022-09-20 23:00:39', 'Muhammad  Faisal', 0, 1, 22, '2022-09-20', '11:02:00', '11:04:00', 12, 12.77, 'tip', 'Paid in cash'),
+(48, 12, '2022-09-21 01:10:02', '2022-09-21 01:10:02', NULL, 10, 200, 20, '2022-09-20', '10:00:00', '20:00:00', 20, 220.00, 'Bonus', NULL),
+(49, 12, '2022-09-21 01:10:33', '2022-09-21 01:10:33', NULL, 10, 193, 20, '2022-09-20', '10:20:00', '20:00:00', 0, 193.33, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -343,24 +452,32 @@ INSERT INTO `employee_salaries` (`id`, `restaurant_id`, `created_at`, `updated_a
 CREATE TABLE `expenses` (
   `id` int(10) UNSIGNED NOT NULL,
   `restaurant_id` int(191) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
+  `created_at` date DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `for_whom` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `sum` int(11) DEFAULT NULL,
-  `date_of_expense` date DEFAULT NULL
+  `date_of_expense` date DEFAULT NULL,
+  `status` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'not download'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `expenses`
 --
 
-INSERT INTO `expenses` (`id`, `restaurant_id`, `created_at`, `updated_at`, `for_whom`, `sum`, `date_of_expense`) VALUES
-(3, 2, '2022-08-27 18:19:52', '2022-08-27 18:19:52', 'Muhammad Faisal Qasim', 23423, '2022-08-27'),
-(4, 2, '2022-08-30 18:19:52', '2022-08-30 18:19:52', 'Muhammad Faisal Qasim', 23423, '2022-08-27'),
-(5, 2, '2022-08-30 18:19:52', '2022-08-30 18:19:52', 'Muhammad Faisal Qasim', 4234, '2022-08-27'),
-(6, 2, '2022-08-30 22:55:43', '2022-08-30 22:55:43', 'ads', 122332, '2022-08-30'),
-(7, 1, '2022-08-30 22:58:09', '2022-08-30 22:58:09', 'faisal', 122332, '2022-08-30'),
-(8, 1, '2022-08-31 14:53:46', '2022-08-31 14:53:46', 'Jan Kot', 100, '2022-08-31');
+INSERT INTO `expenses` (`id`, `restaurant_id`, `created_at`, `updated_at`, `for_whom`, `name`, `sum`, `date_of_expense`, `status`) VALUES
+(37, 7, '2022-09-14', '2022-09-20 15:59:44', 'Admin', 'waiter', 234, '2022-09-14', 'not download'),
+(38, 7, '2022-09-14', '2022-09-19 22:42:04', 'Admin', 'Ismail', 17120, '2022-09-14', 'download'),
+(39, 7, '2022-09-14', '2022-09-15 00:52:44', 'Admin', 'Ismail', 17120, '2022-09-14', 'not download'),
+(40, 9, '2022-09-14', '2022-09-15 00:54:35', 'Admin', 'VERONICA GOMES', 4234, '2022-09-14', 'not download'),
+(41, 9, '2022-09-15', '2022-09-15 15:14:43', 'Admin', 'Ismail', 4234, '2022-09-15', 'not download'),
+(43, 9, '2022-09-15', '2022-09-20 15:59:34', 'Admin', 'Muhammad Faisal Qasim', 17120, '2022-09-15', 'download'),
+(44, 8, '2022-09-15', '2022-09-15 22:52:22', 'Admin', 'Muhammad Faisal Qasim', 17120, '2022-09-15', 'not download'),
+(45, 8, '2022-09-16', '2022-09-16 19:00:25', 'Admin', 'Ismail', 534, '2022-09-16', 'not download'),
+(46, 8, '2022-08-19', '2022-09-19 22:42:00', 'Admin', 'VERONICA GOMES', 234, '2022-09-19', 'not download'),
+(49, 9, '2022-09-20', '2022-09-20 16:39:45', 'Admin', 'Ismail2', 234, '2022-09-20', 'not download'),
+(50, 10, '2022-09-20', '2022-09-20 22:52:15', 'Muhammad  Faisal', '234', 234, '2022-09-20', 'not download'),
+(51, 12, '2022-09-20', '2022-09-21 01:09:29', 'Jan', 'Biedronka', 1000, '2022-09-20', 'not download');
 
 -- --------------------------------------------------------
 
@@ -382,12 +499,15 @@ CREATE TABLE `expense_file` (
 --
 
 INSERT INTO `expense_file` (`id`, `expenses_id`, `date_of_issue`, `file`, `created_at`, `updated_at`) VALUES
-(1, 3, '2022-08-27', '/uploads/ExpenseFile/2022/August/6BxFYCs1SJ2ioZMf20220827111952000000.xlsx', '2022-08-27', '2022-08-27'),
-(2, 3, '2022-08-27', '/uploads/ExpenseFile/2022/August/u5bgvTQ1SOouPiO920220827111952000000.xlsx', '2022-08-27', '2022-08-27'),
-(3, 3, '2022-08-27', '/uploads/ExpenseFile/2022/August/euFxzrV6sxjTslwV20220827111952000000.xlsx', '2022-08-27', '2022-08-27'),
-(4, 6, '2022-08-30', '/uploads/ExpenseFile/2022/August/aUZiMAiqcNy6c9XG20220830045543000000.pdf', '2022-08-30', '2022-08-30'),
-(5, 7, '2022-08-30', '/uploads/ExpenseFile/2022/August/e2EEnLlbP84Zh2XV20220830045809000000.pdf', '2022-08-30', '2022-08-30'),
-(6, 8, '2022-08-31', '/uploads/ExpenseFile/2022/August/S2bkjJz9DoISACgp20220831085346000000.pdf', '2022-08-31', '2022-08-31');
+(19, 37, '2022-09-14', '/uploads/ExpenseFile/2022/September/bGCRCnS9miBe2Clo20220914055120000000.pdf', '2022-09-14', '2022-09-14'),
+(20, 38, '2022-09-14', '/uploads/ExpenseFile/2022/September/8kSrgDctKcVzPn4G20220914055200000000.xlsx', '2022-09-14', '2022-09-14'),
+(21, 42, '2022-09-15', '/uploads/ExpenseFile/2022/September/wdPaa79Y8ClAhoUY20220915010946000000.png', '2022-09-15', '2022-09-15'),
+(22, 43, '2022-09-15', '/uploads/ExpenseFile/2022/September/iDE77qfD9pCBHGJz20220915011020000000.exe', '2022-09-15', '2022-09-15'),
+(23, 45, '2022-09-16', '/uploads/ExpenseFile/2022/September/wXvs5l4Lc2yQS0gF20220916120025000000.docx', '2022-09-16', '2022-09-16'),
+(24, 46, '2022-09-19', '/uploads/ExpenseFile/2022/September/B4f5MELWRj2knXU720220919034200000000.docx', '2022-09-19', '2022-09-19'),
+(25, 48, '2022-09-20', '/uploads/ExpenseFile/2022/September/FIvkcvM0MsQbyQYj20220920091436000000.xlsx', '2022-09-20', '2022-09-20'),
+(26, 49, '2022-09-20', '/uploads/ExpenseFile/2022/September/U3k51pXOChyjpjyR20220920093945000000.pdf', '2022-09-20', '2022-09-20'),
+(27, 50, '2022-09-20', '/uploads/ExpenseFile/2022/September/R2yljLSwC8TjajCi20220920035215000000.pdf', '2022-09-20', '2022-09-20');
 
 -- --------------------------------------------------------
 
@@ -461,7 +581,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (38, '2022_08_23_153137_create_expenses_table', 30),
 (39, '2022_08_23_153526_create_employee_salaries_table', 31),
 (40, '2022_08_25_100203_create_suppliers_table', 32),
-(41, '2022_08_25_150946_create_reports_table', 33);
+(41, '2022_08_25_150946_create_reports_table', 33),
+(42, '2022_09_01_125648_create_employees_table', 34);
 
 -- --------------------------------------------------------
 
@@ -633,7 +754,11 @@ INSERT INTO `permissions` (`id`, `name`, `label`, `created_at`, `updated_at`) VA
 (110, 'add-report', NULL, '2022-08-25 22:09:47', '2022-08-25 22:09:47'),
 (111, 'edit-report', NULL, '2022-08-25 22:09:47', '2022-08-25 22:09:47'),
 (112, 'view-report', NULL, '2022-08-25 22:09:47', '2022-08-25 22:09:47'),
-(113, 'delete-report', NULL, '2022-08-25 22:09:47', '2022-08-25 22:09:47');
+(113, 'delete-report', NULL, '2022-08-25 22:09:47', '2022-08-25 22:09:47'),
+(114, 'add-employee', NULL, '2022-09-01 19:56:49', '2022-09-01 19:56:49'),
+(115, 'edit-employee', NULL, '2022-09-01 19:56:49', '2022-09-01 19:56:49'),
+(116, 'view-employee', NULL, '2022-09-01 19:56:49', '2022-09-01 19:56:49'),
+(117, 'delete-employee', NULL, '2022-09-01 19:56:49', '2022-09-01 19:56:49');
 
 -- --------------------------------------------------------
 
@@ -660,43 +785,22 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (92, 1),
 (93, 1),
 (94, 1),
-(95, 1),
 (96, 1),
-(97, 1),
 (98, 1),
 (99, 1),
 (100, 1),
 (101, 1),
 (102, 1),
-(103, 1),
 (104, 1),
-(105, 1),
 (106, 1),
 (107, 1),
 (108, 1),
 (109, 1),
 (110, 1),
-(111, 1),
 (112, 1),
-(113, 1),
-(88, 2),
-(90, 2),
-(91, 2),
-(92, 2),
-(94, 2),
-(96, 2),
-(98, 2),
-(99, 2),
-(100, 2),
-(102, 2),
-(103, 2),
-(104, 2),
-(106, 2),
-(107, 2),
-(108, 2),
-(109, 2),
-(110, 2),
-(112, 2),
+(114, 1),
+(115, 1),
+(116, 1),
 (2, 4),
 (3, 4),
 (4, 4),
@@ -729,13 +833,16 @@ INSERT INTO `permission_role` (`permission_id`, `role_id`) VALUES
 (111, 4),
 (112, 4),
 (113, 4),
-(88, 5),
-(104, 5),
-(88, 6),
-(88, 7),
-(106, 7),
-(107, 7),
-(108, 7);
+(114, 4),
+(115, 4),
+(116, 4),
+(117, 4),
+(88, 8),
+(90, 8),
+(100, 8),
+(104, 8),
+(112, 8),
+(116, 8);
 
 -- --------------------------------------------------------
 
@@ -756,18 +863,37 @@ CREATE TABLE `profiles` (
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `postal` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `place_of_birth` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `PESEL` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `passport_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country_of_issue` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mother_name` text COLLATE utf8mb4_unicode_ci,
+  `father_name` text COLLATE utf8mb4_unicode_ci,
+  `citizenship` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bank_account_number` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `student` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name_of_the_university` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `until_when_the_student` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `profiles`
 --
 
-INSERT INTO `profiles` (`id`, `user_id`, `bio`, `gender`, `dob`, `pic`, `country`, `state`, `city`, `address`, `postal`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-07-17 15:23:06', '2020-07-17 15:23:06'),
-(2, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-07-17 15:23:06', '2020-07-17 15:23:06'),
-(3, 3, 'Developer', 'male', '1995-07-31', 'IaIt6ScFMD.jpeg', 'Pakistan', 'Sindh', 'Karachi', 'Hyderabad', '70010', '2020-07-17 16:39:45', '2020-07-17 16:39:45'),
-(7, 12, 'user', 'male', NULL, 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-08-24 22:22:11', '2022-08-24 22:22:11');
+INSERT INTO `profiles` (`id`, `user_id`, `bio`, `gender`, `dob`, `pic`, `country`, `state`, `city`, `address`, `postal`, `created_at`, `updated_at`, `place_of_birth`, `PESEL`, `id_number`, `passport_number`, `country_of_issue`, `mother_name`, `father_name`, `citizenship`, `bank_account_number`, `student`, `name_of_the_university`, `until_when_the_student`) VALUES
+(1, 1, '123', 'male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2020-07-17 15:23:06', '2022-09-12 19:21:23', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 3, 'Developer', 'male', '1995-07-31', 'IaIt6ScFMD.jpeg', 'Pakistan', 'Sindh', 'Karachi', 'Hyderabad', '70010', '2020-07-17 16:39:45', '2020-07-17 16:39:45', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(25, 66, NULL, NULL, '2022-09-16', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-16 17:03:33', '2022-09-16 17:03:33', '234234', NULL, '123', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(26, 67, NULL, NULL, '2022-09-16', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-16 17:35:02', '2022-09-16 17:35:02', '234234', NULL, '123', '123', '123', '123', '1231', NULL, NULL, NULL, NULL, NULL),
+(27, 68, NULL, NULL, NULL, 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-16 17:39:21', '2022-09-16 17:39:21', '234234', NULL, '234', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(28, 69, NULL, NULL, '2022-09-18', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-19 01:13:22', '2022-09-19 01:13:22', '234234', NULL, '123', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(29, 70, NULL, NULL, '2022-09-18', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-19 01:14:37', '2022-09-19 01:14:37', '234234', NULL, '123', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(30, 71, NULL, NULL, '2022-09-19', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-19 22:38:46', '2022-09-19 22:38:46', '234234', NULL, '123', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(31, 72, NULL, NULL, '2022-09-20', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-20 22:51:47', '2022-09-20 22:51:47', '234234', NULL, '123', '123', '123', '123', '123', NULL, NULL, NULL, NULL, NULL),
+(32, 73, NULL, NULL, '2022-09-20', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-20 22:28:37', '2022-09-20 22:28:37', '123', NULL, 'qwe', 'qwe', 'United Kingdom', 'qwe', 'qwe', NULL, NULL, NULL, NULL, NULL),
+(33, 74, NULL, NULL, '2022-01-01', 'no_avatar.jpg', NULL, NULL, NULL, NULL, NULL, '2022-09-21 01:07:36', '2022-09-21 01:07:36', 'Gdynia', NULL, 'dsadasdas32131', '321312321', 'Poland', 'Celina', 'Zbigniew', NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -779,23 +905,31 @@ CREATE TABLE `reports` (
   `id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `total_income` double(8,2) DEFAULT NULL,
-  `card_transactions` double(8,2) DEFAULT NULL,
-  `canceled_sale` double(8,2) DEFAULT NULL,
-  `supplier_cash` double(8,2) DEFAULT NULL,
-  `bank_cash_total` double(8,2) DEFAULT NULL,
+  `total_income` double(65,2) DEFAULT NULL,
+  `card_transactions` double(65,2) DEFAULT NULL,
+  `canceled_sale` double(65,2) DEFAULT NULL,
+  `supplier_cash` double(65,2) DEFAULT NULL,
+  `bank_cash_total` double(65,2) DEFAULT NULL,
+  `cash` double(65,2) NOT NULL,
+  `can_see_upto_days` int(191) NOT NULL DEFAULT '2',
   `restaurant_id` int(11) DEFAULT NULL,
-  `report_handler` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `report_handler` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `expense_today` decimal(65,2) NOT NULL,
+  `employee_salary_paid_today` decimal(65,2) NOT NULL,
+  `date` date DEFAULT NULL,
+  `status` decimal(65,0) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `reports`
 --
 
-INSERT INTO `reports` (`id`, `created_at`, `updated_at`, `total_income`, `card_transactions`, `canceled_sale`, `supplier_cash`, `bank_cash_total`, `restaurant_id`, `report_handler`) VALUES
-(1, '2022-08-25 22:26:10', '2022-08-25 22:26:10', 123123.00, 123123.00, 1231.00, 123.00, 123.00, NULL, 'Admin'),
-(14, '2022-08-30 23:02:37', '2022-08-30 23:02:37', 1.00, 123.00, 12.00, NULL, NULL, NULL, 'Admin'),
-(15, '2022-08-30 23:04:02', '2022-08-30 23:04:02', 123.00, 1231.00, 12.00, NULL, NULL, NULL, 'Admin');
+INSERT INTO `reports` (`id`, `created_at`, `updated_at`, `total_income`, `card_transactions`, `canceled_sale`, `supplier_cash`, `bank_cash_total`, `cash`, `can_see_upto_days`, `restaurant_id`, `report_handler`, `expense_today`, `employee_salary_paid_today`, `date`, `status`) VALUES
+(76, '2022-09-20 21:31:27', '2022-09-20 21:31:27', 55499999.00, 522.00, 233.00, 40552.00, 11700.00, 55458325.00, 2, 9, 'Admin', '234.00', '133.00', '2022-09-20', '-55446625'),
+(79, '2022-09-20 21:46:58', '2022-09-20 21:46:58', 341100000.00, 231.00, 12312.00, 40552.00, 77400.00, 341046538.00, 2, 7, 'Admin', '234.00', '133.00', '2022-09-20', '-340969138'),
+(82, '2022-09-20 23:04:46', '2022-09-20 23:04:46', 12332000.00, 122.00, 123.00, 23423.00, 334700.00, 12307730.00, 2, 10, 'Muhammad Faisal1', '468.00', '134.00', '2022-09-20', '-11973030'),
+(83, '2022-09-20 22:29:53', '2022-09-20 22:29:53', 234223212.00, 1231.00, 23.00, 23423.00, 4800.00, 234197933.00, 2, 11, 'Admin', '468.00', '134.00', '2022-09-20', '-234193133'),
+(84, '2022-09-21 01:12:07', '2022-09-21 01:12:07', 1000.00, 200.00, 200.00, 0.00, 200.00, -1002.00, 2, 12, 'Jan', '1468.00', '134.00', '2022-09-20', '1202');
 
 -- --------------------------------------------------------
 
@@ -812,6 +946,7 @@ CREATE TABLE `restaurants` (
   `ranking` int(11) DEFAULT NULL,
   `description` longtext COLLATE utf8mb4_unicode_ci,
   `focalperson` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `see_cash_reports_days` int(191) DEFAULT '2',
   `details` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -819,10 +954,8 @@ CREATE TABLE `restaurants` (
 -- Dumping data for table `restaurants`
 --
 
-INSERT INTO `restaurants` (`id`, `created_at`, `updated_at`, `name`, `location`, `ranking`, `description`, `focalperson`, `details`) VALUES
-(1, '2022-08-23 22:13:45', '2022-08-23 22:13:45', 'North Veg Restaurant', 'Noth Uk', 5, 'Veg Restaurant', 'Ismail', 'Veg Restaurant'),
-(2, '2022-08-23 22:14:28', '2022-08-23 22:14:28', 'South Veg Restaurant', 'South Uk', 5, 'South Veg Restaurant', 'Ismail', 'Veg Restaurant'),
-(3, '2022-08-23 23:48:25', '2022-08-23 23:48:25', 'East Veg Res', 'East Veg Res', 4, 'East Veg Res', 'ismail', 'East Veg Res');
+INSERT INTO `restaurants` (`id`, `created_at`, `updated_at`, `name`, `location`, `ranking`, `description`, `focalperson`, `see_cash_reports_days`, `details`) VALUES
+(11, '2022-09-20 22:20:58', '2022-09-21 01:04:42', 'New Restaurant 1', 'uk', 4, 'RestaurantRestaurantRestaurant', 'ismail5', NULL, 'testing restaurant');
 
 -- --------------------------------------------------------
 
@@ -844,11 +977,8 @@ CREATE TABLE `roles` (
 
 INSERT INTO `roles` (`id`, `name`, `label`, `created_at`, `updated_at`) VALUES
 (1, 'admin', NULL, '2020-07-17', '2020-07-17'),
-(2, 'user', NULL, '2020-07-17', '2020-07-17'),
 (4, 'developer', NULL, '2021-01-02', '2021-01-02'),
-(5, 'Waiter', NULL, '2022-08-23', '2022-08-23'),
-(6, 'Customer', NULL, '2022-08-23', '2022-08-23'),
-(7, 'Kitchen', NULL, '2022-08-23', '2022-08-23');
+(8, 'Employee', NULL, '2022-09-05', '2022-09-05');
 
 -- --------------------------------------------------------
 
@@ -867,9 +997,16 @@ CREATE TABLE `role_user` (
 
 INSERT INTO `role_user` (`role_id`, `user_id`) VALUES
 (1, 1),
-(2, 2),
 (4, 3),
-(2, 12);
+(8, 66),
+(8, 67),
+(8, 68),
+(8, 69),
+(8, 70),
+(8, 71),
+(8, 72),
+(8, 73),
+(8, 74);
 
 -- --------------------------------------------------------
 
@@ -884,19 +1021,29 @@ CREATE TABLE `safes` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `employee_complete_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sum` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `date_of_deposited` date DEFAULT NULL,
   `date_of_withdrawal` date DEFAULT NULL,
-  `ty_of_transaction` varchar(11) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cumulative` float NOT NULL
+  `payment` float DEFAULT '0',
+  `paycheck` float DEFAULT '0',
+  `ty_of_transaction` varchar(11) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cumulative` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `safes`
 --
 
-INSERT INTO `safes` (`id`, `restaurant_id`, `created_at`, `updated_at`, `employee_complete_name`, `sum`, `date_of_deposited`, `date_of_withdrawal`, `ty_of_transaction`, `cumulative`) VALUES
-(1, 2, '2022-08-23 23:42:45', '2022-08-23 23:42:45', 'zeeshan', 1234232, '2022-08-25', NULL, '', 0),
-(2, 3, '2022-08-25 16:40:01', '2022-08-25 16:40:01', 'faisal', 12313, '2022-08-17', NULL, '', 0);
+INSERT INTO `safes` (`id`, `restaurant_id`, `created_at`, `updated_at`, `employee_complete_name`, `sum`, `date`, `date_of_deposited`, `date_of_withdrawal`, `payment`, `paycheck`, `ty_of_transaction`, `cumulative`) VALUES
+(90, 9, '2022-09-19 22:39:33', '2022-09-19 22:39:33', '71', 23423, NULL, NULL, NULL, 23423, NULL, NULL, NULL),
+(91, 9, '2022-09-19 22:39:41', '2022-09-19 22:39:41', '71', 23189, NULL, NULL, NULL, NULL, 234, NULL, NULL),
+(92, 9, '2022-09-19 22:39:49', '2022-09-19 22:39:49', '71', 23312, NULL, NULL, NULL, 123, NULL, NULL, NULL),
+(95, 7, '2022-09-19 22:40:51', '2022-09-19 22:40:51', '66', 10, NULL, NULL, NULL, 22, NULL, NULL, NULL),
+(96, 7, '2022-09-19 22:58:50', '2022-09-19 22:58:50', 'Muhammad Faisal1', 23445, NULL, NULL, NULL, 23423, NULL, NULL, NULL),
+(97, 7, '2022-09-19 22:58:59', '2022-09-19 22:58:59', 'Muhammad Faisal1', 22, NULL, NULL, NULL, NULL, 23423, NULL, NULL),
+(99, 12, '2022-09-21 01:07:53', '2022-09-21 01:07:53', '74', 1000, NULL, NULL, NULL, 1000, NULL, NULL, NULL),
+(100, 12, '2022-09-21 01:08:18', '2022-09-21 01:08:18', '74', 700, NULL, NULL, NULL, NULL, 300, NULL, NULL),
+(101, 12, '2022-09-21 01:08:33', '2022-09-21 01:08:33', '74', 600, NULL, NULL, NULL, NULL, 100, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -909,22 +1056,20 @@ CREATE TABLE `suppliers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sum` decimal(11,5) DEFAULT NULL,
+  `sum` decimal(11,2) DEFAULT NULL,
   `date_of_order` date DEFAULT NULL,
   `date_of_delivery` date DEFAULT NULL,
-  `restaurant_id` int(11) NOT NULL
+  `restaurant_id` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `suppliers`
 --
 
-INSERT INTO `suppliers` (`id`, `created_at`, `updated_at`, `name`, `sum`, `date_of_order`, `date_of_delivery`, `restaurant_id`) VALUES
-(1, '2022-08-25 19:32:01', '2022-08-29 20:16:19', 'UBER', '4234.00000', '2022-08-25', '2022-09-10', 1),
-(4, '2022-08-29 20:14:31', '2022-08-29 20:14:31', 'BOLT', '232.00000', '2022-08-22', '2022-09-03', 3),
-(5, '2022-08-29 20:14:57', '2022-08-29 20:14:57', 'WOLT', '534.00000', '2022-08-10', '2022-09-09', 2),
-(6, '2022-08-29 20:15:22', '2022-08-29 20:15:22', 'PYSZNE', '4234.00000', '2022-08-16', '2022-09-04', 1),
-(7, '2022-08-29 20:15:44', '2022-08-29 20:16:05', 'GLOVO', '534.00000', '2022-08-18', '2022-09-10', 1);
+INSERT INTO `suppliers` (`id`, `created_at`, `updated_at`, `name`, `sum`, `date_of_order`, `date_of_delivery`, `restaurant_id`, `status`) VALUES
+(11, '2022-09-19 22:37:33', '2022-09-21 01:11:02', 'UBER', '0.00', '2022-09-19', '2022-09-20', NULL, 1),
+(12, '2022-09-21 01:11:29', '2022-09-21 01:11:29', 'BOLT', '0.00', '2022-01-01', '2022-01-01', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -997,7 +1142,7 @@ CREATE TABLE `total_cashes` (
   `restaurant_id` int(191) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `bank_note` int(11) DEFAULT NULL,
+  `bank_note` double(11,2) DEFAULT NULL,
   `pieces` int(11) DEFAULT '0',
   `together_bank_note_pieces` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -1007,8 +1152,20 @@ CREATE TABLE `total_cashes` (
 --
 
 INSERT INTO `total_cashes` (`id`, `restaurant_id`, `created_at`, `updated_at`, `bank_note`, `pieces`, `together_bank_note_pieces`) VALUES
-(1, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 100, 32, '1435345'),
-(2, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 123, 0, NULL);
+(1, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 200.00, 32, '1435345'),
+(2, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 100.00, 0, NULL),
+(3, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 50.00, 32, '1435345'),
+(4, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 20.00, 0, NULL),
+(5, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 10.00, 32, '1435345'),
+(6, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 5.00, 0, NULL),
+(7, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 2.00, 32, '1435345'),
+(8, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 1.00, 32, '1435345'),
+(9, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 0.50, 32, '1435345'),
+(10, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 0.20, 0, NULL),
+(11, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 0.10, 32, '1435345'),
+(12, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 0.05, 0, NULL),
+(13, 1, '2022-08-23 23:44:03', '2022-08-25 15:57:40', 0.02, 32, '1435345'),
+(14, 1, '2022-08-25 15:13:01', '2022-08-25 15:13:01', 0.01, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1018,7 +1175,8 @@ INSERT INTO `total_cashes` (`id`, `restaurant_id`, `created_at`, `updated_at`, `
 
 CREATE TABLE `users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `surname` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `restaurant_id` int(191) DEFAULT NULL,
@@ -1028,18 +1186,29 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `date_of_joining` date DEFAULT '2022-08-24',
+  `date_of_leaving` date DEFAULT NULL,
+  `telephone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '23-2344234-12',
+  `salary` double NOT NULL DEFAULT '23'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `restaurant_id`, `provider_id`, `provider`, `status`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin', 'admin@admin.com', '$2y$10$PWsYJJSFcNKGsnUclBBU9e9TiLBtfBuzUu3Cd2T6WmJOia6PeeL2S', 1, NULL, NULL, 1, NULL, '2020-07-17 15:23:06', '2020-07-17 15:23:06', NULL),
-(2, 'User', 'user@user.com', '$2y$10$PWsYJJSFcNKGsnUclBBU9e9TiLBtfBuzUu3Cd2T6WmJOia6PeeL2S', 1, NULL, NULL, 1, NULL, '2020-07-17 15:23:06', '2020-07-17 15:23:06', NULL),
-(3, 'Developer', 'dev@admin.com', '$2y$10$PWsYJJSFcNKGsnUclBBU9e9TiLBtfBuzUu3Cd2T6WmJOia6PeeL2S', 1, NULL, NULL, 1, NULL, '2020-07-17 16:39:44', '2020-07-17 16:39:45', NULL),
-(12, 'essa', 'essa@gmail.com', '$2y$10$uq3JWBBokqNWjUatKAsou.iefxbCzpLU8TBhcvQXW8HnlMSVWeqPe', 1, NULL, NULL, 1, NULL, '2022-08-24 22:21:59', '2022-08-24 22:22:11', NULL);
+INSERT INTO `users` (`id`, `name`, `surname`, `email`, `password`, `restaurant_id`, `provider_id`, `provider`, `status`, `remember_token`, `created_at`, `updated_at`, `deleted_at`, `date_of_joining`, `date_of_leaving`, `telephone`, `salary`) VALUES
+(1, 'Admin', '', 'admin@admin.com', '$2y$10$V.cftIsbXRceE.EI.HgZ8.l1JDt3K9tEftyD8aW53H8dgzRAhDgLi', 0, NULL, NULL, 1, NULL, '2020-07-17 15:23:06', '2022-09-12 19:21:23', NULL, '2020-07-17', '0000-00-00', '23-2344234-12', 45),
+(3, 'Developer', '', 'dev@admin.com', '$2y$10$PWsYJJSFcNKGsnUclBBU9e9TiLBtfBuzUu3Cd2T6WmJOia6PeeL2S', 0, NULL, NULL, 1, NULL, '2020-07-17 16:39:44', '2020-07-17 16:39:45', NULL, '2020-09-19', '0000-00-00', '23-2344234-12', 45),
+(66, 'Muhammad Faisal1', 'Qasim', 'Faisal1@admin.com', '$2y$10$4Yg6FkhnKGuSREKMKD.5/.qBdd/Y/JD2MAdTsZc4rDwTLmHV5LYWi', 7, NULL, NULL, 1, NULL, '2022-09-16 17:03:33', '2022-09-16 17:03:33', NULL, '2022-08-28', NULL, '2342424234', 123),
+(67, 'Muhammad Faisal2', 'Qasim', 'Faisal2@admin.com', '$2y$10$W3KbX6Evf3BEwJ5LPKfQx.43zpuCF./Fa7EqDOfoPPjejPzUPHv/2', 7, NULL, NULL, 1, NULL, '2022-09-16 17:35:02', '2022-09-16 17:35:02', NULL, '2022-09-16', NULL, '2342424234', 3424),
+(68, 'Muhammad Faisal Qasim', 'Qasim', 'Faisal3@admin.com', '$2y$10$wWlKwS0T21UPGzAxfcDfUe2gF2nsvhMCRZT3q4dx0sThmPApB7nXG', 7, NULL, NULL, 1, NULL, '2022-09-16 17:39:21', '2022-09-16 17:39:21', NULL, '2022-09-16', NULL, '2342424234', 123),
+(69, 'Muhammad Faisal4', 'Qasim', 'Faisal4@admin.com', '$2y$10$Joj1ojPzQiS.8PC6c21QlOI4MltsoE0QD42svetBE6Q5iBMHixr/G', 7, NULL, NULL, 1, NULL, '2022-09-19 01:13:22', '2022-09-19 01:13:22', NULL, '2022-09-18', NULL, '2342424234', 123),
+(70, 'Muhammad Faisal4', 'Qasim', 'Faisal5@admin.com', '$2y$10$.U7oiQsPtrCt34/N405OI.ZbS9cSq8TiybzzAMKTF6jsrV3bla.Aa', 7, NULL, NULL, 1, NULL, '2022-09-19 01:14:37', '2022-09-19 01:14:37', NULL, '2022-09-18', NULL, '2342424234', 123),
+(71, 'Muhammad Faisal8', 'Qasim', 'Faisal8@admin.com', '$2y$10$ZkGbupkaQRxeqlH4bm7KtuT3v2V.W7c1krKWhm/jTV2CnWHxC6sYq', 9, NULL, NULL, 1, NULL, '2022-09-19 22:38:46', '2022-09-19 22:38:46', NULL, '2022-09-19', '2022-09-21', '2342424234', 123),
+(72, 'Muhammad  Faisal', 'Qasim', 'Faisal34@admin.com', '$2y$10$DoPeqQLX9zkOfYVtznHXx.5z6aG9Sg0KfZqx5gFFYOOVwI2v0ZdYW', 10, NULL, NULL, 1, NULL, '2022-09-20 22:51:46', '2022-09-20 22:51:46', NULL, '2022-09-20', '2022-09-20', '2342424234', 234),
+(73, 'ISMAIL2', 'REHMAN', 'ISMAIL2@admin.com', '$2y$10$vLGxsdNcbcM8ZYDKZdkEmeBxuPdK/iYKDdt9Pnz3icOIphNSTDUfC', 11, NULL, NULL, 1, NULL, '2022-09-20 22:28:37', '2022-09-20 22:28:37', NULL, '2022-09-20', '2022-09-20', '7911123456', 23412),
+(74, 'Jan', 'Kowalski', 'admin@admin.com2', '$2y$10$mRdM6Su/IySKFMgP2LE68uUVhKOh8LmSz9tDrASgqfhZVYcoKCqeS', 12, NULL, NULL, 1, NULL, '2022-09-21 01:07:36', '2022-09-21 01:07:36', NULL, '0001-01-01', '2022-12-31', '791555588', 20);
 
 --
 -- Indexes for dumped tables
@@ -1080,6 +1249,12 @@ ALTER TABLE `blog_categories`
 -- Indexes for table `blog_comments`
 --
 ALTER TABLE `blog_comments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `employees`
+--
+ALTER TABLE `employees`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1214,7 +1389,7 @@ ALTER TABLE `about_uses`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=211;
 
 --
 -- AUTO_INCREMENT for table `bests`
@@ -1241,22 +1416,28 @@ ALTER TABLE `blog_comments`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `employees`
+--
+ALTER TABLE `employees`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `employee_salaries`
 --
 ALTER TABLE `employee_salaries`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `expenses`
 --
 ALTER TABLE `expenses`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `expense_file`
 --
 ALTER TABLE `expense_file`
-  MODIFY `id` int(191) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(191) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1268,7 +1449,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `news`
@@ -1280,43 +1461,43 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=114;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT for table `restaurants`
 --
 ALTER TABLE `restaurants`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `safes`
 --
 ALTER TABLE `safes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
 --
 ALTER TABLE `suppliers`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tags`
@@ -1328,13 +1509,13 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT for table `total_cashes`
 --
 ALTER TABLE `total_cashes`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- Constraints for dumped tables

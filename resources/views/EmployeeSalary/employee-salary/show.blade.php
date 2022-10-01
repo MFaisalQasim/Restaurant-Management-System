@@ -89,12 +89,13 @@ $today = $year . '-' . $month . '-' . $day;
                     <table class="table table-hover table-responsive-sm">
                         <thead>
                             <tr>
-                                <th> Name </th>
+                                <th> Full Name </th>
                                 <th> Salary sum </th>
                                 <th> Hours sum </th>
                                 <th> Bonus sum </th>
                                 <th> Total salary with bonus </th>
                                 <th> Average for the hour </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -175,7 +176,7 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.number_of_hours + '</td>\
                                                     <td>' + item.bonus_sum + '</td>\
                                                     <td>' + item.total_sum + '</td>\
-                                                    <td>' + item.rate + '</td>\
+                                                    <td>' + item.sum + '</td>\
                                                 </tr>'
                                 )
                                 arr_j[j] = item.total_sum
@@ -216,12 +217,17 @@ $today = $year . '-' . $month . '-' . $day;
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                    <td>' + item.name + '</td>\
+                                                    <td>' + item.name   + '</td>\
                                                     <td>' + item.sum + '</td>\
                                                     <td>' + item.number_of_hours + '</td>\
                                                     <td>' + item.bonus_sum + '</td>\
                                                     <td>' + item.total_sum + '</td>\
-                                                    <td>' + item.rate + '</td>\
+                                                    <td>' + item.sum + '</td>\
+                                                <td> <a class="download_file" href="' +
+                                                '/employee-salary/edit/' + item.id +
+                                                '" > ||  Edit  ||</a><a class="download_file" href="' +
+                                                '/employee-salary/delete/' + item.id +
+                                                '" >  || Delete || </a></td>\
                                         </tr>'
                                 )
                                 arr_j[j] = item.total_sum

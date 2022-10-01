@@ -17,7 +17,6 @@ class RestaurantController extends Controller
         $this->middleware('auth');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +25,6 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
-        
         return $request->get('search');
         // $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','view-'.$model)->first()!= null) {
@@ -50,11 +48,9 @@ class RestaurantController extends Controller
                     // $restaurant = Restaurant::Where( 'id' , '=' , auth()->user()->restaurant_id )->paginate($perPage);
                  }
             }
-
             return view('Restaurant.restaurant.index', compact('restaurant'));
         }
         return response(view('403'), 403);
-
     }
 
     /**
@@ -69,7 +65,6 @@ class RestaurantController extends Controller
             return view('Restaurant.restaurant.create');
         }
         return response(view('403'), 403);
-
     }
 
     /**
@@ -81,6 +76,7 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
+        $ErrorMsg = "";
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -88,10 +84,13 @@ class RestaurantController extends Controller
 			'location' => 'required',
 			'ranking' => 'required'
 		]);
+        try{
             $requestData = $request->all();
-            
             Restaurant::create($requestData);
             return redirect('restaurant')->with('flash_message', 'Restaurant added!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
     }
@@ -122,6 +121,15 @@ class RestaurantController extends Controller
      *
      * @return \Illuminate\View\View
      */
+    public function edit_res($id)
+    {
+        $model = str_slug('restaurant','-');
+        if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
+            $restaurant = Restaurant::findOrFail($id);
+            return view('Restaurant.restaurant.edit_res', compact('restaurant'));
+        }
+        return response(view('403'), 403);
+    }
     public function edit($id)
     {
         $model = str_slug('restaurant','-');
@@ -153,13 +161,20 @@ class RestaurantController extends Controller
 		// 	'ranking' => 'required'
 		// ]);
             // $requestData = $request->all();
-            
+            try{
+                
             $restaurant = Restaurant::findOrFail($id);
+            $restaurant->name =  $request->name;
+            $restaurant->location =  $request->location;
+            $restaurant->ranking =  $request->ranking;
             $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
             $restaurant->active_for_this_restaurant =  $request->active_for_this_restaurant;
-            
             $restaurant->save();
+            // return $restaurant;
              return redirect('restaurant_setting/'.  $id)->with('flash_message', 'Restaurant updated!');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
     }
@@ -177,7 +192,6 @@ class RestaurantController extends Controller
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','delete-'.$model)->first()!= null) {
             Restaurant::destroy($id);
-
             return redirect('restaurant')->with('flash_message', 'Restaurant deleted!');
         }
         return response(view('403'), 403);

@@ -72,13 +72,17 @@ class SuppliersController extends Controller
     public function store(Request $request, $restaurant_id)
     {
         // return $request;
+        // return $restaurant_id;
+        $ErrorMsg = "";
+
         $model = str_slug('suppliers','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'sum' => 'required',
-			'date_of_order' => 'required'
+			// 'sum' => 'required',
+			// 'date_of_order' => 'required'
 		]);
+        try {
             $requestData = $request->all();
             // Supplier::create($requestData);
             $supplier = new Supplier;
@@ -94,9 +98,16 @@ class SuppliersController extends Controller
         // } else {
         //     $supplier->restaurant_id =     auth()->user()->restaurant_id;
         // }
-        $supplier->save();
+
+        if ($ErrorMsg == "") {
+         $supplier->save();
+         }
             return redirect('restaurant_setting/'. $restaurant_id)->with('flash_message', 'Supplier added!');
-        }
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        }            
+    }           return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+
         return response(view('403'), 403);
     }
 
@@ -145,26 +156,38 @@ class SuppliersController extends Controller
     public function update(Request $request, $id)
     {
         // return $request;
+        $ErrorMsg = "";
         $model = str_slug('suppliers','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
 			'name' => 'required',
-			'sum' => 'required',
-			'date_of_order' => 'required'
+			// 'sum' => 'required',
+			// 'date_of_order' => 'required'
 		]);
+            try {
             $requestData = $request->all();
             
             $supplier = Supplier::findOrFail($id);
-            if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
-                $supplier->restaurant_id =     $request->restaurant_id ;
-            } else {
-                $supplier->restaurant_id =     auth()->user()->restaurant_id;
-            }
-             $supplier->update($requestData);
-             return redirect('restaurant/')->with('flash_message', 'Supplier updated!');
-        }
-        return response(view('403'), 403);
+            // return $supplier;
 
+            // if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('developer')) {
+            //     $supplier->restaurant_id =     $request->restaurant_id ;
+            // } else {
+            //     $supplier->restaurant_id =     auth()->user()->restaurant_id;
+            // }
+            //  $supplier->update($requestData);
+            //  return redirect('restaurant/')->with('flash_message', 'Supplier updated!');
+             if ($ErrorMsg == "") {
+                $supplier->update($requestData);
+              }
+            //    return redirect('restaurant/')->with('flash_message', 'Supplier updated!');
+                 return redirect('restaurant_setting/'. $supplier->restaurant_id)->with('flash_message', 'Supplier added!');
+             
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+    }
+        return response(view('403'), 403);
     }
 
     /**

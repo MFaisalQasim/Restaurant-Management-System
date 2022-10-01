@@ -130,6 +130,7 @@ class SafeController extends Controller
     public function store_deposit (Request $request, $restaurant_id)
     {
         // return $request;
+        $ErrorMsg = "";
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -138,6 +139,7 @@ class SafeController extends Controller
 			// 'ty_of_transaction' => 'required',
 			// 'date' => 'required'
 		]);
+        try {
             $requestData = $request->all();
             // return $request;
             // Safe::create($requestData);
@@ -153,9 +155,16 @@ class SafeController extends Controller
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
             $safe->sum =    $safe_sum + $request->deposite;
-            $safe->save();
+            
+            if ($ErrorMsg == "") {
+                $safe->save();
+                }
             // return redirect('safe/deposit/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
             return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        } 
+        return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');           
         }
         return response(view('403'), 403);
     }
@@ -165,6 +174,7 @@ class SafeController extends Controller
     public function store_payout(Request $request, $restaurant_id)
     {
         $model = str_slug('safe','-');
+        $ErrorMsg = "";
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             $this->validate($request, [
 			// 'employee_complete_name' => 'required',
@@ -172,6 +182,8 @@ class SafeController extends Controller
 			// 'ty_of_transaction' => 'required',
 			// 'date' => 'required'
 		]);
+        try {
+
         // $safe_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('sum') ;
         $safe_payment_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('payment') ;
         $safe_paycheck_sum = Safe::where('restaurant_id', '=', $restaurant_id)->sum('paycheck') ;
@@ -187,9 +199,15 @@ class SafeController extends Controller
             $safe->date =    $request->date;
             $safe->payment =    $request->deposite;
             $safe->paycheck =    $request->payout;
-            $safe->save();
-            // return redirect('safe/payouts/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
-            return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            if ($ErrorMsg == "") {
+                $safe->save();
+             }
+             // return redirect('safe/payouts/create/'. $restaurant_id)->with('flash_message', 'Safe added!');
+             return redirect('safe/'. $restaurant_id)->with('flash_message', 'Safe added!');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
     }
@@ -248,6 +266,7 @@ class SafeController extends Controller
     public function update(Request $request, $id)
     {
         // return  $request;
+        $ErrorMsg = "";
         $model = str_slug('safe','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $this->validate($request, [
@@ -255,17 +274,24 @@ class SafeController extends Controller
 			// 'sum' => 'required',
 			'date' => 'required'
 		]);
+        try {
             $requestData = $request->all();
             
             $safe = Safe::findOrFail($id);
             $safe->date_of_deposited =    $request->date;
-            $safe->payment =    $request->payout;
-            $safe->paycheck =    $request->deposite;
+            $safe->paycheck =    $request->payout;
+            $safe->payment =    $request->deposite;
             // return $safe->restaurant_id;
-             $safe->save();
+             if ($ErrorMsg == "") {
+                 $safe->save();
+              }
             //  return redirect()->back();
              return redirect('safe/'. $safe->restaurant_id)->with('flash_message', 'Safe updated!');
             //  return redirect('safe')->with('flash_message', 'Safe updated!');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            
+            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
         }
         return response(view('403'), 403);
 

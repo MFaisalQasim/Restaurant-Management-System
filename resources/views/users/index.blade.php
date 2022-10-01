@@ -12,8 +12,8 @@
             <div class="col-sm-12">
                 <div class="white-box">
                     <h3 class="box-title pull-left">Users List</h3>
-                    <a class="btn btn-success pull-right" href="{{ url('user/create') }}"><i class="icon-plus"></i> Add
-                        user</a>
+                    {{-- <a class="btn btn-success pull-right" href="{{ url('user/create') }}"><i class="icon-plus"></i> Add
+                        user</a> --}}
                     <div class="clearfix"></div>
                     <hr>
                     <div class="row">
