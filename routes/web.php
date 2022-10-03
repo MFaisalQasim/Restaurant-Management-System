@@ -339,6 +339,7 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('users/{id}', 'UsersController@getIndex');
 Route::get('user/create/{id}', 'UsersController@create');
 Route::post('user/create/', 'UsersController@save');
+// Route::get('user/edit/{id}', 'UsersController@edit');
 Route::get('user/edit/{id}', 'UsersController@edit');
 Route::post('user/edit/{id}', 'UsersController@update');
 Route::get('user/delete/{id}', 'UsersController@delete');
@@ -360,7 +361,7 @@ Route::get('restaurant/fetch/{id}', 'PagesController@generate_restaurant_fetch')
 Route::get('restaurant/create', 'RestaurantController\\RestaurantController@create');
 Route::post('restaurant', 'RestaurantController\\RestaurantController@store');
 Route::get('restaurant/edit/{id}', 'RestaurantController\\RestaurantController@edit_res');
-Route::patch('restaurant/update/{id}', 'RestaurantController\\RestaurantController@update');
+Route::patch('restaurant/update/{id}', 'RestaurantController\\RestaurantController@update_res');
 Route::delete('restaurant/{id}', 'RestaurantController\\RestaurantController@destroy');
 
 Route::get('restaurant_setting/{id}', 'PagesController@restaurant_setting');

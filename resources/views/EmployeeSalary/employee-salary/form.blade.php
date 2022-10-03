@@ -56,7 +56,8 @@
         {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
         <div class="col-md-6">
             <input class="form-control" type="number" name="rate" id="rate" placeholder="Rate"
-                onkeyup="get_number_of_hours()" {{-- onchange="get_number_of_hours()" --}} required>
+                onkeyup="get_number_of_hours()" onchange="get_number_of_hours()"
+                 required>
             {!! $errors->first('rate', '<p class="help-block">:message</p>') !!}
         </div>
     </div>
@@ -158,7 +159,10 @@
 
             console.log(number_of_hours + 'number_of_hours');
             console.log(number_of_min + 'number_of_min');
-
+            if (number_of_min < 0) {
+                number_of_min =    60 + number_of_min
+            console.log(number_of_min + '(60 + number_of_min');  
+            }
             // document.getElementById('number_of_hours').value = Math.abs(number_of_hours)
             let rate = document.getElementById('rate').value
             console.log(rate +
@@ -169,9 +173,10 @@
             console.log(rate_for_min + 'rate for min');
             average_time = rate_for_hours + rate_for_min;
             sum = (average_time);
-            console.log(sum);
+            console.log(sum + "sum");
             hours = number_of_hours + '.' +number_of_min;
-            document.getElementById('number_of_hours').value = Math.abs(hours  )
+            console.log(hours + "hours" );
+            document.getElementById('number_of_hours').value = Math.abs(hours)
             document.getElementById('sum').value = Math.abs(sum)
         }
 

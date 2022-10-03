@@ -65,6 +65,7 @@ class ReportController extends Controller
     public function create($id)
     {
         // return "here";
+        // return $id;
         $model = str_slug('report','-');
         if(auth()->user()->permissions()->where('name','=','add-'.$model)->first()!= null) {
             // $supplier = Supplier::get();

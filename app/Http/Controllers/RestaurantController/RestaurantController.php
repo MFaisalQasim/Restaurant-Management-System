@@ -123,6 +123,7 @@ class RestaurantController extends Controller
      */
     public function edit_res($id)
     {
+        // return $request;
         $model = str_slug('restaurant','-');
         if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
             $restaurant = Restaurant::findOrFail($id);
@@ -148,7 +149,7 @@ class RestaurantController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update_res(Request $request, $id)
     {
         // return "update here";
         // return $request;
@@ -167,6 +168,33 @@ class RestaurantController extends Controller
             $restaurant->name =  $request->name;
             $restaurant->location =  $request->location;
             $restaurant->ranking =  $request->ranking;
+            $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
+            $restaurant->active_for_this_restaurant =  $request->active_for_this_restaurant;
+            $restaurant->save();
+            // return $restaurant;
+             return redirect('restaurant_setting/'.  $id)->with('flash_message', 'Restaurant updated!');
+            } catch (\Throwable $th) {
+                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        }
+        return response(view('403'), 403);
+    }
+    public function update(Request $request, $id)
+    {
+        // return "update here";
+        // return $request;
+        
+        $model = str_slug('restaurant','-');
+        if(auth()->user()->permissions()->where('name','=','edit-'.$model)->first()!= null) {
+        //     $this->validate($request, [
+		// 	'name' => 'required',
+		// 	'location' => 'required',
+		// 	'ranking' => 'required'
+		// ]);
+            // $requestData = $request->all();
+            try{
+                
+            $restaurant = Restaurant::findOrFail($id);
             $restaurant->see_cash_reports_days =  $request->see_cash_reports_days;
             $restaurant->active_for_this_restaurant =  $request->active_for_this_restaurant;
             $restaurant->save();

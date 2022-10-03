@@ -31,6 +31,8 @@ class UsersController extends Controller
         return view('users.create',compact('roles','restaurant','restaurant_id'));
     }
     public function save(Request $request){
+        // return $request;
+        $ErrorMsg = "";
         $this->validate($request,[
             'name' => 'required',
             'email'                => "required|email|unique:users,email,{$request->id}",
@@ -47,90 +49,96 @@ class UsersController extends Controller
             // 'pic_file.required' => 'Profile picture required',
             // 'dob.required' => 'Date of Birth required'
         ]);
-        try {
-        $user           = User::firstOrCreate([
-            'name'=>$request->name,
-        'email'=> $request->email,
-        'status'  => $request->status ,
-        'surname' => $request->surname,
-    ]);
+        // try {
+            $user           = User::firstOrCreate([
+                'name'=>$request->name,
+            'email'=> $request->email,
+            'status'  => $request->status ,
+            'surname' => $request->surname,
+                ]);
 
-        $user->date_of_joining = $request->date_of_employment;
-        $user->date_of_leaving = $request->end_of_work_date;
-        $user->salary = $request->hourly_salary;
-        $user->telephone = $request->telephone_number;
-        $user->restaurant_id = $request->restaurant_id;
-        $user->password = bcrypt($request->password);
+            $user->date_of_employment = $request->date_of_employment;
+            $user->end_of_work_date = $request->end_of_work_date;
+            $user->salary = $request->hourly_salary;
+            $user->telephone = $request->telephone_number;
+            $user->restaurant_id = $request->restaurant_id;
+            $user->password = bcrypt($request->password);
+        
+            // if ($ErrorMsg == "") {
+                $user->save();
+            // }
 
-
-        $user->save();
-
-        if ($file = $request->file('pic_file')) {
+            if ($file = $request->file('pic_file')) {
             $extension = $file->extension()?: 'png';
             $destinationPath = storage_path('/app/public/uploads/users/');
             $safeName = str_random(10) . '.' . $extension;
             $file->move($destinationPath, $safeName);
             $request['pic'] = $safeName;
-        }else{
+            }else{
             $request['pic'] = 'no_avatar.jpg';
-        }
-        $profile = $user->profile;
-        if($user->profile == null){
-            $profile = new  Profile();
-        }
-        if($request->dob != null){
-          $date =  Carbon::parse($request->dob)->format('Y-m-d');
-        }else{
-            $date = $request->dob;
-        }
-        $profile->user_id = $user->id;
-        $profile->bio = $request->bio;
-        $profile->gender = $request->gender;
-        $profile->dob = $date;
-        $profile->place_of_birth = $request->place_of_birth;
-        $profile->PESEL = $request->PESEL;
-        $profile->id_number = $request->id_number;
-        $profile->passport_number = $request->passport_number;
-        $profile->country_of_issue = $request->country_of_issue;
-        $profile->mother_name = $request->mother_name;
-        $profile->father_name = $request->father_name;
-        $profile->citizenship = $request->citizenship;
-        $profile->bank_account_number = $request->bank_account_number;
-        $profile->student = $request->student;
-        $profile->name_of_the_university = $request->name_of_the_university;
-        $profile->until_when_the_student = $request->until_when_the_student;
-        
-        $profile->state = $request->state;
-        $profile->city = $request->city;
-        $profile->address = $request->address;
-        $profile->postal = $request->postal;
-        $profile->pic = $request['pic'];
-        $profile->save();
+            }
+            $profile = $user->profile;
+            if($user->profile == null){
+                $profile = new  Profile();
+            }
+            if($request->dob != null){
+              $date =  Carbon::parse($request->dob)->format('Y-m-d');
+            }else{
+                $date = $request->dob;
+            }
+            $profile->user_id = $user->id;
+            $profile->bio = $request->bio;
+            $profile->gender = $request->gender;
+            $profile->dob = $date;
+            $profile->place_of_birth = $request->place_of_birth;
+            $profile->PESEL = $request->PESEL_;
+            $profile->id_number = $request->id_number;
+            $profile->passport_number = $request->passport_number;
+            $profile->country_of_issue = $request->country_of_issue;
+            $profile->mother_name = $request->mother_name;
+            $profile->father_name = $request->father_name;
+            $profile->citizenship = $request->citizenship_;
+            $profile->bank_account_number = $request->bank_account_number__;
+            $profile->student = $request->student___;
+            $profile->name_of_the_university = $request->name_of_the_university___;
+            $profile->until_when_the_student = $request->until_when_the_student___;
+            
+            $profile->country = $request->country;
+            $profile->state = $request->state;
+            $profile->city = $request->city;
+            $profile->address = $request->address;
+            $profile->postal = $request->postal;
+            $profile->pic = $request['pic'];
+            $profile->save();
 
-        $role = Role::find($request->role);
-        $user->assignRole($role->name);
+            $role = Role::find($request->role);
+            $user->assignRole($role->name);
 
-        Session::flash('message','User has been added');
-        return redirect()->back();
-        // return redirect('user/create/'. $restaurant_id);
-            } catch (\Throwable $th) {
-                return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
-            }            return redirect()->back()->with('alert', 'You have enter some wrong or  in complete    data!');
-        
+            Session::flash('message','User has been added');
+            return redirect()->back();
+            // return redirect('user/create/'. $restaurant_id);
+        // } catch (\Throwable $th) {
+        //     // $user =  User::findOrfail($user->id);
+        //     $user->delete();
+        //     return redirect()->back()->with('alert', 'You have enter some wrong or  in complete data!');
+        // }            
+            // return redirect()->back()->with('alert', 'You have enter some wrong or  in complete    data!');
     }
 
     public function edit(Request $request){
         $user = User::findOrfail($request->id);
         $roles = Role::all();
-        return view('users.edit',compact('user','roles'));
+        $restaurant = Restaurant::all();
+        return view('users.edit',compact('user','roles','restaurant'));
+        // return view('users.edit_new',compact('user','roles'));
     }
 
     public function update(Request $request){
+        // return $request;
         $this->validate($request,[
             'name' => 'required',
             'email' => 'required',
             'role' => 'required',
-
         ],[
             // 'pic_file.required' => 'Profile picture required',
             // 'dob.required' => 'Date of Birth required'
@@ -144,6 +152,10 @@ class UsersController extends Controller
         $user->email = $request->email;
         $user->name = $request->name;
         $user->restaurant_id = $request->restaurant_id;
+        $user->date_of_employment = $request->date_of_employment;
+        $user->end_of_work_date = $request->end_of_work_date;
+        $user->salary = $request->hourly_salary;
+        $user->telephone = $request->telephone_number;
         $user->save();
 
         $profile = $user->profile;
@@ -155,7 +167,6 @@ class UsersController extends Controller
         }else{
             $date = $request->dob;
         }
-
 
         if ($file = $request->file('pic_file')) {
             $extension = $file->extension()?: 'png';
@@ -170,11 +181,23 @@ class UsersController extends Controller
             $profile->pic = $safeName;
         }
 
-
         $profile->user_id = $user->id;
         $profile->bio = $request->bio;
         $profile->gender = $request->gender;
         $profile->dob = $date;
+        $profile->place_of_birth = $request->place_of_birth;
+        $profile->PESEL = $request->PESEL_;
+        $profile->id_number = $request->id_number;
+        $profile->passport_number = $request->passport_number;
+        $profile->country_of_issue = $request->country_of_issue;
+        $profile->mother_name = $request->mother_name;
+        $profile->father_name = $request->father_name;
+        $profile->citizenship = $request->citizenship_;
+        $profile->bank_account_number = $request->bank_account_number__;
+        $profile->student = $request->student___;
+        $profile->name_of_the_university = $request->name_of_the_university___;
+        $profile->until_when_the_student = $request->until_when_the_student___;
+        
         $profile->country = $request->country;
         $profile->state = $request->state;
         $profile->city = $request->city;

@@ -67,7 +67,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="white-box">
-                    <h3 class="box-title pull-left">Create User</h3>
+                    <h3 class="box-title pull-left">Edit User</h3>
                     <div class="clearfix"></div>
                     <form id="commentForm" action="{{ url('user/edit/' . $user->id) }}" method="POST"
                         enctype="multipart/form-data" class="form-horizontal">
@@ -98,11 +98,12 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->first('name', 'has-error') }}">
+                                    <div class="form-group {{ $errors->first('first_name', 'has-error') }}">
                                         <label for="name" class="col-sm-2 control-label">Name *</label>
                                         <div class="col-sm-10">
-                                            <input id="name" name="name" type="text" placeholder="Name" required
-                                                class="form-control required" value="{!! old('name') !!}" />
+                                            <input id="name" name="name" type="text" placeholder="Name"
+                                                class="form-control required" value="{{ $user->name }}" />
+
                                             {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -110,13 +111,13 @@
                                         <label for="surname" class="col-sm-2 control-label">Surname *</label>
                                         <div class="col-sm-10">
                                             <input id="surname" name="surname" type="text" placeholder="Surname"
-                                                required class="form-control required" value="{!! old('surname') !!}" />
-
+                                                 class="form-control required" value="{{ $user->surname }}" />
                                             {!! $errors->first('surname', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
                                     {{-- <input type="hidden" value="{{$$user->restaurant_id}}" name="restaurant_id"> --}}
-                                    {{-- <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
+                                    {{-- <div class="form-group {{ $errors->first('restaurant_id',   
+                                               'has-error') }}">
                                         <label for="restaurant_id" class="col-sm-2 control-label">Restaurant Linked
                                             To</label>
                                         <div class="col-sm-10">
@@ -130,24 +131,24 @@
                                             {!! $errors->first('restaurant_id', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div> --}}
-                                    <div class="form-group {{ $errors->first('date_of_employment', 'has-error') }}">
+                                    <div class="form-group {{ $errors->first('date_of_employment',  
+                                     'has-error') }} ">
                                         <label for="date_of_employment" class="col-sm-2 control-label">Date of Employment
                                             *</label>
                                         <div class="col-sm-10">
                                             <input id="date_of_employment" name="date_of_employment" type="date"
                                                 placeholder="Date of Employment" class="form-control required"
-                                                value="{!! old('date_of_employment') !!}" />
+                                                value="{{ $user->date_of_employment }}" />
 
                                             {!! $errors->first('date_of_employment', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="form-group {{ $errors->first('end_of_work_date', 'has-error') }}">
-                                        <label for="end_of_work_date" class="col-sm-2 control-label">End of Work Date
-                                            *</label>
+                                        <label for="end_of_work_date" class="col-sm-2 control-label">End of Work Date *</label>
                                         <div class="col-sm-10">
                                             <input id="end_of_work_date" name="end_of_work_date" type="date"
                                                 placeholder="Date of Employment" class="form-control required"
-                                                value="{!! old('end_of_work_date') !!}" />
+                                                value="{{ $user->end_of_work_date }}" />
 
                                             {!! $errors->first('end_of_work_date', '<span class="help-block">:message</span>') !!}
                                         </div>
@@ -157,18 +158,16 @@
                                             *</label>
                                         <div class="col-sm-10">
                                             <input id="hourly_salary" name="hourly_salary" type="number" 
-                                                placeholder="Hourly Salary " class="form-control required" />
+                                                placeholder="Hourly Salary " class="form-control required" value="{{ $user->salary }}"/>
                                             {!! $errors->first('hourly_salary', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
                                     <div class="form-group {{ $errors->first('telephone_number', 'has-error') }}">
-                                        <label for="telephone_number" class="col-sm-2 control-label">Telephone number
-                                            *</label>
+                                        <label for="telephone_number" class="col-sm-2 control-label">Telephone number *</label>
                                         <div class="col-sm-10">
                                             <input id="telephone_number" name="telephone_number" type="text" 
                                                 placeholder="Telephone number" class="form-control required"
-                                                value="{!! old('telephone_number') !!}" />
-
+                                                value="{{ $user->telephone }}" />
                                             {!! $errors->first('telephone_number', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -176,17 +175,17 @@
                                         <label for="email" class="col-sm-2 control-label">Email *</label>
                                         <div class="col-sm-10">
                                             <input id="email" name="email" placeholder="E-mail" type="text"
-                                                class="form-control required email" value="{!! old('email') !!}" />
+                                                class="form-control  email" value="{{ $user->email }}" />
                                             {!! $errors->first('email', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-
+                                    <h6><b>If you don't want to change password... please leave them empty</b></h6>
 
                                     <div class="form-group {{ $errors->first('password', 'has-error') }}">
                                         <label for="password" class="col-sm-2 control-label">Password *</label>
                                         <div class="col-sm-10">
                                             <input id="password" name="password" type="password" placeholder="Password"
-                                                class="form-control required" value="{!! old('password') !!}" />
+                                                class="form-control " value="{!! old('password') !!}" />
                                             {!! $errors->first('password', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -195,9 +194,8 @@
                                         <label for="password_confirm" class="col-sm-2 control-label">Confirm Password
                                             *</label>
                                         <div class="col-sm-10">
-                                            <input id="password_confirmation" name="password_confirmation"
-                                                type="password" placeholder="Confirm Password "
-                                                class="form-control required" />
+                                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                                placeholder="Confirm Password " class="form-control required" />
                                             {!! $errors->first('password_confirmation', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -207,7 +205,7 @@
                                     <div class="form-group  {{ $errors->first('dob', 'has-error') }}">
                                         <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
                                         <div class="col-sm-10">
-                                            <input value="{{ old('dob') }}" autocomplete="off" 
+                                            <input value=" {{$user->profile->place_of_birth}}" autocomplete="off" 
                                                  name="dob" type="date" class="form-control"
                                                 data-date-format="YYYY-MM-DD" placeholder="yyyy-mm-dd" />
                                             <span class="help-block">{{ $errors->first('dob', ':message') }}</span>

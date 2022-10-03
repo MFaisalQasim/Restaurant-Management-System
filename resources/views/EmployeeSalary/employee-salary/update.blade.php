@@ -6,28 +6,30 @@
                 <input type="date" name="date" placeholder="Date" id="date" onload="getDate()" placeholder="Date"
                     value="<?php echo $today; ?>" class="form-control">
             </div>
-            <div class="topnav search_icon_div " style="display: flex;
-                ">
+            <div class="topnav search_icon_div "
+                style="display: flex;
+                                                ">
                 <label class="form-label mt-3" for="keywords_search">Employee : </label>
                 @if (count($user) != 0)
                     <select class="select" data-mdb-filter="true" onchange="employee_fetch();" id="keywords_search"
                         name="keywords_search">
                         @foreach ($user as $item)
                             @if (!$item->hasRole('developer'))
-                                @if ($item->restaurant_id == $item->restaurant_id)
-                                    <option value="{{ $item->id }}">{{ $item->name." " . $item->surname }}</option>
+                                @if ($item->restaurant_id == $employeesalary->restaurant_id)
+                                    <option value="{{ $item->id }}">{{ $item->name . ' ' . $item->surname }}</option>
                                 @endif
                             @endif
                             {{-- <input type="hidden" name="employee_name"
-                                value="{{ $item->name }}"> --}}
+                                                                value="{{ $item->name }}"> --}}
                         @endforeach
                     </select>
                 @else
-                    <input name="employee_name" id="employee_name" type="text" value="{{ auth()->user()->name." " . auth()->user()->surname }}"
+                    <input name="employee_name" id="employee_name" type="text"
+                        value="{{ auth()->user()->name . ' ' . auth()->user()->surname }}"
                         placeholder="Add Users to Restaurant to select one" readonly>
                 @endif
             </div>
-            
+
         </div>
         <input type="hidden" name="employee_name" id="employee_name">
         {!! $errors->first('date', '<p class="help-block">:message</p>') !!}
@@ -56,7 +58,7 @@
         {!! Form::label('', '', ['class' => 'col-md-4 control-label']) !!}
         <div class="col-md-6">
             <input class="form-control" type="number" name="rate" id="rate" placeholder="Rate"
-                onkeyup="get_number_of_hours()" {{-- onchange="get_number_of_hours()" --}} required>
+                onkeyup="get_number_of_hours()" onchange="get_number_of_hours()" required>
             {!! $errors->first('rate', '<p class="help-block">:message</p>') !!}
         </div>
     </div>
@@ -95,7 +97,7 @@
                 </div>
                 <div class="col">
                     <input class="form-control" id="total_sum" type="float" name="bonus_sum"
-                        placeholder="Bonus Amount"  onkeyup="get_sum()">
+                        placeholder="Bonus Amount" onkeyup="get_sum()">
                     {!! $errors->first('bonus_sum', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
@@ -158,7 +160,10 @@
 
             console.log(number_of_hours + 'number_of_hours');
             console.log(number_of_min + 'number_of_min');
-
+            if (number_of_min < 0) {
+                number_of_min = 60 + number_of_min
+                console.log(number_of_min + '(60 + number_of_min');
+            }
             // document.getElementById('number_of_hours').value = Math.abs(number_of_hours)
             let rate = document.getElementById('rate').value
             console.log(rate +
@@ -169,9 +174,10 @@
             console.log(rate_for_min + 'rate for min');
             average_time = rate_for_hours + rate_for_min;
             sum = (average_time);
-            console.log(sum);
-            hours = number_of_hours + '.' +number_of_min;
-            document.getElementById('number_of_hours').value = Math.abs(hours  )
+            console.log(sum + "sum");
+            hours = number_of_hours + '.' + number_of_min;
+            console.log(hours + "hours");
+            document.getElementById('number_of_hours').value = Math.abs(hours)
             document.getElementById('sum').value = Math.abs(sum)
         }
 
@@ -212,7 +218,7 @@
                         if (item.id == keywords_search) {
                             document.getElementById('rate').value = ("")
                             console.log(item.name + ' item.name ');
-                            item_name = item.name + " " +  item.surname
+                            item_name = item.name + " " + item.surname
                             console.log(item_name + 'name');
                             document.getElementById('employee_name').value = (item_name)
                             console.log(item.salary + ' item.salary ');

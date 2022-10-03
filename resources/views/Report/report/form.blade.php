@@ -1,11 +1,8 @@
-<script>
-
-</script>
-
 <?php
- $sum = 0 ;
- $bank_cash_total = 0 ;
- $sum_sum_arr = array();
+$sum = 0;
+$bank_cash_total = 0;
+$sum_sum_arr = [];
+$supplier_arr_sum = 0;
 ?>
 <div class="col-12">
     <div class="row">
@@ -19,21 +16,22 @@
                         </div>
                         <div class="col">
                             @if (count($user) != 0)
-                            <select class="form-control" name="name" id="name">
-                                @foreach ($user as $item)
-                                    @if (!$item->hasRole('developer'))
-                                        <option value="{{ $item->name ." " . $item->surname }}">{{ $item->name ." " . $item->surname }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        @else
-                            <input class="form-control" name="name" id="name" type="text" value="{{ auth()->user()->name }}"
-                                placeholder="Add Users to Restaurant to select one" readonly>
-                        @endif
+                                <select class="form-control" name="name" id="name">
+                                    @foreach ($user as $item)
+                                        @if (!$item->hasRole('developer'))
+                                            <option value="{{ $item->name . ' ' . $item->surname }}">
+                                                {{ $item->name . ' ' . $item->surname }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            @else
+                                <input class="form-control" name="name" id="name" type="text"
+                                    value="{{ auth()->user()->name }}"
+                                    placeholder="Add Users to Restaurant to select one" readonly>
+                            @endif
                             {!! $errors->first('name', '<p class="help-block">:message</p>') !!}
                         </div>
                     </div>
-
                 </div>
                 {!! $errors->first('total_income', '<p class="help-block">:message</p>') !!}
             </div>
@@ -70,89 +68,88 @@
                 </div>
             @endif
             <div class="form-group {{ $errors->has('supplier_cash') ? 'has-error' : '' }}">
-                <div class="col-md-6">
-                    <ul style="padding:0px">
-                        @if ($restaurant->active_for_this_restaurant == "yes")
-                            
-                        @foreach ($supplier as $item)
-                            <li style="display: flex ; list-style:none ; ">
+
+
+                <div @if ($restaurant->active_for_this_restaurant == 'yes') class="col-md-12" @else class="col-md-6" @endif >
+                    @if ($restaurant->active_for_this_restaurant == 'yes')
+                        <div class="d-flex p-2" style="max-height: 100px">
+                            <a class="btn btn-dark" onclick='updateSupplierDiv ();'>Refresh Supplier Data</a>
+                            <h5 class="p-1">Enter data carefully if there is some mistake refresh and start again **
+                            </h5>
+                        </div>
+                        <ul class="supplier_li" style="padding:0px">
+
+                            {{-- @foreach ($supplier as $item)
+                            <li style="display: flex; list-style:none ; ">
                                 <input class="input_border" type="number" name="" id=""
                                     placeholder="{{ $item->name }}" disabled>
                                 &nbsp;
                                 &nbsp;
-                                {{-- <input class="input_border" type="number" name="{{ $item->name }}"
-                                    id="{{ $item->name }}" onkeyup="total_sales()" onchange="total_sales()" required
-                                    autofocus autocomplete={{ 0 }}> --}}
-                                    <input class="input_border" value="{{$sum_sum_arr[$item->id] = $item->sum}}" readonly>
+                                        <input class="input_border" value="{{$sum_sum_arr[$item->id] = $item->sum}}" >
                             </li>
-                            @endforeach
-                            <input type="hidden" name="sales_volume_supplier" id="sales_volume_supplier" value="{{array_sum($sum_sum_arr)}}" readonly>
+                            @endforeach 
+
+                            <input type="text" name="sales_volume_supplier" id="sales_volume_supplier" value="{{array_sum($sum_sum_arr)}}" readonly>
                             @endif
-                            <input type="hidden" name="sales_volume_supplier" id="sales_volume_supplier" value="{{0}}" readonly>
-                    </ul>
-                    {{-- <li style="display: flex ; list-style:none ; ">
-                        <input class="input_border" type="number" name="" id="" placeholder="UBER" 
-                            disabled>
-                        &nbsp;
-                        &nbsp;
-                        <input class="input_border" type="number" name="UBER" id="UBER"
-                            onkeyup="total_sales()" onchange="total_sales()"  required autofocus autocomplete={{0}}>
-                    </li>
-                    <li style="display: flex ; list-style:none ; ">
-                        <input class="input_border" type="number" name="" id="" placeholder="BOLT"
-                            disabled >
-                        &nbsp;
-                        &nbsp;
-                        <input class="input_border" type="number" name="BOLT" id="BOLT" required
-                            onkeyup="total_sales()" onchange="total_sales()">
-                    </li>
-                    <li style="display: flex ; list-style:none ; ">
-                        <input class="input_border" type="number" name="" id="" placeholder="WOLT"
-                            disabled>
-                        &nbsp;
-                        &nbsp;
-                        <input class="input_border" type="number" name="WOLT" id="WOLT"required
-                            onkeyup="total_sales()" onchange="total_sales()">
-                    </li>
-                    <li style="display: flex ; list-style:none ; ">
-                        <input class="input_border" type="number" name="" id=""
-                            placeholder="PYSZNE" disabled>
-                        &nbsp;
-                        &nbsp;
-                        <input class="input_border" type="number" name="PYSZNE" id="PYSZNE"required
-                            onkeyup="total_sales()" onchange="total_sales()">
-                    </li>
-                    <li style="display: flex ; list-style:none ; ">
-                        <input class="input_border" type="number" name="" id=""
-                            placeholder="GLOVO" disabled>
-                        &nbsp;
-                        &nbsp;
-                        <input class="input_border" type="number" name="GLOVO" id="GLOVO"required
-                            onkeyup="total_sales()" onchange="total_sales()">
-                    </li> --}}
-                    @if (auth()->user()->hasRole('admin') ||
-                        auth()->user()->hasRole('developer') )
-                        <input class="form-control input_border" id="Cash" name="cash" type="text" 
-                            value="" readonly>
-                    @else
-                        <input class="form-control input_border" id="Cash" name="cash" type="hidden"
-                            value="" readonly>
+                            <input type="text" name="sales_volume_supplier" id="sales_volume_supplier" value="{{0}}" readonly> --}}
+
+                            @foreach ($supplier as $key => $item)
+                                <li class="" style="display: flex; list-style:none ; ">
+                                    <input class="form-control input_border" type="number" name=""
+                                        id="" placeholder="{{ $item->name }}" disabled>
+                                    &nbsp;
+                                    &nbsp;
+                                    <input class="form-control input_border" type="number" name="{{ $item->name }}"
+                                        id="supplier_volume{{ $key }}"
+                                        onkeyup="get_total_sales(this.value ,{{ $key }},{{ $item->id }})"
+                                        value="{{ 0 }}" required autofocus>
+                                </li>
+                            @endforeach
+                            <input type="hidden" name="sales_volume_supplier" id="sales_volume_supplier"
+                                value="{{ $supplier_arr_sum }}" readonly>
+                        </ul>
+
+                        {{-- <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="number" name="" id="" placeholder="UBER" 
+                                disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="number" name="UBER" id="UBER"
+                                onkeyup="total_sales()" onchange="total_sales()"  required autofocus autocomplete={{0}}>
+                        </li>
+                        <li style="display: flex ; list-style:none ; ">
+                            <input class="input_border" type="number" name="" id=""
+                                placeholder="GLOVO" disabled>
+                            &nbsp;
+                            &nbsp;
+                            <input class="input_border" type="number" name="GLOVO" id="GLOVO"required
+                                onkeyup="total_sales()" onchange="total_sales()">
+                        </li> --}}
+                        @if (auth()->user()->hasRole('admin') ||
+                            auth()->user()->hasRole('developer'))
+                            <input class="form-control input_border" style="width: 50%" id="Cash" name="cash"
+                                type="text" value="" readonly>
+                        @else
+                            <input class="form-control input_border" id="Cash" name="cash" type="text"
+                                value="" readonly>
+                        @endif
+                        <input id="expense_today" type="hidden" value="{{ $expense_today }}" name="expense_today">
+                        <input id="employee_salary_paid_today" type="hidden"
+                            value="{{ $employee_salary_paid_today }}" name="employee_salary_paid_today">
+                        <input class="form-control input_border" id="diff_salary_paid_today_and_expense_today"
+                            name="diff_salary_paid_today_and_expense_today" type="hidden" value="" readonly>
+                        {!! $errors->first('supplier_cash', '<p class="help-block">:message</p>') !!}
+
                     @endif
-                    <input id="expense_today" type="hidden" value="{{ $expense_today }}" name="expense_today">
-                    <input id="employee_salary_paid_today" type="hidden" value="{{ $employee_salary_paid_today }}"
-                        name="employee_salary_paid_today">
-                    <input class="form-control input_border" id="diff_salary_paid_today_and_expense_today"
-                        name="diff_salary_paid_today_and_expense_today" type="hidden" value="" readonly>
-                    {!! $errors->first('supplier_cash', '<p class="help-block">:message</p>') !!}
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="d-flex p-2"> 
-                <a class="btn btn-dark" onclick='updateDiv ();'>Refresh Table</a>
+            <div class="d-flex p-2">
+                <a class="btn btn-dark" onclick='updateTableDiv ();'>Refresh Table</a>
                 <h5 class="p-1">Enter data carefully if there is some mistake refresh and start again **</h5>
             </div>
-            <table class="table table-striped"  id="table-to-refresh">
+            <table class="table table-striped" id="table-to-refresh">
                 <thead>
                     <tr>
                         <th scope="col">Bank note</th>
@@ -174,17 +171,16 @@
                             </td>
                             <td>
                                 <input name="total_bank_note" class="total_bank_note"
-                                    id="total_bank_note{{ $key }}" type='text'
-                                     value="" readonly />
-                                     {{-- onchange="change(this.value,{{ $key }})" --}}
+                                    id="total_bank_note{{ $key }}" type='text' value=""
+                                    readonly />
                             </td>
                         </tr>
                     @endforeach
                     <tr>
                         <td><b>Total of</b> </td>
                         <td><b>Bank Notes -></b></td>
-                        <td><input type="text" name="total_bank_note_sum" id="total_bank_note_sum" value=""
-                            readonly></td>
+                        <td><input type="text" name="total_bank_note_sum" id="total_bank_note_sum"
+                                value="{{ 0 }}" readonly></td>
                     </tr>
                 </tbody>
             </table>
@@ -201,52 +197,39 @@
 
 @push('js')
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
     <script src="{{ asset('plugins/components/toast-master/js/jquery.toast.js') }}"></script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(document).on('click', '.refresher', function () {
-            $.ajax({
-            url: 'report/create/'. $restaurant->id,
-            method: "GET",
-            dataType: 'json',
-            success: function(response) {
-            $('#table-to-refresh').html(response);
-            console.log("here");
-            }
-            });
-            });
-    });
-    </script> --}}
-
     <script>
-        i = 0;
-        arr = [];
-        function updateDiv()
-{ 
-    $( "#table-to-refresh" ).load(window.location.href + " #table-to-refresh" );
-}
-
-        // $(document).ready(function() {
-
-        //     @if (\Session::has('message'))
-        //         $.toast({
-        //             heading: 'Success!',
-        //             position: 'top-center',
-        //             text: '{{ session()->get('message') }}',
-        //             loaderBg: '#ff6849',
-        //             icon: 'success',
-        //             hideAfter: 3000,
-        //             stack: 6
-        //         });
-        //     @endif
-        // })
-
         var msg = '{{ Session::get('alert') }}';
         var exist = '{{ Session::has('alert') }}';
         if (exist) {
             alert(msg);
+        }
+
+        i = 0;
+        arr = [];
+        sup = 0;
+        supplier_arr = [];
+        $total_bank_note_sum = 0;
+        $supplier_arr_sum = 0;
+        previous_item_id = null;
+
+        function updateTableDiv() {
+            $total_bank_note_sum = 0;
+            document.getElementById('total_bank_note_sum').value = Math.abs($total_bank_note_sum)
+            $("#table-to-refresh").load(window.location.href + " #table-to-refresh");
+        }
+
+        function updateSupplierDiv() {
+            $supplier_arr_sum = 0;
+            previous_item_id = null;
+            $supplier_arr_sum = 0;
+            sup = 0
+            console.log(supplier_arr + 'supplier_arr');
+            supplier_arr = [];
+            console.log(supplier_arr + 'supplier_arr');
+            sales_volume_supplier = document.getElementById('sales_volume_supplier').value = Math.abs($supplier_arr_sum);
+            $(".supplier_li").load(window.location.href + " .supplier_li");
+            total_sales();
         }
 
         function total_sales() {
@@ -333,12 +316,14 @@
                 console.log(total_bank_note_sum + 'total_bank_note_sum 1');
 
                 console.log(total_bank_note + 'total_bank_note 1');
-
-
+                if (total_bank_note_sum == 0) {
+                    i = 0;
+                }
                 arr[i] = total_bank_note;
                 i++;
-            $total_bank_note_sum = arr.reduce((a, b) => a + b, 0);
-            console.log($total_bank_note_sum + "total_bank_note_sum");
+                console.log($total_bank_note_sum + "total_bank_note_sum");
+                $total_bank_note_sum = arr.reduce((a, b) => a + b, 0);
+                console.log($total_bank_note_sum + "total_bank_note_sum");
 
             } else {
                 // bank_note = null;
@@ -353,30 +338,47 @@
 
                 console.log(total_bank_note_sum + 'total_bank_note_sum 1');
 
+
                 console.log(total_bank_note + 'total_bank_note 1');
-
-
                 // arr[i] = total_bank_note;
                 // i++;
 
             }
 
-
-
             document.getElementById('total_bank_note_sum').value = Math.abs($total_bank_note_sum)
 
             console.log(total_bank_note_sum + 'total_bank_note_sum get 3');
         }
-        // function refresh_table() {
-        // //         $("#refresh_table")[].reset();
-        // $('#refresh_table').load(' #refresh_table');
-        //     } 
-        //     $("#refresh_table_btn" ).click(function() {
-        //     // table.ajax.reload(null, false);
-        //     $('#refresh_table').load(' #refresh_table');
-        // }); 
 
-        
-</script>
-
+        function get_total_sales(volume, key, item_id) {
+            check = document.getElementById('supplier_volume' + key).value
+            console.log(check + "check");
+            if (item_id == previous_item_id) {
+                console.log("check IF");
+                --sup;
+                previous_item_id = item_id;
+                console.log(previous_item_id + "previous_item_id");
+                supplier_arr[sup] = parseInt(check);
+                console.log(sup + "sup");
+                $supplier_arr_sum = supplier_arr.reduce((a, b) => a + b, 0);
+                document.getElementById('sales_volume_supplier').value = Math.abs($supplier_arr_sum)
+                console.log($supplier_arr_sum + "$supplier_arr_sum");
+                sup++;
+                console.log(sup + "sup");
+                console.log("check IF end");
+            } else {
+                console.log("check ELSE");
+                previous_item_id = item_id;
+                supplier_arr[sup] = parseInt(check);
+                console.log(sup + "sup");
+                $supplier_arr_sum = supplier_arr.reduce((a, b) => a + b, 0);
+                document.getElementById('sales_volume_supplier').value = Math.abs($supplier_arr_sum)
+                console.log($supplier_arr_sum + "$supplier_arr_sum");
+                sup++;
+                console.log(sup + "sup");
+                console.log("check ELSE end");
+            }
+            total_sales();
+        }
+    </script>
 @endpush

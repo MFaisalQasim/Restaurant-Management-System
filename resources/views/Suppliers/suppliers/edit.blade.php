@@ -27,7 +27,7 @@
                         'files' => true
                     ]) !!}
 
-                    @include ('Suppliers.suppliers.edit', ['submitButtonText' => 'Update'])
+                    @include ('Suppliers.suppliers.form', ['submitButtonText' => 'Update'])
 
                     {!! Form::close() !!}
 

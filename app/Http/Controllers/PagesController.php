@@ -105,20 +105,20 @@ class PagesController extends Controller
                 $keyword = $request->get('search');
                 $perPage = 25;
 
-                if (!empty($keyword)) {
-                    $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
-                    ->orWhere('location', 'LIKE', "%$keyword%")
-                    ->orWhere('ranking', 'LIKE', "%$keyword%")
-                    ->orWhere('description', 'LIKE', "%$keyword%")
-                    ->orWhere('focalperson', 'LIKE', "%$keyword%")
-                    ->orWhere('details', 'LIKE', "%$keyword%")
-                    ->paginate($perPage);
-                } 
-                else {
+                // if (!empty($keyword)) {
+                //     $restaurant = Restaurant::where('name', 'LIKE', "%$keyword%")
+                //     ->orWhere('location', 'LIKE', "%$keyword%")
+                //     ->orWhere('ranking', 'LIKE', "%$keyword%")
+                //     ->orWhere('description', 'LIKE', "%$keyword%")
+                //     ->orWhere('focalperson', 'LIKE', "%$keyword%")
+                //     ->orWhere('details', 'LIKE', "%$keyword%")
+                //     ->paginate($perPage);
+                // } 
+                // else {
                     $this->validate($request, [
                         "from" => "required",
                         "to" => "required"
-                    ]);
+                     ]);
                     $startDate = date("Y-m-d H:i:s", strtotime($request->from . "00:00:00"));
                     $endDate = date("Y-m-d H:i:s", strtotime($request->to . "23:59:59"));
                     $report = Report::whereBetween("created_at", [$startDate, $endDate])
@@ -127,7 +127,7 @@ class PagesController extends Controller
                     
                     $total = $report;
                     return view("Report.report.show", compact('report', 'total', 'startDate', 'endDate','supplier' ));
-                }
+                // }
             }
         }
         

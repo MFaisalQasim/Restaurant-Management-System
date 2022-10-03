@@ -116,7 +116,8 @@
                                         </div>
                                     </div>
                                     <input type="hidden" value="{{$restaurant_id}}" name="restaurant_id">
-                                    {{-- <div class="form-group {{ $errors->first('restaurant_id', 'has-error') }}">
+                                    {{-- <div class="form-group {{ $errors->first('restaurant_id',  
+                                        'has-error') }} ">
                                         <label for="restaurant_id" class="col-sm-2 control-label">Restaurant Linked
                                             To</label>
                                         <div class="col-sm-10">
@@ -374,8 +375,8 @@
                                     </div> --}}
 
                                 </div>
-                                {{-- <div class="tab-pane" id="tab3" disabled="disabled">
-                                    <div class="form-group {{ $errors->first('gender', 'has-error') }}">
+                                <div class="tab-pane" id="tab3" disabled="disabled">
+                                    {{-- <div class="form-group {{ $errors->first('gender', 'has-error') }}">
                                         <label for="email" class="col-sm-2 control-label">Gender *</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" title="Select Gender..." name="gender">
@@ -394,7 +395,7 @@
                                             </select>
                                         </div>
                                         <span class="help-block">{{ $errors->first('gender', ':message') }}</span>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group {{ $errors->first('country', 'has-error') }}">
                                         <label for="country" class="col-sm-2 control-label">Country</label>
@@ -444,7 +445,7 @@
 
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                                 <div class="tab-pane" id="tab4" disabled="disabled">
                                     <p class="text-danger"><strong>Be careful with role selection, if you give admin
                                             access.. they can access admin section</strong></p>

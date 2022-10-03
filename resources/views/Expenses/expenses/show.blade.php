@@ -15,7 +15,7 @@ $year = date('Y');
 
 $item_file = null;
 $today = $year . '-' . $month . '-' . $day;
-    $records = "download";
+    // $records = "download";
 ?>
 @section('content')
     <style>
@@ -159,7 +159,7 @@ $today = $year . '-' . $month . '-' . $day;
 @push('js')
     {{-- <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script> --}}
     <script type="text/javascript">
-        let records = "download";
+        let records = "not download";
         $item_file = null;
                                     item_file = null;
         $(document).ready(function() {
@@ -321,7 +321,7 @@ $today = $year . '-' . $month . '-' . $day;
                                                     <td>' + item.sum + '</td>\
                                                     <td>' + item.name + '</td>\
                                                     <td> <a class="download_file" href="' + item_file + '" download >   Download File  </a></td>\
-                                                   <td><form action="' + '/expenses/update/' + item.id +'"><button> <input type="checkbox" class="btn" '+(records == item.status ? 'not_checked'  : 'checked' ) +' > click to ' +item.status+'  </button></td>\
+                                                   <td><form action="' + '/expenses/update/' + item.id +'"><button> <input type="checkbox" class="btn" '+(records == item.status ? ''  : 'checked' ) +' > click to ' +item.status+'  </button></td>\
                                                 <td> <a class="download_file" href="' +
                                                 '/expenses/edit/' + item.id +
                                                 '" > ||  Edit  ||</a><a class="download_file" href="' +

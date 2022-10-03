@@ -20,12 +20,11 @@ $url_restaurant_id = intval(end($tmp));
                             <i class="icon-arrow-left-circle" aria-hidden="true"></i> Back</a>
                     @endcan
                     @can('add-' . str_slug('Restaurant'))
-                        <a class="btn btn-success  m-3" href="{{ asset('user/create/' . $url_restaurant_id) }}">
+                        <a class="btn btn-primary  m-3" href="{{ asset('user/create/' . $url_restaurant_id) }}">
                             Add New User</a>
-                            
                     @endcan
                     @can('edit-' . str_slug('Restaurant'))
-                        <a class="btn btn-success  m-3" href="{{ asset('users/' . $url_restaurant_id) }}">
+                        <a class="btn btn-danger   m-3" href="{{ asset('users/' . $url_restaurant_id) }}">
                             Manage User</a>
                     @endcan
                     <input type="hidden" name="url_restaurant_id" id="url_restaurant_id" value="{{ $url_restaurant_id }}">
@@ -91,7 +90,7 @@ $url_restaurant_id = intval(end($tmp));
                                         @foreach ($users as $key => $item)
                                             <li style="display: flex ; list-style:none ">
                                                 <input class="" type="text" name="" id=""
-                                                    {{-- style="border: none;" --}} value="{{ $item->salary }}" readonly>
+                                                    {{-- style="border: none;" --}} value="{{ $item->salary }} " readonly>
                                                 {{-- &nbsp;
                                             &nbsp;
                                             <input class="" type="text" name="" id=""
@@ -110,7 +109,7 @@ $url_restaurant_id = intval(end($tmp));
                                                 Add Suppliers
                                             </a>
                                         @endcan
-                                    {{-- </div>
+                                        {{-- </div>
                                     <div class="row"> --}}
                                         <ul class="" style="padding:0px">
                                             @foreach ($supplier as $key => $item)
@@ -144,15 +143,12 @@ $url_restaurant_id = intval(end($tmp));
                                                             'url' => ['/suppliers/delete', $item->id],
                                                             'style' => 'display:inline',
                                                         ]) !!}
-                                                        {!! Form::button(
-                                                            '<i class="fa fa-trash-o" aria-hidden="true"></i>',
-                                                            [
-                                                                'type' => 'submit',
-                                                                'class' => ' btn-danger btn-sm m-1',
-                                                                'title' => 'Delete Supplier',
-                                                                'onclick' => 'return confirm("Confirm delete?")',
-                                                            ],
-                                                        ) !!}
+                                                        {!! Form::button('<i class="fa fa-trash-o" aria-hidden="true"></i>', [
+                                                            'type' => 'submit',
+                                                            'class' => ' btn-danger btn-sm m-1',
+                                                            'title' => 'Delete Supplier',
+                                                            'onclick' => 'return confirm("Confirm delete?")',
+                                                        ]) !!}
                                                         {!! Form::close() !!}
                                                     @endcan
                                                 </li>
@@ -178,10 +174,7 @@ $url_restaurant_id = intval(end($tmp));
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="active_for_this_restaurant"
                                         id="active_for_this_restaurant1" value="yes"
-                                        @if ($restaurant->active_for_this_restaurant == "yes")
-                                            checked
-                                        @endif
-                                        >
+                                        @if ($restaurant->active_for_this_restaurant == 'yes') checked @endif>
                                     <label class="form-check-label" for="active_for_this_restaurant1">Yes</label>
                                 </div>
                                 <div class="form-check form-check-inline">
@@ -192,7 +185,8 @@ $url_restaurant_id = intval(end($tmp));
                                 <p>
                                     How many last days do employees see cash
                                     reports?</p>
-                                <input type="text" name="see_cash_reports_days" id="see_cash_reports_days"  placeholder="none">
+                                <input type="text" name="see_cash_reports_days" id="see_cash_reports_days"
+                                    placeholder="none">
                                 <div class="form-group">
                                     <div class="col-md-offset-4 col-md-4">
                                         <input type="submit" value="Save">
@@ -239,13 +233,16 @@ $url_restaurant_id = intval(end($tmp));
                                 console.log(arr.length + ' if if');
                                 $('tbody').append(
                                     '<tr class="tr_remove" >\
-                                                                                    <td>' + item.name + '</td>\
-                                                                                    <td>' + item.date_of_joining + '</td>\
-                                                                                    <td>' + item.date_of_leaving + '</td>\
-                                                                                    <td>' + item.telephone + '</td>\
-                                                                                    <td>' + item.status + '</td>\
-                                                                                    <td>' + item.salary + '</td>\
-                                                                                </tr>'
+                                                                                        <td>' + item.name + ' ' + item
+                                    .surname + '</td>\
+                                                                                        <td>' + item.date_of_employment
+                                    .slice(0, 10) + '</td>\
+                                                                                        <td>' + item.end_of_work_date
+                                    .slice(0, 10) + '</td>\
+                                                                                        <td>' + item.telephone + '</td>\
+                                                                                        <td>' + item.status + '</td>\
+                                                                                        <td>' + item.salary + '</td>\
+                                                                                    </tr>'
                                 )
                             }
                         }

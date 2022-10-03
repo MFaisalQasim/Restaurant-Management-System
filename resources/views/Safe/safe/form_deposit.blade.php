@@ -5,10 +5,11 @@
             auth()->user()->hasRole('developer'))
             <select class="select form-control" id="employee_complete_name"
                 name="employee_complete_name">
+                <option default value="{{auth()->user()->name." " .  auth()->user()->surname}}">{{auth()->user()->name." " .  auth()->user()->surname}}</option>
                 @foreach ($user as $item)
                     @if (!$item->hasRole('developer') & !$item->hasRole('Customer'))
                         @if ($item->restaurant_id == $url_restaurant_id)
-                            <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            <option value="{{ $item->name." " . $item->surname  }}">{{ $item->name." " . $item->surname  }}</option>
                             {{-- <input class="form-control" type="text" id="employee_complete_name"
                             name="employee_complete_name" value="{{ $item->name }}" readonly> --}}
                         @endif
@@ -17,7 +18,7 @@
             </select>
             @else
                 <input class="form-control" type="text" id="employee_complete_name"
-                name="employee_complete_name" value="{{auth()->user()->name}}" readonly>
+                name="employee_complete_name" value="{{auth()->user()->name." " .  auth()->user()->surname}}" readonly>
         @endif
         {!! $errors->first('employee_complete_name', '<p class="help-block">:message</p>') !!}
     </div>

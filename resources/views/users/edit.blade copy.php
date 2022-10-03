@@ -70,20 +70,6 @@
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab1">
                                     <h2 class="hidden">&nbsp;</h2>
-                                    <div class="form-group {{ $errors->first('status', 'has-error') }}">
-                                        <label for="status" class="col-sm-2 control-label">Status *</label>
-                                        <div class="col-sm-10">
-                                            {{-- <input id="status" name="status" type="date"
-                                                placeholder="Date of Employment" class="form-control required"
-                                                value="{!! old('status') !!}" />
-
-                                            {!! $errors->first('status', '<span class="help-block">:message</span>') !!} --}}
-                                            <select class="form-control" id="status" name="status" required>
-                                                <option value="1">Active</option>
-                                                <option value="2">InActive</option>
-                                            </select>
-                                        </div>
-                                    </div>
                                     <div class="form-group {{ $errors->first('first_name', 'has-error') }}">
                                         <label for="name" class="col-sm-2 control-label">Name *</label>
                                         <div class="col-sm-10">
@@ -91,72 +77,6 @@
                                                 class="form-control required" value="{{ $user->name }}" />
 
                                             {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('surname', 'has-error') }}">
-                                        <label for="surname" class="col-sm-2 control-label">Surname *</label>
-                                        <div class="col-sm-10">
-                                            <input id="surname" name="surname" type="text" placeholder="Surname"
-                                                class="form-control required" value="{{ $user->surname }}" />
-                                            {!! $errors->first('surname', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    {{-- <input type="hidden" value="{{$$user->restaurant_id}}" name="restaurant_id"> --}}
-                                    {{-- <div class="form-group {{ $errors->first('restaurant_id',   
-                                               'has-error') }}">
-                                        <label for="restaurant_id" class="col-sm-2 control-label">Restaurant Linked
-                                            To</label>
-                                        <div class="col-sm-10">
-                                            <select class="form-select" aria-label="Default select example"
-                                                name="restaurant_id" class="form-control required restaurant_id"
-                                                value="{!! old('restaurant_id') !!}">
-                                                @foreach ($restaurant as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            {!! $errors->first('restaurant_id', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div> --}}
-                                    <div class="form-group {{ $errors->first('date_of_employment', 'has-error') }} ">
-                                        <label for="date_of_employment" class="col-sm-2 control-label">Date of Employment
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="date_of_employment" name="date_of_employment" type="date"
-                                                placeholder="Date of Employment" class="form-control required"
-                                                value="{{ $user->date_of_employment }}" />
-
-                                            {!! $errors->first('date_of_employment', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('end_of_work_date', 'has-error') }}">
-                                        <label for="end_of_work_date" class="col-sm-2 control-label">End of Work Date
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="end_of_work_date" name="end_of_work_date" type="date"
-                                                placeholder="Date of Employment" class="form-control required"
-                                                value="{{ $user->end_of_work_date }}" />
-
-                                            {!! $errors->first('end_of_work_date', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('hourly_salary', 'has-error') }}">
-                                        <label for="password_confirm" class="col-sm-2 control-label">Hourly Salary
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="hourly_salary" name="hourly_salary" type="number"
-                                                placeholder="Hourly Salary " class="form-control required"
-                                                value="{{ $user->salary }}" />
-                                            {!! $errors->first('hourly_salary', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('telephone_number', 'has-error') }}">
-                                        <label for="telephone_number" class="col-sm-2 control-label">Telephone number
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="telephone_number" name="telephone_number" type="text"
-                                                placeholder="Telephone number" class="form-control required"
-                                                value="{{ $user->telephone }}" />
-                                            {!! $errors->first('telephone_number', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
 
@@ -183,9 +103,8 @@
                                         <label for="password_confirm" class="col-sm-2 control-label">Confirm Password
                                             *</label>
                                         <div class="col-sm-10">
-                                            <input id="password_confirmation" name="password_confirmation"
-                                                type="password" placeholder="Confirm Password "
-                                                class="form-control required" />
+                                            <input id="password_confirmation" name="password_confirmation" type="password"
+                                                placeholder="Confirm Password " class="form-control required" />
                                             {!! $errors->first('password_confirmation', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
@@ -195,144 +114,24 @@
                                     <div class="form-group  {{ $errors->first('dob', 'has-error') }}">
                                         <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
                                         <div class="col-sm-10">
-                                            <input value=" {{ $user->profile->dob }}" autocomplete="off" name="dob"
-                                                type="date" class="form-control" data-date-format="YYYY-MM-DD"
+                                            <input value="{{ $user->profile->dob ?: null }}" id="dob" name="dob"
+                                                type="text" class="form-control" data-date-format="YYYY-MM-DD"
                                                 placeholder="yyyy-mm-dd" />
                                             <span class="help-block">{{ $errors->first('dob', ':message') }}</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('place_of_birth', 'has-error') }}">
-                                        <label for="place_of_birth" class="col-sm-2 control-label">Place of birth
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="place_of_birth" name="place_of_birth" type="text"
-                                                placeholder="place_of_birth" class="form-control required"
-                                                value="{{ $user->profile->place_of_birth }}" />
-                                            {!! $errors->first('place_of_birth', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('PESEL ', 'has-error') }}">
-                                        <label for="PESEL " class="col-sm-2 control-label">PESEL *</label>
-                                        <div class="col-sm-10">
-                                            <input id="PESEL " name="PESEL " type="text" placeholder="PESEL "
-                                                class="form-control required" value="{{ $user->profile->PESEL }}" />
 
-                                            {!! $errors->first('PESEL ', '<span class="help-block">:message</span>') !!}
                                         </div>
                                     </div>
-                                    <div class="form-group {{ $errors->first('id_number', 'has-error') }}">
-                                        <label for="id_number" class="col-sm-2 control-label">ID number *</label>
-                                        <div class="col-sm-10">
-                                            <input id="id_number" name="id_number" type="text"
-                                                placeholder="id_number" class="form-control required"
-                                                value="{{ $user->profile->id_number }}" />
-
-                                            {!! $errors->first('id_number', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('passport_number', 'has-error') }}">
-                                        <label for="passport_number" class="col-sm-2 control-label">Passport number
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="passport_number" name="passport_number" type="text"
-                                                placeholder="passport_number" class="form-control required"
-                                                value="{{ $user->profile->passport_number }}" />
-
-                                            {!! $errors->first('passport_number', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('country_of_issue', 'has-error') }}">
-                                        <label for="country_of_issue" class="col-sm-2 control-label">Country of issue
-                                            *</label>
-                                        <div class="col-sm-10">
-                                            <input id="country_of_issue" name="country_of_issue" type="text"
-                                                placeholder="country_of_issue" class="form-control required"
-                                                value="{{ $user->profile->country_of_issue }}" />
-                                            {!! $errors->first('country_of_issue', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('mother_name', 'has-error') }}">
-                                        <label for="mother_name" class="col-sm-2 control-label">Mother's name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="mother_name" name="mother_name" type="text"
-                                                placeholder="mother_name" class="form-control required"
-                                                value="{{ $user->profile->mother_name }}" />
-                                            {!! $errors->first('mother_name', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('father_name', 'has-error') }}">
-                                        <label for="father_name" class="col-sm-2 control-label">Father's name *</label>
-                                        <div class="col-sm-10">
-                                            <input id="father_name" name="father_name" type="text"
-                                                placeholder="father_name" class="form-control required"
-                                                value="{{ $user->profile->father_name }}" />
-
-                                            {!! $errors->first('father_name', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('citizenship ', 'has-error') }}">
-                                        <label for="citizenship " class="col-sm-2 control-label">citizenship*</label>
-                                        <div class="col-sm-10">
-                                            <input id="citizenship " name="citizenship " type="text"
-                                                placeholder="citizenship " class="form-control required"
-                                                value="{{ $user->profile->citizenship }}" />
-
-                                            {!! $errors->first('citizenship ', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('bank_account_number  ', 'has-error') }}">
-                                        <label for="bank_account_number  " class="col-sm-2 control-label">Bank account
-                                            number *</label>
-                                        <div class="col-sm-10">
-                                            <input id="bank_account_number  " name="bank_account_number  " type="text"
-                                                placeholder="bank_account_number  " class="form-control required"
-                                                value="{{ $user->profile->bank_account_number }}" />
-
-                                            {!! $errors->first('bank_account_number  ', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div class="form-group {{ $errors->first('student   ', 'has-error') }}">
-                                        <label for="student   " class="col-sm-2 control-label">Student *</label>
-                                        <div class="col-sm-10">
-                                            <input id="student   " name="student   " type="text"
-                                                placeholder="student   " class="form-control required"
-                                                value="{{ $user->profile->student }}" />
-
-                                            {!! $errors->first('student   ', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="form-group {{ $errors->first('name_of_the_university    ', 'has-error') }}">
-                                        <label for="name_of_the_university   " class="col-sm-2 control-label">Name of the
-                                            University *</label>
-                                        <div class="col-sm-10">
-                                            <input id="name_of_the_university   " name="name_of_the_university   "
-                                                type="text" placeholder="name_of_the_university   "
-                                                class="form-control required"
-                                                value="{{ $user->profile->name_of_the_university }}" />
-
-                                            {!! $errors->first('name_of_the_university   ', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    <div
-                                        class="form-group {{ $errors->first('until_when_the_student     ', 'has-error') }}">
-                                        <label for="until_when_the_student   " class="col-sm-2 control-label">until when
-                                            the student *</label>
-                                        <div class="col-sm-10">
-                                            <input id="until_when_the_student   " name="until_when_the_student   "
-                                                type="date" placeholder="until_when_the_student   "
-                                                class="form-control required"
-                                                value="{{ $user->profile->until_when_the_student }}" />
-
-                                            {!! $errors->first('until_when_the_student   ', '<span class="help-block">:message</span>') !!}
-                                        </div>
-                                    </div>
-                                    {{-- <div class="form-group {{ $errors->first('pic_file', 'has-error') }}">
+                                    <div class="form-group {{ $errors->first('pic_file', 'has-error') }}">
                                         <label for="pic" class="col-sm-2 control-label">Profile picture</label>
                                         <div class="col-sm-10">
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 200px; height: 200px;">
-                                                    <img src="http://placehold.it/200x200" alt="profile pic">
+                                                    @if ($user->profile->pic != null)
+                                                        <img src="{{ asset('storage/uploads/users/' . $user->profile->pic) }}"
+                                                            alt="profile pic">
+                                                    @else
+                                                        <img src="http://placehold.it/200x200" alt="profile pic">
+                                                    @endif
                                                 </div>
                                                 <div class="fileinput-preview fileinput-exists thumbnail"
                                                     style="max-width: 200px; max-height: 200px;"></div>
@@ -349,20 +148,19 @@
                                             </div>
                                             <span class="help-block">{{ $errors->first('pic_file', ':message') }}</span>
                                         </div>
-                                    </div> 
-                                     <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="bio" class="col-sm-2 control-label">Bio
                                             <small>(brief intro) *</small>
                                         </label>
                                         <div class="col-sm-10">
-                                            <textarea name="bio" id="bio" class="form-control resize_vertical" rows="4">{!! old('bio') !!}</textarea>
+                                            <textarea name="bio" id="bio" class="form-control resize_vertical" rows="4">{{ $user->profile->bio }}</textarea>
                                         </div>
                                         {!! $errors->first('bio', '<span class="help-block">:message</span>') !!}
-                                    </div> --}}
-
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="tab3" disabled="disabled">
-                                    {{-- <div class="form-group {{ $errors->first('gender', 'has-error') }}">
+                                    <div class="form-group {{ $errors->first('gender', 'has-error') }}">
                                         <label for="email" class="col-sm-2 control-label">Gender *</label>
                                         <div class="col-sm-10">
                                             <select class="form-control" title="Select Gender..." name="gender">
@@ -382,7 +180,7 @@
                                             <span class="help-block">{{ $errors->first('gender', ':message') }}</span>
                                         </div>
 
-                                    </div> --}}
+                                    </div>
 
                                     <div class="form-group {{ $errors->first('country', 'has-error') }}">
                                         <label for="country" class="col-sm-2 control-label">Country</label>
@@ -456,21 +254,18 @@
                                             <span class="help-block">{{ $errors->first('role', ':message') }}</span>
                                         </div>
                                     </div>
-                                    {{-- {{ $restaurant }} --}}
-                                    @if (auth()->user()->hasRole('admin') ||
-                                        auth()->user()->hasRole('developer'))
+
+
+                                    @if (auth()->user()->hasRole('admin'))
                                         <div class="form-group {{ $errors->first('first_name', 'has-error') }}">
-                                            <label for="name" class="col-sm-2 control-label">Restaurant Name *</label>
+                                            <label for="name" class="col-sm-2 control-label">Restaurant Id *</label>
                                             <div class="col-sm-10">
+                                                {{-- <input id="name" name="name" type="text" placeholder="Name"
+                                                class="form-control required" value="{{ $user->name }}" /> --}}
                                                 {{-- <input class="form-control required" type="text"
-                                                    value="{{ $user->restaurant_id }}" name="restaurant_id" readonly> --}}
-                                                <select class="form-control" name="restaurant_id" id="">
-                                                    {{-- <option value="{{ $user->restaurant_id }}">{{ $item->name }}
-                                                    </option> --}}
-                                                    @foreach ($restaurant as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
+                                                value="{{ $user->name }}"> --}}
+                                                <input class="form-control required" type="text"
+                                                    value="{{ $user->restaurant_id }}" name="restaurant_id" readonly>
                                                 {!! $errors->first('name', '<span class="help-block">:message</span>') !!}
                                             </div>
                                         </div>

@@ -33,7 +33,7 @@
                                             @if ($user->roles()->pluck('name')->implode(', ') != 'developer')
                                                 <tr>
                                                     {{-- <td>{{ $key + 1 }}</td> --}}
-                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->name . " ". $user->surname }}</td>
                                                     <td>{{ $user->roles()->pluck('name')->implode(', ') }}</td>
                                                     <th>
                                                         <a class="btn btn-info btn-sm"
